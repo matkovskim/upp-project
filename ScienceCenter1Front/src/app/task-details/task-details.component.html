@@ -1,0 +1,26 @@
+<div *ngIf="task">
+
+    <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" ngNativeValidate>
+
+        <div class="container" style="margin-top: 25px; margin-left: -2px;">
+            <h3>{{task.name}}</h3>
+            <div *ngFor="let field of task.formFields">
+                <div class="row">
+                    <div class="col-4">
+                        <label for={{field.id}}> {{field.label}}</label>
+                    </div>
+                    <div class="col-4">
+                        <input type="text" name={{field.id}} ngModel *ngIf="field.type.name=='string'">
+                        <input type="checkbox" name={{field.id}} ngModel *ngIf="field.type.name=='boolean'">
+                        <input type="number" name={{field.id}} ngModel *ngIf="field.type.name=='long'">
+                        <mat-select multiple name={{field.id}} ngModel *ngIf="field.type.name=='enum'">
+                            <mat-option *ngFor="let val of enumValues" value={{val}}>{{val}}</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" value="Završi zadatak">
+        </div>
+    </form>
+
+</div>

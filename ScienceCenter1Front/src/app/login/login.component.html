@@ -1,0 +1,27 @@
+<div>
+    <div>
+        <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" ngNativeValidate>
+
+            <div class="container" style="margin-top: 25px; margin-left: -2px;">
+                    <div class="row">
+                        <div class="col-4">
+                            <label for=username>Korisničko ime: </label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" ngModel name="username">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for=password>Lozinka: </label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" ngModel name="password">
+                        </div>
+                    </div>
+                <input type="submit" value="Ulogujte se">
+            </div>
+        </form>
+    </div>
+    
+</div>

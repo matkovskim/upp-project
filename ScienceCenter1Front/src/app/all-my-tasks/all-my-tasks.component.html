@@ -1,0 +1,10 @@
+<p>Vaši zadaci</p>
+
+<table>
+
+    <tr *ngFor="let task of tasks">
+        <td>{{task.name}}:   </td>
+        <td><button (click)="complete(task.taskId)">Pogledaj detalje</button></td>
+    </tr>
+
+</table>
