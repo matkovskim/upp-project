@@ -28,9 +28,7 @@
                             <label for={{labels[i]}}>{{labels[i]}}</label>
                         </div>
                         <div class="col-4">
-                            <mat-select  multiple name={{names[i]}} ngModel>
-                              <mat-option *ngFor="let val of enumeration" value={{val}}>{{val}}</mat-option>
-                            </mat-select>
+                            <ng-multiselect-dropdown [data]="dropdownList[i]" [settings]="dropdownSettings" ngModel name={{names[i]}}></ng-multiselect-dropdown>
                         </div>
                     </div>
                 </div>

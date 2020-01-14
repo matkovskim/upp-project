@@ -11,7 +11,7 @@ export class NavBarComponent implements OnInit {
 
   private notLogged: any;
   private logged: any;
-  private loggedAdmin:any
+  private loggedEditor:any
   constructor(private tokenStorage: TokenStorageService, private router: Router) {
 
   }
@@ -21,17 +21,17 @@ export class NavBarComponent implements OnInit {
       this.notLogged = false;
       this.logged = true;
       console.log(this.tokenStorage.getAuthority());
-      if(this.tokenStorage.getAuthority()=="ROLE_ADMIN"){
-        this.loggedAdmin=true;
+      if(this.tokenStorage.getAuthority()=="ROLE_EDITOR"){
+        this.loggedEditor=true;
       }
       else{
-        this.loggedAdmin=false;
+        this.loggedEditor=false;
       }
     }
     else {
       this.notLogged = true;
       this.logged = false;
-      this.loggedAdmin=false;
+      this.loggedEditor=false;
     }
   }
 
@@ -39,7 +39,7 @@ export class NavBarComponent implements OnInit {
     this.tokenStorage.signOut();
     this.router.navigate(['']);
     this.notLogged = true;
-    this.loggedAdmin=false;
+    this.loggedEditor=false;
     this.logged = false;
   }
 

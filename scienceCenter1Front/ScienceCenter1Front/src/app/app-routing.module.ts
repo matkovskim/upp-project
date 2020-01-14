@@ -10,8 +10,13 @@ import { LoginComponent } from './login/login.component';
 import { AllMyTasksComponent } from './all-my-tasks/all-my-tasks.component';
 import { TaskDetailsComponent } from './task-details/task-details.component';
 import { CreateMagazineComponent } from './create-magazine/create-magazine.component';
+import { HomePageComponent } from './home-page/home-page.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: HomePageComponent
+  },
   {
     path: 'register',
     component: RegistrationComponent

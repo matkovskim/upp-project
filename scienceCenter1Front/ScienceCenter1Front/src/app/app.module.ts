@@ -21,6 +21,7 @@ import {  RequestLogInterceptor } from './authentication/AuthInterceptor';
 import { TaskDetailsComponent } from './task-details/task-details.component';
 import { CreateMagazineComponent } from './create-magazine/create-magazine.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { HomePageComponent } from './home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     AllMyTasksComponent,
     TaskDetailsComponent,
     CreateMagazineComponent,
+    HomePageComponent,
   ],
   imports: [
     HttpClientModule,

@@ -16,6 +16,10 @@ export class CreateMagazineComponent implements OnInit {
   private enumValues = [];
   private enumerations = [];
   private processInstance = "";
+  private dropdownSettings: any;
+  private dropdownList = [];
+  private enumList=[];
+  private val: String;
 
   constructor(private repositoryService: RepositoryService, private router: Router) {
 
@@ -29,8 +33,13 @@ export class CreateMagazineComponent implements OnInit {
         this.processInstance = res.processInstanceId;
         this.formFields.forEach((field) => {
           if (field.type.name == 'enum') {
+            this.enumList=[];
             this.enumValues = Object.keys(field.type.values);
             this.labels.push(field.label);
+            for (const value of this.enumValues) {
+              this.enumList.push({ item_id: value, item_text: value });
+            }
+            this.dropdownList.push(this.enumList);
             this.enumerations.push(this.enumValues);
             this.names.push(field.id);
           }
@@ -43,6 +52,16 @@ export class CreateMagazineComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.val="";
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
   }
 
   onSubmit(value, form) {
@@ -50,18 +69,31 @@ export class CreateMagazineComponent implements OnInit {
     let o = new Array();
     for (var property in value) {
       if (typeof (value[property]) == "object") {
-        o.push({ fieldId: property, fieldValue: (value[property].toString()) });
+        for (var index = 0; index < value[property].length; index++) {
+          if (index != 0) {
+            this.val = this.val + ",";
+            var something = value[property][index][Object.keys(value[property][index])[1]];
+            this.val = this.val + something;
+          }
+          var something = value[property][index][Object.keys(value[property][index])[1]];
+
+          this.val = this.val + something;
+        }
+        for (var fv in value[property]) {
+        }
+        o.push({ fieldId: property, fieldValue: this.val });
       }
       else {
         o.push({ fieldId: property, fieldValue: value[property] });
       }
+      this.val="";
     }
 
+    console.log(o);
     let x = this.repositoryService.createMagazine(o, this.formFieldsDto.taskId);
 
     x.subscribe(
       res => {
-        console.log(res);
         this.labels = [];
         this.names = [];
         this.enumValues = [];
@@ -76,20 +108,24 @@ export class CreateMagazineComponent implements OnInit {
               alert("Časopis uspešno kreiran, čeka se odobravanje od strane urednika!");
             }
             else{
+              this.dropdownList=[];
               this.formFieldsDto = res;
               this.formFields = res.formFields;
               this.processInstance = res.processInstanceId;
               this.formFields.forEach((field) => {
                 if (field.type.name == 'enum') {
+                  this.enumList=[];
                   this.enumValues = Object.keys(field.type.values);
                   this.labels.push(field.label);
+                  for (const value of this.enumValues) {
+                    this.enumList.push({ item_id: value, item_text: value });
+                  }
+                  this.dropdownList.push(this.enumList);
                   this.enumerations.push(this.enumValues);
                   this.names.push(field.id);
                 }
               });
-            }
-           
-            
+            }  
           },
           err => {
             alert(err.error);

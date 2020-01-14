@@ -6,19 +6,39 @@
             <h3>{{task.name}}</h3>
             <div *ngFor="let field of task.formFields">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-4" *ngIf="field.type.name=='string'">
+                        <label for={{field.id}}> {{field.label}}</label>
+                    </div>
+                    <div class="col-4" *ngIf="field.type.name=='boolean'">
+                        <label for={{field.id}}> {{field.label}}</label>
+                    </div>
+                    <div class="col-4" *ngIf="field.type.name=='long'">
                         <label for={{field.id}}> {{field.label}}</label>
                     </div>
                     <div class="col-4">
-                        <input type="text" name={{field.id}} ngModel="{{field.value.value}}" *ngIf="field.type.name=='string'">
+                        <input type="text" name={{field.id}} ngModel="{{field.value.value}}"
+                            *ngIf="field.type.name=='string'">
                         <input type="checkbox" name={{field.id}} ngModel *ngIf="field.type.name=='boolean'">
                         <input type="number" name={{field.id}} ngModel *ngIf="field.type.name=='long'">
-                        <ng-multiselect-dropdown [data]="dropdownList" [settings]="dropdownSettings" [(ngModel)]="selectedItems" name={{field.id}} *ngIf="field.type.name=='enum'"></ng-multiselect-dropdown>
                     </div>
                 </div>
             </div>
+
+            <div *ngFor="let enumeration of enumerations; let i = index">
+                <div class="row">
+                    <div class="col-4">
+                        <label for={{labels[i]}}>{{labels[i]}}</label>
+                    </div>
+                    <div class="col-4">
+                        <ng-multiselect-dropdown [data]="dropdownList[i]" [settings]="dropdownSettings" [(ngModel)]="selectedItems[i]" name={{names[i]}}></ng-multiselect-dropdown>
+                    </div>
+                </div>
+            </div>
+
+
             <input type="submit" value="Završi zadatak">
         </div>
     </form>
+
 
 </div>

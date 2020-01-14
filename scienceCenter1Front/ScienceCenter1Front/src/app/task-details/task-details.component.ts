@@ -17,6 +17,12 @@ export class TaskDetailsComponent implements OnInit {
   private dropdownSettings: any;
   private val: String;
   private selectedItems = [];
+  private selectedOneEnumItems = [];
+  private formFieldsDto = null;
+  private labels = [];
+  private names = [];
+  private enumerations = [];
+  private enumList=[];
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private repositoryService: RepositoryService) { }
 
@@ -43,20 +49,27 @@ export class TaskDetailsComponent implements OnInit {
       res => {
         this.task = res
         this.formFields = res.formFields;
+        this.selectedItems=[];
         this.formFields.forEach((field) => {
           if (field.type.name == 'enum') {
+            this.enumList = [];
+            this.selectedOneEnumItems=[];
             this.enumValues = Object.keys(field.type.values);
-            console.log(this.enumValues);
+            this.labels.push(field.label);
             for (const value of this.enumValues) {
-              this.dropdownList.push({ item_id: value, item_text: value });
+              this.enumList.push({ item_id: value, item_text: value });
             }
-            this.selectedItems.push({item_id: field.defaultValue, item_text: field.defaultValue})
-            
-            console.log(this.dropdownList);
+            this.dropdownList.push(this.enumList);
+            this.enumerations.push(this.enumValues);
+            this.names.push(field.id);
+            if(field.defaultValue!=null){
+              this.selectedOneEnumItems.push({ item_id: field.defaultValue, item_text: field.defaultValue })
+            }
+            this.selectedItems.push(this.selectedOneEnumItems);
           }
+          console.log(this.selectedItems);
+          console.log(this.dropdownList);
         });
-
-        console.log(this.task);
       },
       err => {
         alert(err.error);
