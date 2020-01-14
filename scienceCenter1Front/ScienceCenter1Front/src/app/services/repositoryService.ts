@@ -39,8 +39,21 @@ export class RepositoryService {
     return this.httpClient.get('http://localhost:8080/welcome/getTask/'.concat(taskId)) as Observable<any>
   }
 
-  rewieverAcceptance(taskId : string, data){
-    return this.httpClient.post('http://localhost:8080/welcome/rewieverAcceptance/'.concat(taskId), data) as Observable<any>
+  completeTask(taskId : string, data){
+    return this.httpClient.post('http://localhost:8080/admin/accept/'.concat(taskId), data) as Observable<any>
   }
+
+  startMagazineProcess(){
+    return this.httpClient.get('http://localhost:8080/magazine/getMagazineForm') as Observable<any>
+  }
+
+  createMagazine(magazine, taskId) {
+    return this.httpClient.post("http://localhost:8080/magazine/post/".concat(taskId), magazine) as Observable<any>;
+  }
+
+  nextTasks(procesId) {
+    return this.httpClient.get("http://localhost:8080/magazine/getTasks/".concat(procesId)) as Observable<any>;
+  }
+
 
 }

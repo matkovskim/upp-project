@@ -60,6 +60,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.authorizeRequests().antMatchers(HttpMethod.GET, "/", "/auth/**", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
 						"/**/*.css", "/**/*.js").permitAll()
 		.antMatchers("/welcome/**").permitAll()
+		.antMatchers("/welcome/get/allMyTasks").hasRole("ADMIN")
 		.anyRequest().permitAll().and()
 		//.anyRequest().authenticated().and()
 		.addFilterBefore(new JwtAuthenticationTokenFilter(jwtProvider, userCustomService),BasicAuthenticationFilter.class);
@@ -72,11 +73,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         // TokenAuthenticationFilter will ignore the below paths
         web.ignoring().antMatchers(
                 HttpMethod.POST,
-                "/welcome/**"
+                "/welcome/**",
+                "/auth/**"
         );
         web.ignoring().antMatchers(
                 HttpMethod.GET,
-                "/welcome/**"
+                "/welcome/**",
+                "/auth/**"
         );
         
         web.ignoring().antMatchers(

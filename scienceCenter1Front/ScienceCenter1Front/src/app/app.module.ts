@@ -19,6 +19,8 @@ import { LoginComponent } from './login/login.component';
 import { AllMyTasksComponent } from './all-my-tasks/all-my-tasks.component';
 import {  RequestLogInterceptor } from './authentication/AuthInterceptor';
 import { TaskDetailsComponent } from './task-details/task-details.component';
+import { CreateMagazineComponent } from './create-magazine/create-magazine.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { TaskDetailsComponent } from './task-details/task-details.component';
     LoginComponent,
     AllMyTasksComponent,
     TaskDetailsComponent,
+    CreateMagazineComponent,
   ],
   imports: [
     HttpClientModule,
@@ -42,7 +45,8 @@ import { TaskDetailsComponent } from './task-details/task-details.component';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

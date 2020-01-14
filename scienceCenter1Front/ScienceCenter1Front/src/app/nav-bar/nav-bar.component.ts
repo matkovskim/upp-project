@@ -39,6 +39,7 @@ export class NavBarComponent implements OnInit {
     this.tokenStorage.signOut();
     this.router.navigate(['']);
     this.notLogged = true;
+    this.loggedAdmin=false;
     this.logged = false;
   }
 

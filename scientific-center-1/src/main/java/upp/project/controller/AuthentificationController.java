@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.camunda.bpm.engine.FormService;
+import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.Task;
@@ -55,6 +56,9 @@ public class AuthentificationController {
 	@Autowired
 	FormService formService;
 
+	@Autowired
+	IdentityService identityService;
+	
 	@Autowired
 	RegistredUserRepository registredUserRepository;
 
@@ -147,7 +151,7 @@ public class AuthentificationController {
 		}
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
+		
 		RegistredUser user = (RegistredUser) authentication.getPrincipal();
 		String token = jwtProvider.generateJwtToken(user.getUsername(), 1);
 		if (user.isConfirmed()) {

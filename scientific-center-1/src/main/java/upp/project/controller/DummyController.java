@@ -17,8 +17,10 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +38,8 @@ import upp.project.repository.ScientificAreaRepository;
 import upp.project.services.AuthorityService;
 
 @Controller
-@RequestMapping("/welcome")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RequestMapping(value = "/welcome", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DummyController {
 	@Autowired
 	IdentityService identityService;
@@ -128,7 +131,6 @@ public class DummyController {
 	/**
 	 * Vraca sledeci task ili vise njih zajedno sa poljima forme za trenutno ulogovanog korisnika i to smao ako ima rolu admin
 	 */
-	// @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(path = "/get/allMyTasks", produces = "application/json")
 	public @ResponseBody ResponseEntity<List<TaskDto>> allMyTasks(HttpServletRequest request) {
 
@@ -139,8 +141,11 @@ public class DummyController {
 		List<Task> myTasks = new ArrayList<>();
 		for (Task t : tasks) {
 			if (t.getAssignee() != null) {
+				System.out.println("***************");
+				System.out.println("TASK ID: "+t.getId());
+				System.out.println("DODELJEN JE: "+t.getAssignee());
+				System.out.println("JA SAM: "+username);
 				if (t.getAssignee().equals(username)) {
-					System.out.println(t.getId());
 					myTasks.add(t);
 				}
 			}
@@ -169,23 +174,5 @@ public class DummyController {
 
 		return new ResponseEntity(t, HttpStatus.OK);
 	}
-
-	/**
-	 * Potvrda recenzenta
-	 */
-	@PostMapping(path = "/rewieverAcceptance/{taskId}", produces = "application/json")
-	public @ResponseBody ResponseEntity rewieverAcceptance(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
-		HashMap<String, Object> map = mapListToDto(dto);
-		formService.submitTaskForm(taskId, map);
-		return ResponseEntity.status(HttpStatus.OK).build();
-	}
 	
-	public HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		for (FormSubmissionDto temp : list) {
-			map.put(temp.getFieldId(), temp.getFieldValue());
-		}
-
-		return map;
-	}
 }
