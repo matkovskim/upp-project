@@ -119,7 +119,7 @@ export class CreateMagazineComponent implements OnInit {
           res => {
             if(res==null){
               this.router.navigate(['']);
-              alert("Časopis uspešno kreiran, čeka se odobravanje od strane urednika!");
+              alert("Časopis uspešno kreiran, čeka se odobravanje od strane administratora!");
             }
             else{
               console.log(res);

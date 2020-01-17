@@ -44,7 +44,7 @@
               <camunda:constraint name="required" config="required" />
             </camunda:validation>
           </camunda:formField>
-          <camunda:formField id="Recenzent" label="Da li ste recezent:" type="boolean" />
+          <camunda:formField id="Recenzent" label="Da li ste recezent:" type="boolean" defaultValue="false" />
           <camunda:formField id="NaucneOblasti" label="Naučne oblasti: *" type="enum" />
         </camunda:formData>
         <camunda:properties>

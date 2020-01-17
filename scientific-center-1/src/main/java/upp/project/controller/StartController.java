@@ -78,15 +78,13 @@ public class StartController {
 	@GetMapping(path = "/startCreatingMagazine", produces = "application/json")
 	public @ResponseBody FormFieldsDto get(HttpServletRequest request) {
 		ProcessInstance pi = runtimeService.startProcessInstanceByKey("KreiranjeCasopisa");
-		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
+		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
 		TaskFormData tfd = formService.getTaskFormData(task.getId());
 		List<FormField> properties = tfd.getFormFields();
 
 		String token = tokenProvider.getToken(request);
 		String username = tokenProvider.getUsernameFromToken(token);
-
 		runtimeService.setVariable(pi.getId(), "starterUser", username);
-
 		return new FormFieldsDto(task.getId(), pi.getId(), properties);
 	}
 

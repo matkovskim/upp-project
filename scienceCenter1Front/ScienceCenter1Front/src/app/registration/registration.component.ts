@@ -96,7 +96,6 @@ export class RegistrationComponent implements OnInit {
     let x = this.repositoryService.postData(o, this.formFieldsDto.taskId);
     x.subscribe(
       res => {
-
         let y = this.repositoryService.getMyNextTask(this.processInstance);
 
         y.subscribe(
@@ -111,6 +110,7 @@ export class RegistrationComponent implements OnInit {
               this.router.navigate(['checkMail']);
             }
             else {
+              alert("Podaci nisu validni, pokušajte ponovo...");
               this.dropdownList = [];
               this.formFieldsDto = res;
               this.formFields = res.formFields;
