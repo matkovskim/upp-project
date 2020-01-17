@@ -42,6 +42,7 @@ public class SaveMagazine implements JavaDelegate {
 		magazine.setMainReviewer(mainEditor);
 
 		magazineRepository.save(magazine);
+		System.out.println("SACUVAO MAGAZIN SADA");
 	}
 
 }

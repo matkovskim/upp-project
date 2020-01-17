@@ -19,13 +19,16 @@
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="NacinNaplate" label="Način naplate članarine: " type="enum">
+            <camunda:properties>
+              <camunda:property id="multiselect" value="false" />
+            </camunda:properties>
             <camunda:value id="Citaoci" name="Citaoci" />
             <camunda:value id="Autori" name="Autori" />
           </camunda:formField>
           <camunda:formField id="NaucneOblasti" label="Naučne oblasti: *" type="enum">
-            <camunda:validation>
-              <camunda:constraint name="required" config="required" />
-            </camunda:validation>
+            <camunda:properties>
+              <camunda:property id="multiselect" value="true" />
+            </camunda:properties>
           </camunda:formField>
         </camunda:formData>
         <camunda:taskListener delegateExpression="${someHandler}" event="create" />
@@ -39,11 +42,15 @@
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="Recenzenti" label="Izaberite recenzente (najmanje dva): *" type="enum">
-            <camunda:validation>
-              <camunda:constraint name="required" config="required" />
-            </camunda:validation>
+            <camunda:properties>
+              <camunda:property id="multiselect" value="true" />
+            </camunda:properties>
           </camunda:formField>
-          <camunda:formField id="Urednici" label="Izaberite urednike:" type="enum" />
+          <camunda:formField id="Urednici" label="Izaberite urednike:" type="enum">
+            <camunda:properties>
+              <camunda:property id="multiselect" value="true" />
+            </camunda:properties>
+          </camunda:formField>
         </camunda:formData>
         <camunda:taskListener delegateExpression="${editorsAndReviewersHandler}" event="create" />
       </bpmn:extensionElements>
@@ -55,9 +62,21 @@
     <bpmn:userTask id="Task_12zh0cz" name="Provera podataka " camunda:assignee="admin">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="NazivCasopisa" label="Naziv čadasopisa: *" type="string" defaultValue="${NazivCasopisa}" />
-          <camunda:formField id="ISBN" label="ISBN broj: *" type="string" defaultValue="${ISBN}" />
-          <camunda:formField id="NacinNaplate" label="Način naplate članarine: " type="string" defaultValue="${NacinNaplate}" />
+          <camunda:formField id="NazivCasopisa" label="Naziv čadasopisa: *" type="string" defaultValue="${NazivCasopisa}">
+            <camunda:properties>
+              <camunda:property id="readonly" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="ISBN" label="ISBN broj: *" type="string" defaultValue="${ISBN}">
+            <camunda:properties>
+              <camunda:property id="readonly" value="true" />
+            </camunda:properties>
+          </camunda:formField>
+          <camunda:formField id="NacinNaplate" label="Način naplate članarine: " type="string" defaultValue="${NacinNaplate}">
+            <camunda:properties>
+              <camunda:property id="readonly" value="true" />
+            </camunda:properties>
+          </camunda:formField>
           <camunda:formField id="Aktiviraj" label="Aktiviraj časopis:" type="boolean" defaultValue="false" />
         </camunda:formData>
         <camunda:inputOutput>
@@ -93,16 +112,25 @@
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="NazivCasopisa" label="Naziv časopisa: *" type="string" defaultValue="${NazivCasopisa}">
+            <camunda:properties>
+              <camunda:property id="readonly" value="false" />
+            </camunda:properties>
             <camunda:validation>
               <camunda:constraint name="required" config="required" />
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="ISBN" label="ISBN broj: *" type="string" defaultValue="${ISBN}">
+            <camunda:properties>
+              <camunda:property id="readonly" value="false" />
+            </camunda:properties>
             <camunda:validation>
               <camunda:constraint name="required" config="required" />
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="NacinNaplate" label="Način naplate članarine: " type="enum" defaultValue="${NacinNaplate}">
+            <camunda:properties>
+              <camunda:property id="multiselect" value="false" />
+            </camunda:properties>
             <camunda:value id="Citaoci" name="Citaoci" />
             <camunda:value id="Autori" name="Autori" />
           </camunda:formField>

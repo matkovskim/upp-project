@@ -40,7 +40,7 @@ public class AuthentificationService {
 	}
 
 	/**
-	 * Pravljenje novog korisnika i upis u bazu
+	 * Pravljenje novog korisnika
 	 */
 	public RegistredUser registerNewUser(List<FormSubmissionDto> dto) {
 		RegistredUser newUser = new RegistredUser();

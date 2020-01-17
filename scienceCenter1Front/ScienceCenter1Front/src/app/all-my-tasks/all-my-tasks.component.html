@@ -4,7 +4,7 @@
 
     <tr *ngFor="let task of tasks">
         <td>{{task.name}}:   </td>
-        <td><button (click)="complete(task.taskId)">Pogledaj detalje</button></td>
+        <td><button class="btn btn-outline-success my-2 my-sm-0" (click)="complete(task.taskId)">Pogledaj detalje</button></td>
     </tr>
 
 </table>

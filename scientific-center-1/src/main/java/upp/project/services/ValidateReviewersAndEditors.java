@@ -36,7 +36,7 @@ public class ValidateReviewersAndEditors implements JavaDelegate {
 		List<RegistredUser> reviewers = new ArrayList<RegistredUser>();
 
 		for (FormSubmissionDto fsDTO : dto) {
-			System.out.println(fsDTO.getFieldId() + fsDTO.getFieldValue());
+
 			if (fsDTO.getFieldId().equals("Recenzenti")) {
 				if (fsDTO.getFieldValue() != null && fsDTO.getFieldValue() != "") {
 					String[] parts = fsDTO.getFieldValue().split(",");

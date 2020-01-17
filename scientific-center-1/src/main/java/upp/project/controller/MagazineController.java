@@ -52,7 +52,7 @@ public class MagazineController {
 
 	@Autowired
 	MagazineService magazineService;
-	
+
 	@Autowired
 	JwtProvider tokenProvider;
 
@@ -68,7 +68,7 @@ public class MagazineController {
 
 		String token = tokenProvider.getToken(request);
 		String username = tokenProvider.getUsernameFromToken(token);
-	
+
 		runtimeService.setVariable(pi.getId(), "starterUser", username);
 
 		return new FormFieldsDto(task.getId(), pi.getId(), properties);
@@ -79,16 +79,12 @@ public class MagazineController {
 	 */
 	@PostMapping(path = "/post/{taskId}", produces = "application/json")
 	public @ResponseBody ResponseEntity post(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
-	
+
 		HashMap<String, Object> map = magazineService.mapListToDto(dto);
 		for (Map.Entry mapElement : map.entrySet()) {
 			String key = (String) mapElement.getKey();
 			if (key.equals("NaucneOblasti") || key.equals("Recenzenti") || key.equals("Urednici")) {
-				String value = (String) mapElement.getValue();
-				String[] parts = value.split(",");
-				if (parts.length != 1) {
-					mapElement.setValue(parts[0]);
-				}
+				mapElement.setValue(null);
 			}
 		}
 
@@ -96,7 +92,7 @@ public class MagazineController {
 		String processInstanceId = task.getProcessInstanceId();
 
 		runtimeService.setVariable(processInstanceId, "magazine", dto);
-		
+
 		try {
 			formService.submitTaskForm(taskId, map);
 		} catch (Exception e) {
@@ -106,28 +102,27 @@ public class MagazineController {
 		return new ResponseEntity<>(HttpStatus.OK);
 
 	}
-	
+
 	/**
 	 * Vraca moj sledeci task ili vise njih zajedno sa poljima forme
 	 */
 	@GetMapping(path = "/getTasks/{processInstanceId}", produces = "application/json")
-    public @ResponseBody FormFieldsDto get(@PathVariable String processInstanceId, HttpServletRequest request) {
-		
+	public @ResponseBody FormFieldsDto get(@PathVariable String processInstanceId, HttpServletRequest request) {
+
 		String token = tokenProvider.getToken(request);
 		String username = tokenProvider.getUsernameFromToken(token);
-		
+
 		Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
 
-		if(task!=null && (task.getAssignee()==null || task.getAssignee().equals(username))) {
+		if (task != null && (task.getAssignee() == null || task.getAssignee().equals(username))) {
 			TaskFormData tfd = formService.getTaskFormData(task.getId());
 			List<FormField> properties = tfd.getFormFields();
 			TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee(), properties);
 			return new FormFieldsDto(task.getId(), task.getProcessInstanceId(), properties);
 		}
-		
+
 		return null;
 
-    }
-	
+	}
 
 }

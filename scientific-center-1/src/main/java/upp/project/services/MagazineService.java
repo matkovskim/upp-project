@@ -53,8 +53,11 @@ public class MagazineService {
 					String[] parts = fsDTO.getFieldValue().split(",");
 					Set<ScientificArea> areas = new HashSet<ScientificArea>();
 					for (String part : parts) {
+						System.out.println("DEO JE: "+part);
 						ScientificArea area = scientificAreaRepository.findByName(part);
-						areas.add(area);
+						if(area!=null) {
+							areas.add(area);
+						}
 					}
 					magazine.setScientificArea(areas);
 				} else {

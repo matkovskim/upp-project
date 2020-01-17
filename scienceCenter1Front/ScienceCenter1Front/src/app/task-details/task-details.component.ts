@@ -15,6 +15,8 @@ export class TaskDetailsComponent implements OnInit {
   private formFields = [];
   private dropdownList = [];
   private dropdownSettings: any;
+  private dropdownMultiselectSettings : any;
+  private multiselect=[];
   private val: String;
   private selectedItems = [];
   private selectedOneEnumItems = [];
@@ -23,13 +25,24 @@ export class TaskDetailsComponent implements OnInit {
   private names = [];
   private enumerations = [];
   private enumList=[];
+  private readonlyList=[];
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private repositoryService: RepositoryService) { }
 
   ngOnInit() {
     this.val = "";
-    this.dropdownSettings = {
+
+    this.dropdownMultiselectSettings = {
       singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+    this.dropdownSettings = {
+      singleSelection: true,
       idField: 'item_id',
       textField: 'item_text',
       selectAllText: 'Select All',
@@ -47,10 +60,19 @@ export class TaskDetailsComponent implements OnInit {
 
     x.subscribe(
       res => {
+        console.log(res);
+        this.readonlyList=[];
         this.task = res
         this.formFields = res.formFields;
         this.selectedItems=[];
         this.formFields.forEach((field) => {
+          console.log(field.properties["readonly"]=="false");
+          if(field.properties["readonly"]=="false"){
+            this.readonlyList.push(false);
+          }
+          else{
+            this.readonlyList.push(true);
+          }
           if (field.type.name == 'enum') {
             this.enumList = [];
             this.selectedOneEnumItems=[];
@@ -59,6 +81,7 @@ export class TaskDetailsComponent implements OnInit {
             for (const value of this.enumValues) {
               this.enumList.push({ item_id: value, item_text: value });
             }
+            this.multiselect.push(field.properties[Object.keys(field.properties)[0]]);
             this.dropdownList.push(this.enumList);
             this.enumerations.push(this.enumValues);
             this.names.push(field.id);
@@ -66,9 +89,9 @@ export class TaskDetailsComponent implements OnInit {
               this.selectedOneEnumItems.push({ item_id: field.defaultValue, item_text: field.defaultValue })
             }
             this.selectedItems.push(this.selectedOneEnumItems);
+            console.log(this.selectedOneEnumItems);
           }
-          console.log(this.selectedItems);
-          console.log(this.dropdownList);
+          console.log(this.readonlyList);
         });
       },
       err => {

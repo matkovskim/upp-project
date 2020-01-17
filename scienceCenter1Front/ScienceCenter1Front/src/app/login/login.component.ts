@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
 
     x.subscribe(
       res => {
-        alert("Uspešno ste se ulogovali!");
           this.tokenStorage.saveDate(res.expiratonDate);
           this.tokenStorage.saveToken(res.token);
           this.tokenStorage.saveUsername(res.email);

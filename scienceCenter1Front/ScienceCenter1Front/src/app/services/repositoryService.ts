@@ -27,10 +27,6 @@ export class RepositoryService {
     return this.httpClient.get('http://localhost:8080/welcome/get') as Observable<any>
   }
 
-  getTasks(processInstance : string){
-    return this.httpClient.get('http://localhost:8080/welcome/get/tasks/'.concat(processInstance)) as Observable<any>
-  }
-
   getAllMyTasks(){
     return this.httpClient.get('http://localhost:8080/welcome/get/allMyTasks/') as Observable<any>
   }

@@ -32,9 +32,7 @@ import upp.project.aasecurity.JwtProvider;
 import upp.project.model.FormSubmissionDto;
 import upp.project.model.RegistredUser;
 import upp.project.model.UserTokenState;
-import upp.project.repository.RegistredUserRepository;
 import upp.project.services.AuthentificationService;
-import upp.project.services.AuthorityService;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -59,12 +57,6 @@ public class AuthentificationController {
 	@Autowired
 	IdentityService identityService;
 	
-	@Autowired
-	RegistredUserRepository registredUserRepository;
-
-	@Autowired
-	AuthorityService authorityService;
-
 	@Lazy
 	@Autowired
 	private AuthenticationManager authenticationManger;
@@ -94,21 +86,6 @@ public class AuthentificationController {
 		String processInstanceId = task.getProcessInstanceId();
 
 		runtimeService.setVariable(processInstanceId, "newUser", dto);
-
-		//Validacije
-		RegistredUser newUser = authentificationService.registerNewUser(dto);
-		if (newUser == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body("Već postoji registrovan korisnik sa tim korisničkim imenom!");
-		}
-
-		if (newUser.getId() == -1) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Morate izabrati barem jednu naučnu oblast!");
-		}
-
-		if (!authentificationService.isValidEmailAddress(newUser.getEmail())) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email adresa nije dobrog formata!");
-		}
 
 		try {
 			formService.submitTaskForm(taskId, map);
@@ -155,6 +132,7 @@ public class AuthentificationController {
 		RegistredUser user = (RegistredUser) authentication.getPrincipal();
 		String token = jwtProvider.generateJwtToken(user.getUsername(), 1);
 		if (user.isConfirmed()) {
+			identityService.setAuthenticatedUserId(username);
 			return ResponseEntity.ok(new UserTokenState(token, user.getEmail(), user.getAuthorities(),
 					jwtProvider.getExpirationDateFromToken(token)));
 		}

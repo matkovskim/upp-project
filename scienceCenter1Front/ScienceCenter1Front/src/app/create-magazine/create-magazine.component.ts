@@ -15,8 +15,10 @@ export class CreateMagazineComponent implements OnInit {
   private names = [];
   private enumValues = [];
   private enumerations = [];
+  private multiselect=[];
   private processInstance = "";
   private dropdownSettings: any;
+  private dropdownMultiselectSettings : any;
   private dropdownList = [];
   private enumList=[];
   private val: String;
@@ -39,6 +41,7 @@ export class CreateMagazineComponent implements OnInit {
             for (const value of this.enumValues) {
               this.enumList.push({ item_id: value, item_text: value });
             }
+            this.multiselect.push(field.properties[Object.keys(field.properties)[0]]);
             this.dropdownList.push(this.enumList);
             this.enumerations.push(this.enumValues);
             this.names.push(field.id);
@@ -53,8 +56,17 @@ export class CreateMagazineComponent implements OnInit {
 
   ngOnInit() {
     this.val="";
-    this.dropdownSettings = {
+    this.dropdownMultiselectSettings = {
       singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
+    this.dropdownSettings = {
+      singleSelection: true,
       idField: 'item_id',
       textField: 'item_text',
       selectAllText: 'Select All',
@@ -75,9 +87,10 @@ export class CreateMagazineComponent implements OnInit {
             var something = value[property][index][Object.keys(value[property][index])[1]];
             this.val = this.val + something;
           }
-          var something = value[property][index][Object.keys(value[property][index])[1]];
-
-          this.val = this.val + something;
+          else{
+            var something = value[property][index][Object.keys(value[property][index])[1]];
+            this.val = this.val + something;
+          }
         }
         for (var fv in value[property]) {
         }
@@ -98,7 +111,8 @@ export class CreateMagazineComponent implements OnInit {
         this.names = [];
         this.enumValues = [];
         this.enumerations = [];
-      
+        this.multiselect=[];
+
         let y = this.repositoryService.nextTasks(this.processInstance);
 
         y.subscribe(
@@ -108,6 +122,7 @@ export class CreateMagazineComponent implements OnInit {
               alert("Časopis uspešno kreiran, čeka se odobravanje od strane urednika!");
             }
             else{
+              console.log(res);
               this.dropdownList=[];
               this.formFieldsDto = res;
               this.formFields = res.formFields;
@@ -123,6 +138,7 @@ export class CreateMagazineComponent implements OnInit {
                   this.dropdownList.push(this.enumList);
                   this.enumerations.push(this.enumValues);
                   this.names.push(field.id);
+                  this.multiselect.push(field.properties[Object.keys(field.properties)[0]]);
                 }
               });
             }  
