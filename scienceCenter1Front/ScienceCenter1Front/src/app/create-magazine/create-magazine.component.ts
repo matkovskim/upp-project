@@ -9,19 +9,19 @@ import { Router } from '@angular/router';
 })
 export class CreateMagazineComponent implements OnInit {
 
-  private formFieldsDto = null;
-  private formFields = [];
-  private labels = [];
-  private names = [];
-  private enumValues = [];
-  private enumerations = [];
-  private multiselect=[];
-  private processInstance = "";
-  private dropdownSettings: any;
-  private dropdownMultiselectSettings : any;
-  private dropdownList = [];
-  private enumList=[];
-  private val: String;
+  private formFieldsDto = null; //podaci o jednom polju forme
+  private formFields = []; //sva polja fomre
+  private labels = []; //labele kod polja koja su tipa enumeracija
+  private names = []; //niz koji sadrzi is polja, sluzi da se postavi name atributi u formi
+  private enumValues = []; //sadrzaj jedne enumeracije
+  private enumerations = []; //niz svih enumeracija
+  private multiselect=[]; //niz boolean polja da li je enumeracija multiselect
+  private processInstance = ""; //id procesa
+  private dropdownSettings: any; //podesavanja za select
+  private dropdownMultiselectSettings : any; //podesavanja za multiselect
+  private dropdownList = []; //niz koji sadrzi mape i sluzi za prikaz u multiselectu
+  private enumList = []; //jedna vrednost u enumeraciji
+  private val: String; //string koji se dobija nakon submita, vrednosti enumeracije razdvojene sa zarezom
 
   constructor(private repositoryService: RepositoryService, private router: Router) {
 

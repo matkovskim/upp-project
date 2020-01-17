@@ -29,9 +29,9 @@ export class AllMyTasksComponent implements OnInit {
   ngOnInit() {
   }
 
-  complete(taskId){
+  complete(taskId) {
     console.log(taskId);
-    this.router.navigate(['/taskDetails/'+taskId]);
+    this.router.navigate(['/taskDetails/' + taskId]);
   }
 
 }

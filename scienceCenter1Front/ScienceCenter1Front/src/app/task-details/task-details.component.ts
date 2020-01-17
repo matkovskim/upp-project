@@ -9,23 +9,23 @@ import { RepositoryService } from '../services/repositoryService';
 })
 export class TaskDetailsComponent implements OnInit {
 
-  taskId: string;
+  private taskId: string;
   private task: any;
-  private enumValues = [];
-  private formFields = [];
-  private dropdownList = [];
-  private dropdownSettings: any;
-  private dropdownMultiselectSettings : any;
-  private multiselect=[];
-  private val: String;
-  private selectedItems = [];
-  private selectedOneEnumItems = [];
-  private formFieldsDto = null;
-  private labels = [];
-  private names = [];
-  private enumerations = [];
-  private enumList=[];
-  private readonlyList=[];
+  private enumValues = []; //sadrzaj jedne enumeracije
+  private formFields = []; //sva polja fomre
+  private dropdownList = []; //niz koji sadrzi mape i sluzi za prikaz u multiselectu
+  private dropdownSettings: any; //podesavanja za select
+  private dropdownMultiselectSettings : any; //podesavanja za multiselect
+  private multiselect=[]; //niz koji sadrzi informaciju je enumeracija multiselect
+  private val: String; //string koji se dobija nakon submita, vrednosti enumeracije razdvojene sa zarezom
+  private selectedItems = []; //niz koji sadrzi za svaki comboBox sta je selektovani
+  private selectedOneEnumItems = []; //niz mala selektovanih polja u enumeraciji
+  private formFieldsDto = null; //podaci o jednom polju forme
+  private labels = []; //labele kod polja koja su tipa enumeracija
+  private names = []; //niz koji sadrzi is polja, sluzi da se postavi name atributi u formi
+  private enumerations = []; //niz svih enumeracija
+  private enumList = []; //jedna vrednost u enumeraciji
+  private readonlyList=[]; //lista booleana koji govore da li je readonly
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private repositoryService: RepositoryService) { }
 

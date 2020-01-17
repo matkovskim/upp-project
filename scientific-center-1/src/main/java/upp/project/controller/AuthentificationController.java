@@ -82,8 +82,6 @@ public class AuthentificationController {
 		String token = jwtProvider.generateJwtToken(user.getUsername(), 1);
 		if (user.isConfirmed()) {
 			identityService.setAuthenticatedUserId(username);
-			System.out.println("aaaaaaaaa");
-			System.out.println(identityService.getCurrentAuthentication().getUserId());
 			return ResponseEntity.ok(new UserTokenState(token, user.getEmail(), user.getAuthorities(),
 					jwtProvider.getExpirationDateFromToken(token)));
 		}

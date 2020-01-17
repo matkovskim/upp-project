@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private repositoryService: RepositoryService, private tokenStorage: TokenStorageService, private router: Router) {}
+  constructor(private repositoryService: RepositoryService, private tokenStorage: TokenStorageService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -26,12 +26,12 @@ export class LoginComponent implements OnInit {
 
     x.subscribe(
       res => {
-          this.tokenStorage.saveDate(res.expiratonDate);
-          this.tokenStorage.saveToken(res.token);
-          this.tokenStorage.saveUsername(res.email);
-          this.tokenStorage.saveAuthorities(res.authorities);
-          window.location.href = '';
-        },
+        this.tokenStorage.saveDate(res.expiratonDate);
+        this.tokenStorage.saveToken(res.token);
+        this.tokenStorage.saveUsername(res.email);
+        this.tokenStorage.saveAuthorities(res.authorities);
+        window.location.href = '';
+      },
       err => {
         alert(err.error);
       }

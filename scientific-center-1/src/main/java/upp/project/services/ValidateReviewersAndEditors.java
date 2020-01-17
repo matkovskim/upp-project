@@ -48,6 +48,9 @@ public class ValidateReviewersAndEditors implements JavaDelegate {
 							if (user != null) {
 								reviewers.add(user);
 							}
+							else {
+								return null;
+							}
 						}
 					}
 				} else {
