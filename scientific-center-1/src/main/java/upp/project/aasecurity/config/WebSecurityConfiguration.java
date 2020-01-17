@@ -59,13 +59,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
 		.authorizeRequests().antMatchers(HttpMethod.GET, "/", "/auth/**", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
 						"/**/*.css", "/**/*.js").permitAll()
-		.antMatchers("/welcome/**").permitAll()
-		.antMatchers("/welcome/get/allMyTasks").hasRole("ADMIN")
+		.antMatchers("/auth/**").permitAll()
+		.antMatchers("/registration/**").permitAll()
+		//.anyRequest().authenticated().and() //zbog camunde stavljam permitAll
 		.anyRequest().permitAll().and()
-		//.anyRequest().authenticated().and()
-		.addFilterBefore(new JwtAuthenticationTokenFilter(jwtProvider, userCustomService),BasicAuthenticationFilter.class);
+		.addFilterBefore(new JwtAuthenticationTokenFilter(jwtProvider, userCustomService), BasicAuthenticationFilter.class).sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+		
 		http.csrf().disable();
+
 	}
 	
 	@Override
@@ -73,13 +75,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         // TokenAuthenticationFilter will ignore the below paths
         web.ignoring().antMatchers(
                 HttpMethod.POST,
-                "/welcome/**",
-                "/auth/**"
+                "/welcome/startRegistration",
+                "/welcome/post/**",
+                "/auth/login/**",
+                "/registration/confirmation/**"
         );
         web.ignoring().antMatchers(
                 HttpMethod.GET,
-                "/welcome/**",
-                "/auth/**"
+                "/welcome/startRegistration",
+                "/welcome/getTasks/**"
         );
         
         web.ignoring().antMatchers(

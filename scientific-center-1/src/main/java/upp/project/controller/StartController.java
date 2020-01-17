@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,6 +76,7 @@ public class StartController {
 	/**
 	 * Pokretanje procesa kreiranja magazina, vraca prvu formu
 	 */
+	@PreAuthorize("hasRole('ROLE_EDITOR')")
 	@GetMapping(path = "/startCreatingMagazine", produces = "application/json")
 	public @ResponseBody FormFieldsDto get(HttpServletRequest request) {
 		ProcessInstance pi = runtimeService.startProcessInstanceByKey("KreiranjeCasopisa");
@@ -121,6 +123,7 @@ public class StartController {
 	 * Vraca sve moje taskove zajedno sa poljima forme za trenutno
 	 * ulogovanog korisnika
 	 */
+	@PreAuthorize("hasRole('ROLE_EDITOR') or hasRole('ROLE_REG_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_REWIEWER')")
 	@GetMapping(path = "/getAllMyTasks", produces = "application/json")
 	public @ResponseBody ResponseEntity<List<TaskDto>> allMyTasks(HttpServletRequest request) {
 
@@ -173,6 +176,7 @@ public class StartController {
 	/**
 	 * Vraca informacije o tasku sa zadatim id
 	 */
+	@PreAuthorize("hasRole('ROLE_EDITOR') or hasRole('ROLE_REG_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_REWIEWER')")
 	@GetMapping(path = "/getTask/{taskId}", produces = "application/json")
 	public @ResponseBody ResponseEntity<TaskDto> getTask(@PathVariable String taskId) {
 
