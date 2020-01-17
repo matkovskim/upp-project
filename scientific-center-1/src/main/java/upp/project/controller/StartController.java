@@ -1,5 +1,6 @@
 package upp.project.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,13 +32,13 @@ import upp.project.aasecurity.JwtProvider;
 import upp.project.model.FormFieldsDto;
 import upp.project.model.FormSubmissionDto;
 import upp.project.model.TaskDto;
-import upp.project.services.MagazineService;
+import upp.project.services.AuthentificationService;
 
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(value = "/magazine", produces = MediaType.APPLICATION_JSON_VALUE)
-public class MagazineController {
-
+@RequestMapping(value = "/welcome", produces = MediaType.APPLICATION_JSON_VALUE)
+public class StartController {
+	
 	@Autowired
 	IdentityService identityService;
 
@@ -51,15 +52,28 @@ public class MagazineController {
 	FormService formService;
 
 	@Autowired
-	MagazineService magazineService;
-
-	@Autowired
 	JwtProvider tokenProvider;
 
+	@Autowired
+	AuthentificationService authentificationService;
+
 	/**
-	 * Pokretanje procesa, vraca prvu formu
+	 * Pokretanje procesa registracije, vraca prvu formu
 	 */
-	@GetMapping(path = "/getMagazineForm", produces = "application/json")
+	@GetMapping(path = "/startRegistration", produces = "application/json")
+	public @ResponseBody FormFieldsDto get() {
+
+		ProcessInstance pi = runtimeService.startProcessInstanceByKey("Registracija");
+		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
+		TaskFormData tfd = formService.getTaskFormData(task.getId());
+		List<FormField> properties = tfd.getFormFields();
+		return new FormFieldsDto(task.getId(), pi.getId(), properties);
+	}
+
+	/**
+	 * Pokretanje procesa kreiranja magazina, vraca prvu formu
+	 */
+	@GetMapping(path = "/startCreatingMagazine", produces = "application/json")
 	public @ResponseBody FormFieldsDto get(HttpServletRequest request) {
 		ProcessInstance pi = runtimeService.startProcessInstanceByKey("KreiranjeCasopisa");
 		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
@@ -75,12 +89,12 @@ public class MagazineController {
 	}
 
 	/**
-	 * Submit casopisa
+	 * Primanje sadrzaja forme i kacenje dto objekta na runtime service
 	 */
 	@PostMapping(path = "/post/{taskId}", produces = "application/json")
 	public @ResponseBody ResponseEntity post(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
 
-		HashMap<String, Object> map = magazineService.mapListToDto(dto);
+		HashMap<String, Object> map = authentificationService.mapListToDto(dto);
 		for (Map.Entry mapElement : map.entrySet()) {
 			String key = (String) mapElement.getKey();
 			if (key.equals("NaucneOblasti") || key.equals("Recenzenti") || key.equals("Urednici")) {
@@ -91,7 +105,7 @@ public class MagazineController {
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		String processInstanceId = task.getProcessInstanceId();
 
-		runtimeService.setVariable(processInstanceId, "magazine", dto);
+		runtimeService.setVariable(processInstanceId, "dto", dto);
 
 		try {
 			formService.submitTaskForm(taskId, map);
@@ -104,7 +118,38 @@ public class MagazineController {
 	}
 
 	/**
-	 * Vraca moj sledeci task ili vise njih zajedno sa poljima forme
+	 * Vraca sve moje taskove zajedno sa poljima forme za trenutno
+	 * ulogovanog korisnika
+	 */
+	@GetMapping(path = "/getAllMyTasks", produces = "application/json")
+	public @ResponseBody ResponseEntity<List<TaskDto>> allMyTasks(HttpServletRequest request) {
+
+		String token = tokenProvider.getToken(request);
+		String username = tokenProvider.getUsernameFromToken(token);
+
+		List<Task> tasks = taskService.createTaskQuery().list();
+		List<Task> myTasks = new ArrayList<>();
+		for (Task t : tasks) {
+			if (t.getAssignee() != null) {
+				if (t.getAssignee().equals(username)) {
+					myTasks.add(t);
+				}
+			}
+		}
+
+		List<TaskDto> dtos = new ArrayList<TaskDto>();
+		for (Task task : myTasks) {
+			TaskFormData tfd = formService.getTaskFormData(task.getId());
+			List<FormField> properties = tfd.getFormFields();
+			TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee(), properties);
+			dtos.add(t);
+		}
+
+		return new ResponseEntity(dtos, HttpStatus.OK);
+	}
+	
+	/**
+	 * Vraca jedan moj sledeci task zajedno sa poljima forme
 	 */
 	@GetMapping(path = "/getTasks/{processInstanceId}", produces = "application/json")
 	public @ResponseBody FormFieldsDto get(@PathVariable String processInstanceId, HttpServletRequest request) {
@@ -123,6 +168,20 @@ public class MagazineController {
 
 		return null;
 
+	}
+
+	/**
+	 * Vraca informacije o tasku sa zadatim id
+	 */
+	@GetMapping(path = "/getTask/{taskId}", produces = "application/json")
+	public @ResponseBody ResponseEntity<TaskDto> getTask(@PathVariable String taskId) {
+
+		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		TaskFormData tfd = formService.getTaskFormData(taskId);
+		List<FormField> properties = tfd.getFormFields();
+		TaskDto t = new TaskDto(taskId, task.getName(), task.getAssignee(), properties);
+
+		return new ResponseEntity(t, HttpStatus.OK);
 	}
 
 }

@@ -38,7 +38,7 @@ public class SendEmail implements JavaDelegate {
 		mail.setText(
 				"Poštovani korisniče, \nMolimo vas da potvrdite svoju registraciju kako biste mogli da koristite naše usluge: \n"
 						+ "Potvrda registracije se vrši klikom da dati link: "
-						+ "http://localhost:8080/welcome/confirmation/" +execution.getProcessInstanceId()+"/"+regUser.getRegistrationCode()+ "\nS poštovanjem, \nVasa naucna centrala 1.");
+						+ "http://localhost:8080/registration/confirmation/" +execution.getProcessInstanceId()+"/"+regUser.getRegistrationCode()+ "\nS poštovanjem, \nVasa naucna centrala 1.");
 		javaMailSender.send(mail);
 	}
 

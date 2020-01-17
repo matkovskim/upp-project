@@ -103,7 +103,7 @@ export class CreateMagazineComponent implements OnInit {
     }
 
     console.log(o);
-    let x = this.repositoryService.createMagazine(o, this.formFieldsDto.taskId);
+    let x = this.repositoryService.postData(o, this.formFieldsDto.taskId);
 
     x.subscribe(
       res => {
@@ -113,7 +113,7 @@ export class CreateMagazineComponent implements OnInit {
         this.enumerations = [];
         this.multiselect=[];
 
-        let y = this.repositoryService.nextTasks(this.processInstance);
+        let y = this.repositoryService.getMyNextTask(this.processInstance);
 
         y.subscribe(
           res => {

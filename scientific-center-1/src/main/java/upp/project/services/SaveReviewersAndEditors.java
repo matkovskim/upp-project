@@ -29,7 +29,7 @@ public class SaveReviewersAndEditors implements JavaDelegate {
 
 		System.out.println("SaveReviewersAndEditors");
 
-		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("magazine");
+		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("dto");
 		List<RegistredUser> reviewers = getReviewers(dto);
 		List<RegistredUser> editors = getEditors(dto);
 

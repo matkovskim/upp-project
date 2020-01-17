@@ -19,6 +19,7 @@ public class SomeHandler implements TaskListener {
 
 	@Autowired
 	IdentityService identityService;
+	
 	@Autowired
 	ScientificAreaRepository scientificAreaRepository;
 

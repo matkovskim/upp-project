@@ -4,11 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.IdentityService;
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.TaskService;
-import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -19,9 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,56 +40,11 @@ public class AuthentificationController {
 	AuthentificationService authentificationService;
 
 	@Autowired
-	private RuntimeService runtimeService;
-
-	@Autowired
-	TaskService taskService;
-
-	@Autowired
-	FormService formService;
-
-	@Autowired
 	IdentityService identityService;
-	
+
 	@Lazy
 	@Autowired
 	private AuthenticationManager authenticationManger;
-
-	@Autowired
-	PasswordEncoder passwordEncoder;
-
-	/**
-	 * Registracija korisnika
-	 */
-	@PostMapping(path = "/post/{taskId}", produces = "application/json")
-	public @ResponseBody ResponseEntity post(@RequestBody List<FormSubmissionDto> dto, @PathVariable String taskId) {
-
-		HashMap<String, Object> map = authentificationService.mapListToDto(dto);
-		for (Map.Entry mapElement : map.entrySet()) {
-			String key = (String) mapElement.getKey();
-			if (key.equals("NaucneOblasti")) {
-				String value = (String) mapElement.getValue();
-				String[] parts = value.split(",");
-				if (parts.length != 1) {
-					mapElement.setValue(parts[0]);
-				}
-			}
-		}
-
-		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-		String processInstanceId = task.getProcessInstanceId();
-
-		runtimeService.setVariable(processInstanceId, "newUser", dto);
-
-		try {
-			formService.submitTaskForm(taskId, map);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Uneti podaci nisu validni!");
-		}
-
-		return new ResponseEntity<>(HttpStatus.OK);
-
-	}
 
 	/**
 	 * Logovanje korisnika
@@ -128,7 +77,7 @@ public class AuthentificationController {
 		}
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
+
 		RegistredUser user = (RegistredUser) authentication.getPrincipal();
 		String token = jwtProvider.generateJwtToken(user.getUsername(), 1);
 		if (user.isConfirmed()) {

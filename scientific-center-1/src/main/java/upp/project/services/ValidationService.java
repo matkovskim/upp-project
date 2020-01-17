@@ -19,7 +19,7 @@ public class ValidationService implements JavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		RegistredUser newUser = (RegistredUser) execution.getVariable("newUser");
+		RegistredUser newUser = (RegistredUser) execution.getVariable("dto");
 		if (newUser != null) {
 			if (newUser.getCity() == null || newUser.getCity() == "") {
 				execution.setVariable("isValid", false);

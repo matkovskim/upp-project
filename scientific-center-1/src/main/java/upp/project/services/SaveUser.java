@@ -39,7 +39,7 @@ public class SaveUser implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 
-		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("newUser");
+		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("dto");
 		RegistredUser newUser = authentificationService.registerNewUser(dto);
 
 		newUser.setRegistrationCode(this.randomString(50));

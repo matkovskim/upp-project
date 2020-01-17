@@ -21,7 +21,7 @@ public class ValidateReviewersAndEditors implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 
-		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("magazine");
+		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("dto");
 		List<RegistredUser> reviewers = getReviewers(dto);
 		if (reviewers != null) {
 			execution.setVariable("validniUredniciRecenzenti", true);

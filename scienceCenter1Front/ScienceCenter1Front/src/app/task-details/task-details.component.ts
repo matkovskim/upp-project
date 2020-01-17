@@ -125,7 +125,7 @@ export class TaskDetailsComponent implements OnInit {
     }
 
     console.log(o);
-    let x = this.repositoryService.completeTask(this.taskId, o);
+    let x = this.repositoryService.postData(o, this.taskId);
 
     x.subscribe(
       res => {

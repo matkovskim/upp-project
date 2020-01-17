@@ -28,7 +28,7 @@ public class MagazineService {
 		Magazine magazine = new Magazine();
 
 		for (FormSubmissionDto fsDTO : dto) {
-			System.out.println(fsDTO.getFieldId() + fsDTO.getFieldValue());
+
 			if (fsDTO.getFieldId().equals("NazivCasopisa")) {
 				magazine.setName(fsDTO.getFieldValue());
 			} else if (fsDTO.getFieldId().equals("ISBN")) {
@@ -53,7 +53,7 @@ public class MagazineService {
 					String[] parts = fsDTO.getFieldValue().split(",");
 					Set<ScientificArea> areas = new HashSet<ScientificArea>();
 					for (String part : parts) {
-						System.out.println("DEO JE: "+part);
+
 						ScientificArea area = scientificAreaRepository.findByName(part);
 						if(area!=null) {
 							areas.add(area);

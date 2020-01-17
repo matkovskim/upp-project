@@ -32,7 +32,7 @@ public class SaveMagazine implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 
-		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("magazine");
+		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("dto");
 		Magazine magazine = magazineService.makeMagazine(dto);
 		execution.setVariable("magazineName", magazine.getName());
 
@@ -42,7 +42,6 @@ public class SaveMagazine implements JavaDelegate {
 		magazine.setMainReviewer(mainEditor);
 
 		magazineRepository.save(magazine);
-		System.out.println("SACUVAO MAGAZIN SADA");
 	}
 
 }

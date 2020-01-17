@@ -10,7 +10,6 @@ import org.camunda.bpm.engine.delegate.DelegateTask;
 import org.camunda.bpm.engine.delegate.TaskListener;
 import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.form.TaskFormData;
-import org.glassfish.jersey.internal.guava.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,17 +42,9 @@ public class EditorsAndReviewersHandler implements TaskListener {
 
 		Set<ScientificArea> areas = magazine.getScientificArea();
 
-System.out.println(areas.size());
-System.out.println("***********OBLASTI CASOPISA**********");
-for(ScientificArea a:areas) {
-	System.out.println(a);
-}
-System.out.println("************************");
-
 		List<RegistredUser> reviewers = registredUserRepository.findByAuthoritiesName(Role.ROLE_REWIEWER);
 		List<RegistredUser> editors = registredUserRepository.findByAuthoritiesName(Role.ROLE_EDITOR);
-System.out.println("editora je ukupno: "+reviewers.size());
-System.out.println("rewievers je ukupno: "+editors.size());
+
 		List<RegistredUser> retReviewers = new ArrayList<RegistredUser>();
 		List<RegistredUser> retEditors = new ArrayList<RegistredUser>();
 
@@ -75,18 +66,20 @@ System.out.println("rewievers je ukupno: "+editors.size());
 				HashMap<String, String> mapa = (HashMap<String, String>) f.getType().getInformation("values");
 				mapa.clear();
 				for (RegistredUser regUser : retReviewers) {
-					mapa.put(regUser.getName() +" "+ regUser.getLastName(), regUser.getName() +" "+ regUser.getLastName());
+					mapa.put(regUser.getName() + " " + regUser.getLastName(),
+							regUser.getName() + " " + regUser.getLastName());
 				}
 			}
 			if (f.getId().equals("Urednici")) {
 				HashMap<String, String> mapa = (HashMap<String, String>) f.getType().getInformation("values");
 				mapa.clear();
 				for (RegistredUser regUser : retEditors) {
-					mapa.put(regUser.getName() +" "+ regUser.getLastName(), regUser.getName() +" "+ regUser.getLastName());
+					mapa.put(regUser.getName() + " " + regUser.getLastName(),
+							regUser.getName() + " " + regUser.getLastName());
 				}
 			}
 		}
-		
+
 	}
-	
+
 }

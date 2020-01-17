@@ -26,7 +26,7 @@ export class RegistrationComponent implements OnInit {
   constructor(private repositoryService: RepositoryService, private router: Router) {
 
     //Get all fields for form
-    let x = repositoryService.startProcess();
+    let x = repositoryService.startRegistrationProcess();
     x.subscribe(
       res => {
 
@@ -93,11 +93,11 @@ export class RegistrationComponent implements OnInit {
     }
     console.log(o);
 
-    let x = this.repositoryService.registerUser(o, this.formFieldsDto.taskId);
+    let x = this.repositoryService.postData(o, this.formFieldsDto.taskId);
     x.subscribe(
       res => {
 
-        let y = this.repositoryService.nextTasks(this.processInstance);
+        let y = this.repositoryService.getMyNextTask(this.processInstance);
 
         y.subscribe(
           res => {

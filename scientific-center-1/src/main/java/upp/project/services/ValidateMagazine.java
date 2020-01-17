@@ -21,7 +21,7 @@ public class ValidateMagazine implements JavaDelegate {
 
 		System.out.println("ValidateMagazine");
 
-		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("magazine");
+		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("dto");
 		Magazine magazine = magazineService.makeMagazine(dto);
 
 		if (magazine == null) {

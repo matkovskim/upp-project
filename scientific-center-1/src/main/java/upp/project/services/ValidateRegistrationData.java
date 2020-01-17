@@ -19,7 +19,7 @@ public class ValidateRegistrationData implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 
-		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("newUser");
+		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("dto");
 		RegistredUser user = authentificationService.registerNewUser(dto);
 
 		// Validacije
