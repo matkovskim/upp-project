@@ -42,7 +42,6 @@ public class SaveRewiewrAcceptance implements JavaDelegate {
 				identityService.saveGroup(recenzentiGroup);
 			}			
 			
-			
 			RegistredUser savedUser = registredUserRepository.findByUsername(username);
 			
 			identityService.createMembership(savedUser.getUsername(), "recenzenti");

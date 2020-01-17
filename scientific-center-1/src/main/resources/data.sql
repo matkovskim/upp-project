@@ -6,18 +6,27 @@ INSERT INTO authority(id, name) VALUES (4, 'ROLE_EDITOR');
 INSERT INTO public.scientific_area(id, name) VALUES (1, 'Matematika');
 INSERT INTO public.scientific_area(id, name) VALUES (2, 'Fizika');
 
+--admin admin
 INSERT INTO public.registred_user(id, city, confirmed, email, last_name, name, password, registration_code, reviewer, state, title, username) VALUES (1212, 'Kula', 'true', 'matkovskim@neobee.net', 'Matkovski', 'Marijana', '$2a$10$9vWGQ5BQTjEzQH6AIzAUXuTtWlLjVCX8w20CYrp8VzAUJbDaCO4vi', 'dkjahdkjhasdkjh', 'false', 'Srbija', 'admin', 'admin');
-INSERT INTO public.registred_user(id, city, confirmed, email, last_name, name, password, registration_code, reviewer, state, title, username) VALUES (2222, 'Kula', 'true', 'matkovskim@gmail.com', 'Hsad', 'Vesna', '$2a$10$9vWGQ5BQTjEzQH6AIzAUXuTtWlLjVCX8w20CYrp8VzAUJbDaCO4vi', 'dkjahdkjhasdkjh', 'true', 'Srbija', 'vesna', 'vesna');
-INSERT INTO public.registred_user(id, city, confirmed, email, last_name, name, password, registration_code, reviewer, state, title, username) VALUES (3333, 'Kula', 'true', 'matkovskim@gmail.com', 'Nesto', 'Lasad', '$2a$10$9vWGQ5BQTjEzQH6AIzAUXuTtWlLjVCX8w20CYrp8VzAUJbDaCO4vi', 'dkjahdkjhasdkjh', 'true', 'Srbija', 'majak', 'majak');
-INSERT INTO public.registred_user(id, city, confirmed, email, last_name, name, password, registration_code, reviewer, state, title, username) VALUES (4444, 'Kula', 'true', 'matkovskim@gmail.com', 'Msd', 'Msda', '$2a$10$9vWGQ5BQTjEzQH6AIzAUXuTtWlLjVCX8w20CYrp8VzAUJbDaCO4vi', 'dkjahdkjhasdkjh', 'true', 'Srbija', 'bbbb', 'bbbbb');
-INSERT INTO public.registred_user(id, city, confirmed, email, last_name, name, password, registration_code, reviewer, state, title, username) VALUES (5555, 'Kula', 'true', 'matkovskim@gmail.com', 'Dad', 'Dsa', '$2a$10$9vWGQ5BQTjEzQH6AIzAUXuTtWlLjVCX8w20CYrp8VzAUJbDaCO4vi', 'AAAssdasd', 'true', 'Srbija', 'aaaa', 'aaaa');
-INSERT INTO public.registred_user(id, city, confirmed, email, last_name, name, password, registration_code, reviewer, state, title, username) VALUES (6666, 'Kula', 'true', 'matkovskim@gmail.com', 'Fizicar', 'SamJAA', '$2a$10$9vWGQ5BQTjEzQH6AIzAUXuTtWlLjVCX8w20CYrp8VzAUJbDaCO4vi', 'AAAssdasd', 'true', 'Srbija', 'aaddddaa', 'cccc');
+--recenzent1 admin
+INSERT INTO public.registred_user(id, city, confirmed, email, last_name, name, password, registration_code, reviewer, state, title, username) VALUES (2222, 'Vrbas', 'true', 'matkovskim@gmail.com', 'Recenzent1', 'Recenzentovic', '$2a$10$9vWGQ5BQTjEzQH6AIzAUXuTtWlLjVCX8w20CYrp8VzAUJbDaCO4vi', 'dkjahdkjhasdkjh', 'true', 'Srbija', 'recenzent', 'recenzent1');
+--recenzent2 admin
+INSERT INTO public.registred_user(id, city, confirmed, email, last_name, name, password, registration_code, reviewer, state, title, username) VALUES (3333, 'Novi Sad', 'true', 'matkovskim@gmail.com', 'Recenzent2', 'Recenzic', '$2a$10$9vWGQ5BQTjEzQH6AIzAUXuTtWlLjVCX8w20CYrp8VzAUJbDaCO4vi', 'dkjahdkjhasdkjh', 'true', 'Srbija', 'recenzent', 'recenzent2');
+--recenzent3 admin
+INSERT INTO public.registred_user(id, city, confirmed, email, last_name, name, password, registration_code, reviewer, state, title, username) VALUES (4444, 'Beograd', 'true', 'matkovskim@gmail.com', 'Recenzent3', 'Rece', '$2a$10$9vWGQ5BQTjEzQH6AIzAUXuTtWlLjVCX8w20CYrp8VzAUJbDaCO4vi', 'dkjahdkjhasdkjh', 'true', 'Srbija', 'recenzent', 'recenzent3');
+--recenzent3 admin
+INSERT INTO public.registred_user(id, city, confirmed, email, last_name, name, password, registration_code, reviewer, state, title, username) VALUES (7777, 'Beograd', 'true', 'matkovskim@gmail.com', 'Recenzent4', 'Rec', '$2a$10$9vWGQ5BQTjEzQH6AIzAUXuTtWlLjVCX8w20CYrp8VzAUJbDaCO4vi', 'dkjahdkjhasdkjh', 'true', 'Srbija', 'recenzent', 'recenzent4');
+--urednik1 admin
+INSERT INTO public.registred_user(id, city, confirmed, email, last_name, name, password, registration_code, reviewer, state, title, username) VALUES (5555, 'Kucura', 'true', 'matkovskim@gmail.com', 'Urednik1', 'Urednikovic', '$2a$10$9vWGQ5BQTjEzQH6AIzAUXuTtWlLjVCX8w20CYrp8VzAUJbDaCO4vi', 'AAAssdasd', 'false', 'Srbija', 'urednik', 'urednik1');
+--urednik2 admin
+INSERT INTO public.registred_user(id, city, confirmed, email, last_name, name, password, registration_code, reviewer, state, title, username) VALUES (6666, 'Ruski Krstur', 'true', 'matkovskim@gmail.com', 'Urednik2', 'Urednikic', '$2a$10$9vWGQ5BQTjEzQH6AIzAUXuTtWlLjVCX8w20CYrp8VzAUJbDaCO4vi', 'AAAssdasd', 'false', 'Srbija', 'urednik', 'urednik2');
 
 INSERT INTO public.registred_user_authorities(registred_user_id, authorities_id) VALUES (1212, 2);
 INSERT INTO public.registred_user_authorities(registred_user_id, authorities_id) VALUES (2222, 3);
 INSERT INTO public.registred_user_authorities(registred_user_id, authorities_id) VALUES (4444, 3);
-INSERT INTO public.registred_user_authorities(registred_user_id, authorities_id) VALUES (5555, 3);
-INSERT INTO public.registred_user_authorities(registred_user_id, authorities_id) VALUES (3333, 4);
+INSERT INTO public.registred_user_authorities(registred_user_id, authorities_id) VALUES (7777, 3);
+INSERT INTO public.registred_user_authorities(registred_user_id, authorities_id) VALUES (3333, 3);
+INSERT INTO public.registred_user_authorities(registred_user_id, authorities_id) VALUES (5555, 4);
 INSERT INTO public.registred_user_authorities(registred_user_id, authorities_id) VALUES (6666, 4);
 
 INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_area_id) VALUES (2222, 1);
@@ -25,4 +34,8 @@ INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_
 INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_area_id) VALUES (4444, 1);
 INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_area_id) VALUES (5555, 1);
 INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_area_id) VALUES (6666, 2);
+INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_area_id) VALUES (7777, 1);
+INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_area_id) VALUES (2222, 2);
+INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_area_id) VALUES (4444, 2);
+INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_area_id) VALUES (3333, 2);
 

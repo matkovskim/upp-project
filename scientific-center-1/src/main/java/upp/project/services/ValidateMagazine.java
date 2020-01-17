@@ -19,16 +19,12 @@ public class ValidateMagazine implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 
-		System.out.println("ValidateMagazine");
-
 		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("dto");
 		Magazine magazine = magazineService.makeMagazine(dto);
 
 		if (magazine == null) {
 			execution.setVariable("validan", false);
 		} else if (magazine.getId() == -1) {
-			execution.setVariable("validan", false);
-		} else if (magazine.getId() == -2) {
 			execution.setVariable("validan", false);
 		} else {
 			execution.setVariable("validan", true);

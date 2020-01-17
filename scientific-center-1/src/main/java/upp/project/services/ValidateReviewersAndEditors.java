@@ -44,9 +44,7 @@ public class ValidateReviewersAndEditors implements JavaDelegate {
 						return null;
 					} else {
 						for (String part : parts) {
-							String nameLastName[] = part.split(" ");
-							RegistredUser user = registredUserRepository.findByNameAndLastName(nameLastName[0],
-									nameLastName[1]);
+							RegistredUser user = registredUserRepository.findByUsername(part);
 							if (user != null) {
 								reviewers.add(user);
 							}

@@ -15,7 +15,7 @@ import upp.project.model.ScientificArea;
 import upp.project.repository.ScientificAreaRepository;
 
 @Service
-public class SomeHandler implements TaskListener {
+public class ScientificAreasHandler implements TaskListener {
 
 	@Autowired
 	IdentityService identityService;
@@ -28,8 +28,9 @@ public class SomeHandler implements TaskListener {
 		 List<ScientificArea>areas=scientificAreaRepository.findAll();
 		 for(FormField f : taskFormFields.getFormFields()){
 		       if( f.getId().equals("NaucneOblasti")){
+	        	   HashMap<String, String>mapa=(HashMap<String, String>)f.getType().getInformation("values");
+	        	   mapa.clear();
 		           for(ScientificArea scArea:areas){
-		        	   HashMap<String, String>mapa=(HashMap<String, String>)f.getType().getInformation("values");
 		        	   mapa.put(scArea.getName(), scArea.getName());
 		           }
 		       }

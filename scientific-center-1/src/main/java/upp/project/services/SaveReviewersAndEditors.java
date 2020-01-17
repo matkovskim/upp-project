@@ -27,8 +27,6 @@ public class SaveReviewersAndEditors implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 
-		System.out.println("SaveReviewersAndEditors");
-
 		List<FormSubmissionDto> dto = (List<FormSubmissionDto>) execution.getVariable("dto");
 		List<RegistredUser> reviewers = getReviewers(dto);
 		List<RegistredUser> editors = getEditors(dto);
@@ -56,9 +54,7 @@ public class SaveReviewersAndEditors implements JavaDelegate {
 						return null;
 					} else {
 						for (String part : parts) {
-							String nameLastName[] = part.split(" ");
-							RegistredUser user = registredUserRepository.findByNameAndLastName(nameLastName[0],
-									nameLastName[1]);
+							RegistredUser user = registredUserRepository.findByUsername(part);
 							if (user != null) {
 								reviewers.add(user);
 							}
@@ -81,9 +77,7 @@ public class SaveReviewersAndEditors implements JavaDelegate {
 				if (fsDTO.getFieldValue() != null && fsDTO.getFieldValue() != "") {
 					String[] parts = fsDTO.getFieldValue().split(",");
 					for (String part : parts) {
-						String nameLastName[] = part.split(" ");
-						RegistredUser user = registredUserRepository.findByNameAndLastName(nameLastName[0],
-								nameLastName[1]);
+						RegistredUser user = registredUserRepository.findByUsername(part);
 						if (user != null) {
 							editors.add(user);
 						}

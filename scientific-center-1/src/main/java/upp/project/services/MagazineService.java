@@ -34,20 +34,7 @@ public class MagazineService {
 			} else if (fsDTO.getFieldId().equals("ISBN")) {
 				magazine.setISBN(fsDTO.getFieldValue());
 			} else if (fsDTO.getFieldId().equals("NacinNaplate")) {
-				if (fsDTO.getFieldValue() != null && fsDTO.getFieldValue() != "") {
-					String[] parts = fsDTO.getFieldValue().split(",");
-					if (parts.length != 1) {
-						Magazine m = new Magazine();
-						m.setId(-2);
-						return m;
-					} else {
-						magazine.setWhoPays(fsDTO.getFieldValue());
-					}
-				} else {
-					Magazine m = new Magazine();
-					m.setId(-2);
-					return m;
-				}
+				magazine.setWhoPays(fsDTO.getFieldValue());
 			} else {
 				if (fsDTO.getFieldValue() != null && fsDTO.getFieldValue() != "") {
 					String[] parts = fsDTO.getFieldValue().split(",");
@@ -55,7 +42,7 @@ public class MagazineService {
 					for (String part : parts) {
 
 						ScientificArea area = scientificAreaRepository.findByName(part);
-						if(area!=null) {
+						if (area != null) {
 							areas.add(area);
 						}
 					}
@@ -74,6 +61,7 @@ public class MagazineService {
 			}
 		}
 		return magazine;
+
 	}
 
 	public HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list) {

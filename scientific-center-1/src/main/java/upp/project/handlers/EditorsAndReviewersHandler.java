@@ -66,16 +66,14 @@ public class EditorsAndReviewersHandler implements TaskListener {
 				HashMap<String, String> mapa = (HashMap<String, String>) f.getType().getInformation("values");
 				mapa.clear();
 				for (RegistredUser regUser : retReviewers) {
-					mapa.put(regUser.getName() + " " + regUser.getLastName(),
-							regUser.getName() + " " + regUser.getLastName());
+					mapa.put(regUser.getUsername(), regUser.getUsername());
 				}
 			}
 			if (f.getId().equals("Urednici")) {
 				HashMap<String, String> mapa = (HashMap<String, String>) f.getType().getInformation("values");
 				mapa.clear();
 				for (RegistredUser regUser : retEditors) {
-					mapa.put(regUser.getName() + " " + regUser.getLastName(),
-							regUser.getName() + " " + regUser.getLastName());
+					mapa.put(regUser.getUsername(), regUser.getUsername());
 				}
 			}
 		}

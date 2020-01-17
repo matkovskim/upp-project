@@ -9,11 +9,17 @@
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="NazivCasopisa" label="Naziv časopisa: *" type="string">
+            <camunda:properties>
+              <camunda:property id="readonly" value="false" />
+            </camunda:properties>
             <camunda:validation>
               <camunda:constraint name="required" config="required" />
             </camunda:validation>
           </camunda:formField>
           <camunda:formField id="ISBN" label="ISBN broj: *" type="string">
+            <camunda:properties>
+              <camunda:property id="readonly" value="false" />
+            </camunda:properties>
             <camunda:validation>
               <camunda:constraint name="required" config="required" />
             </camunda:validation>
@@ -31,7 +37,7 @@
             </camunda:properties>
           </camunda:formField>
         </camunda:formData>
-        <camunda:taskListener delegateExpression="${someHandler}" event="create" />
+        <camunda:taskListener delegateExpression="${scientificAreasHandler}" event="create" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_15o92h2</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1f7q4ry</bpmn:incoming>

@@ -50,7 +50,7 @@
         <camunda:properties>
           <camunda:property name="brojac" value="${NaucnihOblasti}" />
         </camunda:properties>
-        <camunda:taskListener delegateExpression="${someHandler}" event="create" />
+        <camunda:taskListener delegateExpression="${scientificAreasHandler}" event="create" />
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0uy4wq4</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_143krp8</bpmn:incoming>
