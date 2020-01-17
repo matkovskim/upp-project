@@ -48,6 +48,8 @@ public class EditorsAndReviewersHandler implements TaskListener {
 		List<RegistredUser> retReviewers = new ArrayList<RegistredUser>();
 		List<RegistredUser> retEditors = new ArrayList<RegistredUser>();
 
+		List<Magazine>magazines=magazineRepository.findAll();
+		
 		for (ScientificArea sa : areas) {
 			for (RegistredUser ru : reviewers) {
 				if (ru.getScientificArea().contains(sa)) {
@@ -73,7 +75,10 @@ public class EditorsAndReviewersHandler implements TaskListener {
 				HashMap<String, String> mapa = (HashMap<String, String>) f.getType().getInformation("values");
 				mapa.clear();
 				for (RegistredUser regUser : retEditors) {
-					mapa.put(regUser.getUsername(), regUser.getUsername());
+					List<Magazine>magazinesList=magazineRepository.findByEditor(regUser);
+					if(magazinesList.isEmpty()) {
+						mapa.put(regUser.getUsername(), regUser.getUsername());
+					}
 				}
 			}
 		}
