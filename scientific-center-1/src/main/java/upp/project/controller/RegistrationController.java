@@ -25,8 +25,8 @@ public class RegistrationController {
 	private RuntimeService runtimeService;
 
 	@Autowired
-	RegistredUserRepository registredUserRepository;
-
+	private RegistredUserRepository registredUserRepository;
+	
 	/**
 	 * Potvrda na mailu
 	 */

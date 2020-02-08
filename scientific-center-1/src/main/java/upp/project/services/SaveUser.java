@@ -46,23 +46,8 @@ public class SaveUser implements JavaDelegate {
 		Set<Authority> authorities = new HashSet<Authority>();
 		authorities.add(authorityService.findByName(Role.ROLE_REG_USER));
 		newUser.setAuthorities(authorities);
-		registerInCamunda(newUser);
 		registredUserRepository.save(newUser);
 
-	}
-
-	private void registerInCamunda(RegistredUser newUser) {
-		try {
-		User camundaUser = identityService.newUser(newUser.getUsername());
-		camundaUser.setPassword(newUser.getPassword());
-		camundaUser.setFirstName(newUser.getName());
-		camundaUser.setLastName(newUser.getLastName());
-		camundaUser.setEmail(newUser.getEmail());
-		identityService.saveUser(camundaUser);
-		}
-		catch (Exception e) {
-			System.out.println("Korisnik vec postoji");
-		}
 	}
 
 	private String randomString(int len) {

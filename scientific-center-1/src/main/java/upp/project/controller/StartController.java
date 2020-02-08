@@ -13,10 +13,9 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.form.TaskFormData;
-import org.camunda.bpm.engine.impl.identity.Authentication;
+import org.camunda.bpm.engine.identity.Group;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
-import org.camunda.bpm.model.dmn.instance.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -64,10 +63,16 @@ public class StartController {
 	 * Pokretanje procesa registracije, vraca prvu formu
 	 */
 	@GetMapping(path = "/startRegistration", produces = "application/json")
-	public @ResponseBody FormFieldsDto get() {
-
+	public @ResponseBody FormFieldsDto startRegistration(HttpServletRequest request) {
+		String token = tokenProvider.getToken(request);
+		if(token!=null) {
+			return null;
+		}
+		identityService.setAuthenticatedUserId("gost");
 		ProcessInstance pi = runtimeService.startProcessInstanceByKey("Registracija");
 		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
+		task.setAssignee("gost");
+		taskService.saveTask(task);
 		TaskFormData tfd = formService.getTaskFormData(task.getId());
 		List<FormField> properties = tfd.getFormFields();
 		return new FormFieldsDto(task.getId(), pi.getId(), properties);
@@ -83,10 +88,30 @@ public class StartController {
 		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
 		TaskFormData tfd = formService.getTaskFormData(task.getId());
 		List<FormField> properties = tfd.getFormFields();
+		String token = tokenProvider.getToken(request);
+		String username = tokenProvider.getUsernameFromToken(token);
+		task.setAssignee(username);
+		taskService.saveTask(task);
+		runtimeService.setVariable(pi.getId(), "starterUser", username);
+		return new FormFieldsDto(task.getId(), pi.getId(), properties);
+	}
+	
+	/**
+	 * Pokretanje procesa obrade podnetog teksta, vraca prvu formu
+	 */
+	@PreAuthorize("hasRole('ROLE_REG_USER')")
+	@GetMapping(path = "/startProcessingText", produces = "application/json")
+	public @ResponseBody FormFieldsDto startProcessing(HttpServletRequest request) {
+		ProcessInstance pi = runtimeService.startProcessInstanceByKey("ObradaTeksta");
+		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+		TaskFormData tfd = formService.getTaskFormData(task.getId());
+		List<FormField> properties = tfd.getFormFields();
 
 		String token = tokenProvider.getToken(request);
 		String username = tokenProvider.getUsernameFromToken(token);
-		runtimeService.setVariable(pi.getId(), "starterUser", username);
+		task.setAssignee(username);
+		taskService.saveTask(task);
+		runtimeService.setVariable(pi.getId(), "starter", username);
 		return new FormFieldsDto(task.getId(), pi.getId(), properties);
 	}
 
@@ -99,7 +124,7 @@ public class StartController {
 		HashMap<String, Object> map = authentificationService.mapListToDto(dto);
 		for (Map.Entry mapElement : map.entrySet()) {
 			String key = (String) mapElement.getKey();
-			if (key.equals("NaucneOblasti") || key.equals("Recenzenti") || key.equals("Urednici")) {
+			if (key.equals("NaucneOblasti") || key.equals("Recenzenti") || key.equals("Urednici") || key.equals("izaborRecenzenata")) {
 				mapElement.setValue(null);
 			}
 		}
@@ -129,14 +154,13 @@ public class StartController {
 
 		String token = tokenProvider.getToken(request);
 		String username = tokenProvider.getUsernameFromToken(token);
-
-		List<Task> tasks = taskService.createTaskQuery().list();
-		List<Task> myTasks = new ArrayList<>();
-		for (Task t : tasks) {
-			if (t.getAssignee() != null) {
-				if (t.getAssignee().equals(username)) {
-					myTasks.add(t);
-				}
+		
+		List<Task> myTasks = taskService.createTaskQuery().taskAssignee(username).list();
+		List<Group>userGroups=identityService.createGroupQuery().groupMember(username).list();
+		for(Group g: userGroups) {
+			List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup(g.getId()).list();
+			for(Task t:tasks) {
+				myTasks.add(t);
 			}
 		}
 

@@ -71,5 +71,12 @@ public class MagazineService {
 		}
 		return map;
 	}
+	
+	public List<Magazine>getAllMagazines(){
+		return magazineRepository.findAll();
+	}
 
+	public List<Magazine>getAllActivatedMagazines(){
+		return magazineRepository.findByActivated(true);
+	}
 }

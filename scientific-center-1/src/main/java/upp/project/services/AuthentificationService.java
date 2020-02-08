@@ -8,12 +8,18 @@ import java.util.Set;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+import org.camunda.bpm.engine.IdentityService;
+import org.camunda.bpm.engine.identity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import upp.project.model.Authority;
 import upp.project.model.FormSubmissionDto;
+import upp.project.model.RegisterAdminDTO;
+import upp.project.model.RegisterEditorDTO;
 import upp.project.model.RegistredUser;
+import upp.project.model.Role;
 import upp.project.model.ScientificArea;
 import upp.project.repository.RegistredUserRepository;
 import upp.project.repository.ScientificAreaRepository;
@@ -22,13 +28,19 @@ import upp.project.repository.ScientificAreaRepository;
 public class AuthentificationService {
 
 	@Autowired
-	RegistredUserRepository registredUserRepository;
+	private RegistredUserRepository registredUserRepository;
 
 	@Autowired
-	ScientificAreaRepository scientificAreaRepository;
+	private ScientificAreaRepository scientificAreaRepository;
 
 	@Autowired
-	PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private AuthorityService authorityService;
+
+	@Autowired
+	private IdentityService identityService;
 
 	public HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -104,4 +116,84 @@ public class AuthentificationService {
 		return result;
 	}
 
+	public List<RegistredUser> getAll() {
+		return registredUserRepository.findAll();
+	}
+
+	public boolean registerAdmin(RegisterAdminDTO dto) {
+
+		RegistredUser newAdmin = new RegistredUser();
+		newAdmin.setName(dto.getName());
+		newAdmin.setEmail(dto.getEmail());
+		newAdmin.setLastName(dto.getLastName());
+		newAdmin.setUsername(dto.getUsername());
+		newAdmin.setCity(dto.getCity());
+		newAdmin.setPassword(passwordEncoder.encode(dto.getPassword()));
+		newAdmin.setState(dto.getState());
+		newAdmin.setConfirmed(true);
+		newAdmin.setReviewer(false);
+
+		Set<Authority> authorities = new HashSet<Authority>();
+		authorities.add(authorityService.findByName(Role.ROLE_ADMIN));
+		newAdmin.setAuthorities(authorities);
+
+		registerInCamunda(newAdmin);
+
+		identityService.createMembership(newAdmin.getUsername(), "administratori");
+		registredUserRepository.save(newAdmin);
+
+		return true;
+
+	}
+
+	public boolean registerEditor(RegisterEditorDTO dto) {
+
+		RegistredUser newEditor = new RegistredUser();
+		newEditor.setName(dto.getName());
+		newEditor.setEmail(dto.getEmail());
+		newEditor.setLastName(dto.getLastName());
+		newEditor.setUsername(dto.getUsername());
+		newEditor.setCity(dto.getCity());
+		newEditor.setPassword(passwordEncoder.encode(dto.getPassword()));
+		newEditor.setState(dto.getState());
+		newEditor.setTitle(dto.getTitle());
+		newEditor.setConfirmed(true);
+		newEditor.setReviewer(false);
+
+		Set<ScientificArea>areas=new HashSet<>();
+		if(!dto.getScientificAreas().equals("")) {
+			String[]areaNames=dto.getScientificAreas().split(",");
+			for(String area:areaNames) {
+				ScientificArea foundArea=scientificAreaRepository.findByName(area);
+				if(foundArea!=null) {
+					areas.add(foundArea);
+				}
+			}
+			newEditor.setScientificArea(areas);
+		}
+		
+		Set<Authority> authorities = new HashSet<Authority>();
+		authorities.add(authorityService.findByName(Role.ROLE_EDITOR));
+		newEditor.setAuthorities(authorities);
+		registerInCamunda(newEditor);
+
+		identityService.createMembership(newEditor.getUsername(), "urednici");
+		registredUserRepository.save(newEditor);
+
+		return true;
+
+	}
+
+	private void registerInCamunda(RegistredUser newUser) {
+		try {
+			User camundaUser = identityService.newUser(newUser.getUsername());
+			camundaUser.setPassword(newUser.getPassword());
+			camundaUser.setFirstName(newUser.getName());
+			camundaUser.setLastName(newUser.getLastName());
+			camundaUser.setEmail(newUser.getEmail());
+			identityService.saveUser(camundaUser);
+		} catch (Exception e) {
+			System.out.println("Korisnik vec postoji");
+		}
+	}
 }

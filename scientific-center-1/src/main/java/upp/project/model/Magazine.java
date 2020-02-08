@@ -27,22 +27,22 @@ public class Magazine {
 	private String whoPays;
 	
 	@Column
-	boolean actevated;
+	boolean activated;
 	
 	@ManyToMany
-	Set<ScientificArea> scientificArea;
+	private Set<ScientificArea> scientificArea;
 	
 	@ManyToOne
-	RegistredUser mainReviewer;
+	private RegistredUser mainEditor;
 	
 	@ManyToMany
-	Set<RegistredUser>reviewers;
+	private Set<RegistredUser>reviewers;
 	
 	@ManyToMany
-	Set<RegistredUser>editors;
+	private Set<RegistredUser>editors;
 
 	public Magazine() {
-		actevated=false;
+		activated=false;
 	}
 	
 	public long getId() {
@@ -77,12 +77,12 @@ public class Magazine {
 		this.whoPays = whoPays;
 	}
 
-	public boolean isActevated() {
-		return actevated;
+	public boolean isActivated() {
+		return activated;
 	}
 
-	public void setActevated(boolean actevated) {
-		this.actevated = actevated;
+	public void setActivated(boolean actevated) {
+		this.activated = actevated;
 	}
 
 	public Set<ScientificArea> getScientificArea() {
@@ -93,12 +93,12 @@ public class Magazine {
 		this.scientificArea = scientificArea;
 	}
 
-	public RegistredUser getMainReviewer() {
-		return mainReviewer;
+	public RegistredUser getMainEditor() {
+		return mainEditor;
 	}
 
-	public void setMainReviewer(RegistredUser mainReviewer) {
-		this.mainReviewer = mainReviewer;
+	public void setMainEditor(RegistredUser mainReviewer) {
+		this.mainEditor = mainReviewer;
 	}
 
 	public Set<RegistredUser> getReviewers() {

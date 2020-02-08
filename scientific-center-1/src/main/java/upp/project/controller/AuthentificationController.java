@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import upp.project.aasecurity.JwtProvider;
 import upp.project.model.FormSubmissionDto;
+import upp.project.model.RegisterAdminDTO;
+import upp.project.model.RegisterEditorDTO;
 import upp.project.model.RegistredUser;
 import upp.project.model.UserTokenState;
 import upp.project.services.AuthentificationService;
@@ -88,6 +90,36 @@ public class AuthentificationController {
 		}
 		return new ResponseEntity<>("Nalog nije aktiviran", HttpStatus.BAD_REQUEST);
 
+	}
+	
+	@GetMapping(path = "", produces = "application/json")
+	public @ResponseBody ResponseEntity<?> getAllUsers() {
+
+		List<RegistredUser>users=authentificationService.getAll();
+		return ResponseEntity.ok(users);
+		
+	}
+	
+	/**
+	 * Registrovanje administratora
+	 */
+	@PostMapping(path = "/admin", produces = "application/json")
+	public @ResponseBody ResponseEntity<?> post(@RequestBody RegisterAdminDTO dto) {
+		if(authentificationService.registerAdmin(dto)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	/**
+	 * Logovanje urednika
+	 */
+	@PostMapping(path = "/editor", produces = "application/json")
+	public @ResponseBody ResponseEntity<?> post(@RequestBody RegisterEditorDTO dto) {
+		if(authentificationService.registerEditor(dto)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 }

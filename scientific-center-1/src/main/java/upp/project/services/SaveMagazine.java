@@ -39,7 +39,7 @@ public class SaveMagazine implements JavaDelegate {
 		String mainEditorUsername = (String) execution.getVariable("starterUser");
 		RegistredUser mainEditor = registredUserRepository.findByUsername(mainEditorUsername);
 
-		magazine.setMainReviewer(mainEditor);
+		magazine.setMainEditor(mainEditor);
 
 		magazineRepository.save(magazine);
 	}

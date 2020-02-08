@@ -36,12 +36,6 @@ public class SaveRewiewrAcceptance implements JavaDelegate {
 				
 		if (reviewer==true) {
 			
-			List<Group> recenzenti = identityService.createGroupQuery().groupIdIn("recenzenti").list();
-			if(recenzenti.size()==0) {
-				Group recenzentiGroup=identityService.newGroup("recenzenti");
-				identityService.saveGroup(recenzentiGroup);
-			}			
-			
 			RegistredUser savedUser = registredUserRepository.findByUsername(username);
 			
 			identityService.createMembership(savedUser.getUsername(), "recenzenti");
@@ -51,6 +45,7 @@ public class SaveRewiewrAcceptance implements JavaDelegate {
 			savedUser.setAuthorities(authorities);
 
 			registredUserRepository.save(savedUser);
+			
 		}
 
 	}

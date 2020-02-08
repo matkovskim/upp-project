@@ -1,0 +1,56 @@
+<div *ngIf="isLoaded">
+    <div class="wrapper" style="background-image: url('assets/images/bg-registration-form-2.jpg');">
+        <div class="inner">
+            <form id="registerEditorForm" [formGroup]="registerEditorForm" (ngSubmit)="submitForm()">
+                <h3>Registracija urednika</h3>
+                <div class="form-group">
+                    <div class="form-wrapper">
+                        <label for="">Korisničko ime</label>
+                        <input type="text" class="form-control" formControlName="username" name="username">
+                    </div>
+                    <div class="form-wrapper">
+                        <label for="">Email</label>
+                        <input type="text" class="form-control" formControlName="email" name="email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-wrapper">
+                        <label for="">Ime</label>
+                        <input type="text" class="form-control" formControlName="name" name="name">
+                    </div>
+                    <div class="form-wrapper">
+                        <label for="">Prezime</label>
+                        <input type="text" class="form-control" formControlName="lastName" name="lastName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-wrapper">
+                        <label for="">Grad</label>
+                        <input type="text" class="form-control" formControlName="city" name="city">
+                    </div>
+                    <div class="form-wrapper">
+                        <label for="">Država</label>
+                        <input type="text" class="form-control" formControlName="state" name="state">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-wrapper">
+                        <label for="">Titula</label>
+                        <input type="text" class="form-control" formControlName="title" name="title">
+                    </div>
+                    <div class="form-wrapper">
+                        <label for="">Lozinka</label>
+                        <input type="password" class="form-control" formControlName="password" name="password">
+                    </div>
+                </div>
+                <div class="form-wrapper">
+                    <label for="">Naučne oblasti</label>
+                    <ng-multiselect-dropdown [data]="dropdownList" [settings]="dropdownSettings" name="scientificAreas"
+                        formControlName="scientificAreas"></ng-multiselect-dropdown>
+                </div>
+
+                <button>Registruj</button>
+            </form>
+        </div>
+    </div>
+</div>

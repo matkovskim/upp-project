@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1pzz34t" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
   <bpmn:process id="Registracija" isExecutable="true">
-    <bpmn:startEvent id="StartEvent_1" camunda:initiator="starterUser">
+    <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>SequenceFlow_0uy4wq4</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0uy4wq4" sourceRef="StartEvent_1" targetRef="Task_1haf5yd" />
-    <bpmn:userTask id="Task_1haf5yd" name="Popunjavaje forme" camunda:formKey="registrationForm" camunda:assignee="${starterUser}">
+    <bpmn:userTask id="Task_1haf5yd" name="Popunjavaje forme" camunda:formKey="registrationForm" camunda:assignee="gost">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="Ime" label="Ime: *" type="string">
@@ -68,7 +68,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1tgksqm" name="registruje se recenzent" sourceRef="ExclusiveGateway_12bd957" targetRef="Task_0thr2hm">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${Recenzent==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:userTask id="Task_0thr2hm" name="Potvrda recenzenta" camunda:assignee="admin">
+    <bpmn:userTask id="Task_0thr2hm" name="Potvrda recenzenta" camunda:candidateGroups="administratori">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="Recenzent" label="Potvrda recezenta ${KorisnickoIme}" type="boolean" defaultValue="false" />

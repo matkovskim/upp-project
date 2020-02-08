@@ -22,6 +22,10 @@ import { TaskDetailsComponent } from './task-details/task-details.component';
 import { CreateMagazineComponent } from './create-magazine/create-magazine.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HomePageComponent } from './home-page/home-page.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { CreateAdminComponent } from './create-admin/create-admin.component';
+import { CreateEditorComponent } from './create-editor/create-editor.component';
+import { ProcessingTextComponent } from './processing-text/processing-text.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +40,10 @@ import { HomePageComponent } from './home-page/home-page.component';
     TaskDetailsComponent,
     CreateMagazineComponent,
     HomePageComponent,
+    AdminPanelComponent,
+    CreateAdminComponent,
+    CreateEditorComponent,
+    ProcessingTextComponent,
   ],
   imports: [
     HttpClientModule,

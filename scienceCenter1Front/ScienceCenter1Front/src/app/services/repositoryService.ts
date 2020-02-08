@@ -23,6 +23,10 @@ export class RepositoryService {
     return this.httpClient.get('http://localhost:8080/welcome/startCreatingMagazine') as Observable<any>
   }
 
+  startProcessingTextProcess(){
+    return this.httpClient.get('http://localhost:8080/welcome/startProcessingText') as Observable<any>
+  }
+
   postData(data, taskId) {
     return this.httpClient.post("http://localhost:8080/welcome/post/".concat(taskId), data) as Observable<any>;
   }

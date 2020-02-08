@@ -78,10 +78,12 @@ export class TaskDetailsComponent implements OnInit {
             this.selectedOneEnumItems=[];
             this.enumValues = Object.keys(field.type.values);
             this.labels.push(field.label);
+            console.log("LABLES");
+            console.log(field);
             for (const value of this.enumValues) {
               this.enumList.push({ item_id: value, item_text: value });
             }
-            this.multiselect.push(field.properties[Object.keys(field.properties)[0]]);
+            this.multiselect.push(field.properties[Object.keys(field.properties)[1]]);
             this.dropdownList.push(this.enumList);
             this.enumerations.push(this.enumValues);
             this.names.push(field.id);
@@ -111,8 +113,10 @@ export class TaskDetailsComponent implements OnInit {
             var something = value[property][index][Object.keys(value[property][index])[1]];
             this.val = this.val + something;
           }
-          var something = value[property][index][Object.keys(value[property][index])[1]];
-          this.val = this.val + something;
+          else{
+            var something = value[property][index][Object.keys(value[property][index])[1]];
+            this.val = this.val + something;
+          }
         }
         for (var fv in value[property]) {
           console.log(fv);
@@ -129,7 +133,7 @@ export class TaskDetailsComponent implements OnInit {
 
     x.subscribe(
       res => {
-        this.router.navigate(['']);
+        this.router.navigate(['tasks']);
       },
       err => {
         alert(err.error);

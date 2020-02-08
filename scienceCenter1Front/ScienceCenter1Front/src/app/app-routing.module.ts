@@ -11,6 +11,10 @@ import { AllMyTasksComponent } from './all-my-tasks/all-my-tasks.component';
 import { TaskDetailsComponent } from './task-details/task-details.component';
 import { CreateMagazineComponent } from './create-magazine/create-magazine.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { CreateAdminComponent } from './create-admin/create-admin.component';
+import { CreateEditorComponent } from './create-editor/create-editor.component';
+import { ProcessingTextComponent } from './processing-text/processing-text.component';
 
 const routes: Routes = [
   {
@@ -48,6 +52,22 @@ const routes: Routes = [
   {
     path: 'createMagazine',
     component: CreateMagazineComponent
+  },
+  {
+    path: 'adminPanel',
+    component: AdminPanelComponent
+  },
+  {
+    path: 'createAdmin',
+    component: CreateAdminComponent
+  },
+  {
+    path: 'createEditor',
+    component: CreateEditorComponent
+  },
+  {
+    path: 'processingText',
+    component: ProcessingTextComponent
   }
 ];
 

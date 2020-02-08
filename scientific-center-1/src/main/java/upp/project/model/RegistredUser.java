@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,40 +28,43 @@ public class RegistredUser implements UserDetails{
 	private long id;
 
 	@Column
-	String username;
+	private String username;
 	
 	@Column
-	String name;
+	private String name;
 
 	@Column
-	String lastName;
+	private String lastName;
 
 	@Column
-	String city;
+	private String city;
 
 	@Column
-	String state;
+	private String state;
 
 	@Column
-	String email;
+	private String email;
 
 	@Column
-	String password;
+	private String password;
 
 	@Column
-	String title;
+	private String title;
 	
 	@Column
-	String registrationCode;
+	private String registrationCode;
 
 	@Column
-	boolean reviewer;
+	private boolean reviewer;
 
 	@Column
-	boolean confirmed;
+	private boolean confirmed;
 
 	@ManyToMany
-	Set<ScientificArea> scientificArea;
+	private Set<ScientificArea> scientificArea;
+	
+	@OneToMany
+	private Set<MembershipFees>membershipFees;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	protected Set<Authority> authorities;
@@ -68,6 +72,15 @@ public class RegistredUser implements UserDetails{
 	public RegistredUser() {
 		confirmed = false;
 	}
+	
+	public RegistredUser(String username, String password, String name, String lastName, String email) {
+		this.username=username;
+		this.password=password;
+		this.name=name;
+		this.lastName=lastName;
+		this.email=email;
+	}
+
 
 	public long getId() {
 		return id;
@@ -204,5 +217,13 @@ public class RegistredUser implements UserDetails{
 
 	public void setRegistrationCode(String registrationCode) {
 		this.registrationCode = registrationCode;
+	}
+
+	public Set<MembershipFees> getMembershipFees() {
+		return membershipFees;
+	}
+
+	public void setMembershipFees(Set<MembershipFees> membershipFees) {
+		this.membershipFees = membershipFees;
 	}
 }
