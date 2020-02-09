@@ -44,7 +44,8 @@ public class EditorsAndReviewersHandler implements TaskListener {
 
 		List<RegistredUser> reviewers = registredUserRepository.findByAuthoritiesName(Role.ROLE_REWIEWER);
 		List<RegistredUser> editors = registredUserRepository.findByAuthoritiesName(Role.ROLE_EDITOR);
-
+System.out.println("recenzenti: "+reviewers.size());
+System.out.println("editori: "+editors.size());
 		List<RegistredUser> retReviewers = new ArrayList<RegistredUser>();
 		List<RegistredUser> retEditors = new ArrayList<RegistredUser>();
 
@@ -65,6 +66,7 @@ public class EditorsAndReviewersHandler implements TaskListener {
 
 		for (FormField f : taskFormFields.getFormFields()) {
 			if (f.getId().equals("Recenzenti")) {
+				System.out.println("NASAO POLJE RECENZENTI");
 				HashMap<String, String> mapa = (HashMap<String, String>) f.getType().getInformation("values");
 				mapa.clear();
 				for (RegistredUser regUser : retReviewers) {
@@ -72,6 +74,7 @@ public class EditorsAndReviewersHandler implements TaskListener {
 				}
 			}
 			if (f.getId().equals("Urednici")) {
+				System.out.println("NSAO POLJE UREDNICI");
 				HashMap<String, String> mapa = (HashMap<String, String>) f.getType().getInformation("values");
 				mapa.clear();
 				for (RegistredUser regUser : retEditors) {

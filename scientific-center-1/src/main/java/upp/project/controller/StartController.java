@@ -175,7 +175,7 @@ public class StartController {
 	public @ResponseBody FormFieldsDto get(@PathVariable String processInstanceId, HttpServletRequest request) {
 
 		String username = identityService.getCurrentAuthentication().getUserId();
-		Task myTasks = taskService.createTaskQuery().taskAssignee(username).active().singleResult();
+		Task myTasks = taskService.createTaskQuery().taskAssignee(username).active().processInstanceId(processInstanceId).singleResult();
 
 		if (myTasks != null) {
 			TaskFormData tfd = formService.getTaskFormData(myTasks.getId());

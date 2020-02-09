@@ -10,6 +10,6 @@ export class MagazineService {
 
   constructor(private httpClient: HttpClient, private http : Http) { }
 
-  getAllMagazines(){ return this.httpClient.get('http://localhost:8080/magazine') as Observable<any> }
+  getAllMagazines(){ return this.httpClient.get('https://localhost:8080/magazine') as Observable<any> }
 
 }

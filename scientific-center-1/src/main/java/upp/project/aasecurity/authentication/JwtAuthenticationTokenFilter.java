@@ -66,8 +66,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 					Authentication a = new Authentication(username, groupsIds);
 					identityService.setAuthentication(a);
 					identityService.setAuthenticatedUserId(username);
-					System.out.println("FILTER: ulogovan je: " + username);
-					System.out.println("authentication: " + a);
 				}
 			}
 		}
@@ -90,15 +88,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	}
 
 	private void authentificateGuest() {
-		System.out.println("logujem gost");
 		IdentityService identityService = SpringContext.getBean(IdentityService.class);
 		List<String> gosti = new ArrayList<>();
 		gosti.add("gosti");
 		Authentication a = new Authentication("gost", gosti);
 		identityService.setAuthentication(a);
 		identityService.setAuthenticatedUserId("gost");
-		System.out.println("POSTAVIO " + identityService.getCurrentAuthentication().getUserId());
-
 	}
 
 }

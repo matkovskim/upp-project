@@ -18,11 +18,11 @@ export class UploadService {
       reportProgress: true,
       responseType: 'text'
     });
-    return this.httpClient.post('http://localhost:8080/welcome/post', formdata) as Observable<any>;
+    return this.httpClient.post('https://localhost:8080/welcome/post', formdata) as Observable<any>;
   }
 
   getFile(procesId: string) {
-    return this.httpClient.get('http://localhost:8080/welcome/getFile/' + procesId) as Observable<any>;
+    return this.httpClient.get('https://localhost:8080/welcome/getFile/' + procesId) as Observable<any>;
   }
 
 }

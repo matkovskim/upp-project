@@ -41,7 +41,7 @@ export class CreateMagazineComponent implements OnInit {
             for (const value of this.enumValues) {
               this.enumList.push({ item_id: value, item_text: value });
             }
-            this.multiselect.push(field.properties[Object.keys(field.properties)[0]]);
+            this.multiselect.push(field.properties[Object.keys(field.properties)[1]]);
             this.dropdownList.push(this.enumList);
             this.enumerations.push(this.enumValues);
             this.names.push(field.id);
@@ -138,7 +138,7 @@ export class CreateMagazineComponent implements OnInit {
                   this.dropdownList.push(this.enumList);
                   this.enumerations.push(this.enumValues);
                   this.names.push(field.id);
-                  this.multiselect.push(field.properties[Object.keys(field.properties)[0]]);
+                  this.multiselect.push(field.properties[Object.keys(field.properties)[1]]);
                 }
               });
             }  

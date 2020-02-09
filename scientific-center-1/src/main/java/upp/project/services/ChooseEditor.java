@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.glassfish.jersey.internal.guava.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
@@ -13,7 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import upp.project.model.Authority;
-import upp.project.model.FormSubmissionDto;
+import upp.project.model.Magazine;
 import upp.project.model.RegistredUser;
 import upp.project.model.Role;
 import upp.project.model.ScientificArea;
@@ -35,6 +36,9 @@ public class ChooseEditor implements JavaDelegate {
 	
 	@Autowired
 	private JavaMailSender javaMailSender;
+	
+	@Autowired
+	MagazineRepository magazineRepository;
 
 	@Autowired
 	private Environment env;
@@ -45,7 +49,12 @@ public class ChooseEditor implements JavaDelegate {
 
 		String scientificAreaName=(String)execution.getVariable("NaucneOblasti");
 		String mainEditor=(String)execution.getVariable("glavniUrednik");
-
+		
+		String magazineName=(String)execution.getVariable("izborCasopisa");
+		System.out.println("casopis: "+magazineName);
+		Magazine magazine=magazineRepository.findByName(magazineName);
+		List<RegistredUser>magazineEditors=Lists.newArrayList(magazine.getEditors());
+		
 		ScientificArea scientificArea=scientificAreaRepository.findByName(scientificAreaName);
 		Authority editorAuthority = this.authorityService.findByName(Role.ROLE_EDITOR);
 		List<RegistredUser>editors=registredUserRepository.userWithSpecificAuthorityForArea(scientificArea, editorAuthority);
@@ -58,13 +67,23 @@ public class ChooseEditor implements JavaDelegate {
 			}
 		}
 		
-		if(editordWithoutMain.size()==0) {
+		List<RegistredUser>finalList=new ArrayList<RegistredUser>();
+		for(RegistredUser ru:magazineEditors) {
+			for(RegistredUser r:editordWithoutMain) {
+				if(ru.getUsername().equals(r.getUsername())) {
+					finalList.add(ru);
+				}
+			}
+		}
+		
+		
+		if(finalList.size()==0) {
 			System.out.println("Nema urednika, urednik postaje glavni urednik");
 			execution.setVariable("urednikOblasti", mainEditor);
 		}
 		else {
 			System.out.println("Postavlajm nekog urednika");
-			execution.setVariable("urednikOblasti", editordWithoutMain.get(0).getUsername());
+			execution.setVariable("urednikOblasti", finalList.get(0).getUsername());
 		}
 		
 		System.out.println("UREDNIK NAUCNE OBLASTI JE: "+(String)execution.getVariable("urednikOblasti"));

@@ -47,12 +47,6 @@ public class AuthentificationService {
 	@Autowired
 	private IdentityService identityService;
 	
-	@Autowired
-	private RuntimeService runtimeService;
-	
-	@Autowired
-	private HistoryService historyService;
-	
 	public HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		for (FormSubmissionDto temp : list) {
@@ -207,25 +201,6 @@ public class AuthentificationService {
 			System.out.println("Korisnik vec postoji");
 		}
 	}
-	
-	/**
-	 * Unistavanje zapocetih procesa starijih od jednog dana
-	 */
-	@Scheduled(initialDelay = 1800000, fixedRate = 1800000)
-	//@Scheduled(initialDelay = 30000, fixedRate = 30000)
-	public void checkOldRegistrations() {
-		//uzimam sve aktivne procese
-		List<HistoricProcessInstance>hpi=historyService.createHistoricProcessInstanceQuery().active().unfinished().list();
-		Date yesterday=new Date(System.currentTimeMillis()-24*60*60*1000);
-		//Date yesterday=new Date(System.currentTimeMillis()-60*1000);
-		System.out.println(yesterday);
-		System.out.println(new Date());
-		for(HistoricProcessInstance h:hpi) {
-			Date startDate=h.getStartTime();
-			if(startDate.before(yesterday)) {
-				runtimeService.suspendProcessInstanceById(h.getId());
-			}
-		}
-	}
+
 	
 }

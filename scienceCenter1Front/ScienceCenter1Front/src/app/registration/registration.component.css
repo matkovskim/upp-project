@@ -43,8 +43,9 @@
     margin: auto;
     padding-top: 68px;
     padding-bottom: 48px;
-    background: url("/assets/images/registration-form-2.jpg"); }
-    .inner h3 {
+      }
+      
+      .inner h3 {
       text-transform: uppercase;
       font-size: 22px;
       font-family: "Muli-Bold";

@@ -11,6 +11,7 @@
           <camunda:formField id="NazivCasopisa" label="Naziv časopisa: *" type="string">
             <camunda:properties>
               <camunda:property id="readonly" value="false" />
+              <camunda:property id="multiselect" value="false" />
             </camunda:properties>
             <camunda:validation>
               <camunda:constraint name="required" config="required" />
@@ -19,6 +20,7 @@
           <camunda:formField id="ISBN" label="ISBN broj: *" type="string">
             <camunda:properties>
               <camunda:property id="readonly" value="false" />
+              <camunda:property id="multiselect" value="false" />
             </camunda:properties>
             <camunda:validation>
               <camunda:constraint name="required" config="required" />
@@ -26,6 +28,7 @@
           </camunda:formField>
           <camunda:formField id="NacinNaplate" label="Način naplate članarine: " type="enum">
             <camunda:properties>
+              <camunda:property id="readonly" value="false" />
               <camunda:property id="multiselect" value="false" />
             </camunda:properties>
             <camunda:value id="Citaoci" name="Citaoci" />
@@ -33,6 +36,7 @@
           </camunda:formField>
           <camunda:formField id="NaucneOblasti" label="Naučne oblasti: *" type="enum">
             <camunda:properties>
+              <camunda:property id="readonly" value="false" />
               <camunda:property id="multiselect" value="true" />
             </camunda:properties>
           </camunda:formField>
@@ -49,11 +53,13 @@
         <camunda:formData>
           <camunda:formField id="Recenzenti" label="Izaberite recenzente (najmanje dva): *" type="enum">
             <camunda:properties>
+              <camunda:property id="readonly" value="false" />
               <camunda:property id="multiselect" value="true" />
             </camunda:properties>
           </camunda:formField>
           <camunda:formField id="Urednici" label="Izaberite urednike:" type="enum">
             <camunda:properties>
+              <camunda:property id="readonly" value="false" />
               <camunda:property id="multiselect" value="true" />
             </camunda:properties>
           </camunda:formField>
@@ -71,19 +77,27 @@
           <camunda:formField id="NazivCasopisa" label="Naziv čadasopisa: *" type="string" defaultValue="${NazivCasopisa}">
             <camunda:properties>
               <camunda:property id="readonly" value="true" />
+              <camunda:property id="multiselect" value="false" />
             </camunda:properties>
           </camunda:formField>
           <camunda:formField id="ISBN" label="ISBN broj: *" type="string" defaultValue="${ISBN}">
             <camunda:properties>
               <camunda:property id="readonly" value="true" />
+              <camunda:property id="multiselect" value="false" />
             </camunda:properties>
           </camunda:formField>
           <camunda:formField id="NacinNaplate" label="Način naplate članarine: " type="string" defaultValue="${NacinNaplate}">
             <camunda:properties>
               <camunda:property id="readonly" value="true" />
+              <camunda:property id="multiselect" value="false" />
             </camunda:properties>
           </camunda:formField>
-          <camunda:formField id="Aktiviraj" label="Aktiviraj časopis:" type="boolean" defaultValue="false" />
+          <camunda:formField id="Aktiviraj" label="Aktiviraj časopis:" type="boolean" defaultValue="false">
+            <camunda:properties>
+              <camunda:property id="readonly" value="false" />
+              <camunda:property id="multiselect" value="false" />
+            </camunda:properties>
+          </camunda:formField>
         </camunda:formData>
         <camunda:inputOutput>
           <camunda:outputParameter name="aktivan">A</camunda:outputParameter>
@@ -120,6 +134,7 @@
           <camunda:formField id="NazivCasopisa" label="Naziv časopisa: *" type="string" defaultValue="${NazivCasopisa}">
             <camunda:properties>
               <camunda:property id="readonly" value="false" />
+              <camunda:property id="multiselect" value="false" />
             </camunda:properties>
             <camunda:validation>
               <camunda:constraint name="required" config="required" />
@@ -128,6 +143,7 @@
           <camunda:formField id="ISBN" label="ISBN broj: *" type="string" defaultValue="${ISBN}">
             <camunda:properties>
               <camunda:property id="readonly" value="false" />
+              <camunda:property id="multiselect" value="false" />
             </camunda:properties>
             <camunda:validation>
               <camunda:constraint name="required" config="required" />
@@ -135,6 +151,7 @@
           </camunda:formField>
           <camunda:formField id="NacinNaplate" label="Način naplate članarine: " type="enum" defaultValue="${NacinNaplate}">
             <camunda:properties>
+              <camunda:property id="readonly" value="false" />
               <camunda:property id="multiselect" value="false" />
             </camunda:properties>
             <camunda:value id="Citaoci" name="Citaoci" />

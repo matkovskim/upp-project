@@ -10,6 +10,6 @@ export class ScientificAreaService {
 
   constructor(private httpClient: HttpClient, private http : Http) { }
 
-  getAllScientificAreas(){ return this.httpClient.get('http://localhost:8080/scientificArea') as Observable<any> }
+  getAllScientificAreas(){ return this.httpClient.get('https://localhost:8080/scientificArea') as Observable<any> }
 
 }

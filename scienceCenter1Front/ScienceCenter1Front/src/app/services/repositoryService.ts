@@ -20,35 +20,31 @@ export class RepositoryService {
   }
 
   startMagazineProcess(){
-    return this.httpClient.get('http://localhost:8080/welcome/startCreatingMagazine') as Observable<any>
+    return this.httpClient.get('https://localhost:8080/welcome/startCreatingMagazine') as Observable<any>
   }
 
   startProcessingTextProcess(){
-    return this.httpClient.get('http://localhost:8080/welcome/startProcessingText') as Observable<any>
+    return this.httpClient.get('https://localhost:8080/welcome/startProcessingText') as Observable<any>
   }
 
   postData(data, taskId) {
-    return this.httpClient.post("http://localhost:8080/welcome/post/".concat(taskId), data) as Observable<any>;
+    return this.httpClient.post("https://localhost:8080/welcome/post/".concat(taskId), data) as Observable<any>;
   }
   
   loginUser(user) {
-    return this.httpClient.post("http://localhost:8080/auth/login", user) as Observable<any>;
+    return this.httpClient.post("https://localhost:8080/auth/login", user) as Observable<any>;
   }
  
-  loginGuest() {
-    return this.httpClient.get("http://localhost:8080/auth/loginGuest") as Observable<any>;
-  }
-
   getAllMyTasks(){
-    return this.httpClient.get('http://localhost:8080/welcome/getAllMyTasks/') as Observable<any>
+    return this.httpClient.get('https://localhost:8080/welcome/getAllMyTasks/') as Observable<any>
   }
   
   getMyNextTask(procesId) {
-    return this.httpClient.get("http://localhost:8080/welcome/getTasks/".concat(procesId)) as Observable<any>;
+    return this.httpClient.get("https://localhost:8080/welcome/getTasks/".concat(procesId)) as Observable<any>;
   }
 
   getTaskInfo(taskId : string){
-    return this.httpClient.get('http://localhost:8080/welcome/getTask/'.concat(taskId)) as Observable<any>
+    return this.httpClient.get('https://localhost:8080/welcome/getTask/'.concat(taskId)) as Observable<any>
   }
 
 }
