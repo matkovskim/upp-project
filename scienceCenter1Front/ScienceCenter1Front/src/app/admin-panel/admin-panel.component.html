@@ -25,8 +25,8 @@
             </thead>
             <tbody>
                 <tr *ngFor="let user of users">
-                    <td>{{user.name}}</td>
-                    <td>{{user.lastName}}</td>
+                    <td *ngIf="user.authorities[0]['authority']!='ROLE_GUEST'">{{user.name}}</td>
+                    <td *ngIf="user.authorities[0]['authority']!='ROLE_GUEST'">{{user.lastName}}</td>
                     <td *ngIf="user.authorities[0]['authority']=='ROLE_ADMIN'"> administrator</td>
                     <td *ngIf="user.authorities[0]['authority']=='ROLE_EDITOR'"> urednik</td>
                     <td *ngIf="user.authorities[0]['authority']=='ROLE_REWIEWER'"> recenzent</td>

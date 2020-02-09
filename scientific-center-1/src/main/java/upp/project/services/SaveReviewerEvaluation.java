@@ -28,12 +28,18 @@ public class SaveReviewerEvaluation implements JavaDelegate {
 		String commentForEditorString = (String) execution.getVariable("komentarZaUrednike");
 		String commentAboutArticleString = (String) execution.getVariable("komentarORadu");
 		String recomendationForPublishingString = (String) execution.getVariable("preporukaZaObjavljivanje");
-		System.out.println("recomendationForPublishingString: " + recomendationForPublishingString);
-		
+
 		Long articleId = (Long) execution.getVariable("articleId");
 
 		Comment commentForEditor=new Comment(commentForEditorString);
 		Comment commentAboutArticle=new Comment(commentAboutArticleString);
+		
+		if(recomendationForPublishingString.equals("prihvatitiUzManjeIspravke")) {
+			recomendationForPublishingString="prihvatiti uz manje ispravke";
+		}
+		if(recomendationForPublishingString.equals("uslovnoPrihvatiUzVeceIspravke")) {
+			recomendationForPublishingString="uslovno prihvati uz vece ispravke";
+		}
 		Comment recomendationForPublishing=new Comment(recomendationForPublishingString);
 		commentRepository.save(commentForEditor);
 		commentRepository.save(commentAboutArticle);
@@ -50,7 +56,7 @@ public class SaveReviewerEvaluation implements JavaDelegate {
 		
 		Set<Comment>newPublishingRecomendation=new HashSet<Comment>();
 		newPublishingRecomendation.add(recomendationForPublishing);
-		article.setCoomentsAboutArticle(newPublishingRecomendation);
+		article.setRecomendationsList(newPublishingRecomendation);
 		
 		articleRepository.save(article);
 

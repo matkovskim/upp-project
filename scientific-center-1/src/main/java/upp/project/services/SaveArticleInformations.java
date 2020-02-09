@@ -23,19 +23,19 @@ import upp.project.repository.ScientificAreaRepository;
 public class SaveArticleInformations implements JavaDelegate {
 
 	@Autowired
-	MagazineRepository magazineRepository;
+	private MagazineRepository magazineRepository;
 	
 	@Autowired
-	RegistredUserRepository registredUserRepository;
+	private RegistredUserRepository registredUserRepository;
 	
 	@Autowired
-	ArticleRepository articleRepository;
+	private ArticleRepository articleRepository;
 	
 	@Autowired
-	ScientificAreaRepository scientificAreaRepository;
+	private ScientificAreaRepository scientificAreaRepository;
 	
 	@Autowired
-	PublicationRepository publicationRepository;
+	private PublicationRepository publicationRepository;
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
@@ -62,9 +62,7 @@ public class SaveArticleInformations implements JavaDelegate {
 		String text=(String)execution.getVariable("tekstRada");
 		
 		ScientificArea scientificArea=scientificAreaRepository.findByName(scientificAreaName);	
-		
-		System.out.println("Naucna oblast je: "+scientificAreaName);
-		
+				
 		Publication publication=publicationRepository.findByMagazineAndPublished(magazine, false);
 
 		Article article=new Article();

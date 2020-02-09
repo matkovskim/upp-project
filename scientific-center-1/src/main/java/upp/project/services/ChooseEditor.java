@@ -50,13 +50,21 @@ public class ChooseEditor implements JavaDelegate {
 		Authority editorAuthority = this.authorityService.findByName(Role.ROLE_EDITOR);
 		List<RegistredUser>editors=registredUserRepository.userWithSpecificAuthorityForArea(scientificArea, editorAuthority);
 	
-		if(editors.size()==0) {
+		//ako je glavni urednik u listi izbaci ga
+		List<RegistredUser>editordWithoutMain=new ArrayList<RegistredUser>();
+		for(RegistredUser ru:editors) {
+			if(!ru.getUsername().equals(mainEditor)) {
+				editordWithoutMain.add(ru);
+			}
+		}
+		
+		if(editordWithoutMain.size()==0) {
 			System.out.println("Nema urednika, urednik postaje glavni urednik");
 			execution.setVariable("urednikOblasti", mainEditor);
 		}
 		else {
 			System.out.println("Postavlajm nekog urednika");
-			execution.setVariable("urednikOblasti", editors.get(0).getUsername());
+			execution.setVariable("urednikOblasti", editordWithoutMain.get(0).getUsername());
 		}
 		
 		System.out.println("UREDNIK NAUCNE OBLASTI JE: "+(String)execution.getVariable("urednikOblasti"));

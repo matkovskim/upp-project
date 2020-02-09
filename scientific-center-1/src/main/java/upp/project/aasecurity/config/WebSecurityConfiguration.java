@@ -57,9 +57,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
-		.authorizeRequests().antMatchers(HttpMethod.GET, "/", "/auth/**", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
+		.authorizeRequests().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
 						"/**/*.css", "/**/*.js").permitAll()
-		.antMatchers("/auth/**").permitAll()
+		//.antMatchers("/auth/**").permitAll()
 		.antMatchers("/registration/**").permitAll()
 		//.anyRequest().authenticated().and() //zbog camunde stavljam permitAll
 		.anyRequest().permitAll().and()
@@ -85,8 +85,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(
                 HttpMethod.GET,
                 "/welcome/startRegistration",
-                "/welcome/getTasks/**",
-                "/files/**"
+                "/files/**",
+                "/auth/**"
         );
         
         web.ignoring().antMatchers(

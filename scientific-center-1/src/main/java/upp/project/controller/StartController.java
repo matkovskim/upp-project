@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import upp.project.aasecurity.authentication.SpringContext;
 import upp.project.model.FormFieldsDto;
 import upp.project.model.FormSubmissionDto;
 import upp.project.model.StringDTO;
@@ -69,9 +70,6 @@ public class StartController {
 	 */
 	@GetMapping(path = "/startRegistration", produces = "application/json")
 	public @ResponseBody FormFieldsDto startRegistration(HttpServletRequest request) {
-		if(!identityService.getCurrentAuthentication().getUserId().equals("gost")) {
-			return null;
-		}
 		ProcessInstance pi = runtimeService.startProcessInstanceByKey("Registracija");
 		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).active().list().get(0);
 		taskService.saveTask(task);
@@ -144,9 +142,10 @@ public class StartController {
 	@GetMapping(path = "/getAllMyTasks", produces = "application/json")
 	public @ResponseBody ResponseEntity<List<TaskDto>> allMyTasks(HttpServletRequest request) {
 
-		//String token = tokenProvider.getToken(request);
-		
+		// String token = tokenProvider.getToken(request);
+
 		String username = identityService.getCurrentAuthentication().getUserId();
+		System.out.println("USERNAME: " + username);
 		List<Task> myTasks = taskService.createTaskQuery().taskAssignee(username).active().list();
 		List<Group> userGroups = identityService.createGroupQuery().groupMember(username).list();
 		for (Group g : userGroups) {
@@ -171,25 +170,20 @@ public class StartController {
 	/**
 	 * Vraca jedan moj sledeci task zajedno sa poljima forme
 	 */
+	@PreAuthorize("hasRole('ROLE_EDITOR') or hasRole('ROLE_REG_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_REWIEWER')")
 	@GetMapping(path = "/getTasks/{processInstanceId}", produces = "application/json")
 	public @ResponseBody FormFieldsDto get(@PathVariable String processInstanceId, HttpServletRequest request) {
 
-		//String token = tokenProvider.getToken(request);
-		//String username = tokenProvider.getUsernameFromToken(token);
 		String username = identityService.getCurrentAuthentication().getUserId();
-		System.out.println("ulogovan je::::: " +username);
-		
-		Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
+		Task myTasks = taskService.createTaskQuery().taskAssignee(username).active().singleResult();
 
-		if (task != null && (task.getAssignee() == null || task.getAssignee().equals(username))) {
-			TaskFormData tfd = formService.getTaskFormData(task.getId());
+		if (myTasks != null) {
+			TaskFormData tfd = formService.getTaskFormData(myTasks.getId());
 			List<FormField> properties = tfd.getFormFields();
-			TaskDto t = new TaskDto(task.getId(), task.getProcessInstanceId(), task.getName(), task.getAssignee(),
-					properties);
-			return new FormFieldsDto(task.getId(), task.getProcessInstanceId(), properties);
+			return new FormFieldsDto(myTasks.getId(), myTasks.getProcessInstanceId(), properties);
+		} else {
+			return null;
 		}
-
-		return null;
 
 	}
 
@@ -233,7 +227,7 @@ public class StartController {
 		String fileName = uploadService.loadFile(procesId);
 		return ResponseEntity.ok(new StringDTO(fileName));
 	}
-	
+
 	@GetMapping("/files/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
@@ -244,5 +238,5 @@ public class StartController {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
 				.body(file);
 	}
-	
+
 }

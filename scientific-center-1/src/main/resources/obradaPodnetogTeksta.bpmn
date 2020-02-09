@@ -738,7 +738,7 @@
             <camunda:properties>
               <camunda:property id="readonly" value="true" />
               <camunda:property id="multiselect" value="false" />
-              <camunda:property id="pdf" value="ture" />
+              <camunda:property id="pdf" value="true" />
             </camunda:properties>
           </camunda:formField>
           <camunda:formField id="komentarORadu" label="Komentar o radu:" type="string">
@@ -754,6 +754,7 @@
           <camunda:formField id="preporukaZaObjavljivanje" label="Prporuka za objavljivanje:" type="enum">
             <camunda:properties>
               <camunda:property id="readonly" value="false" />
+              <camunda:property id="multiselect" value="false" />
             </camunda:properties>
             <camunda:value id="prihvati" name="prihvati" />
             <camunda:value id="prihvatitiUzManjeIspravke" name="prihvatiti uz manje ispravke" />
@@ -1106,10 +1107,6 @@
       <bpmn:text>Glavni urednik postaje recenzent i dobija zadatak da recenzira rad</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1v6qm3x" sourceRef="Task_1u9kqmp" targetRef="TextAnnotation_02r5vtz" />
-    <bpmn:textAnnotation id="TextAnnotation_0e500na">
-      <bpmn:text>DODATI VALIDACIJU</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_1leii8b" sourceRef="UserTask_144cxs3" targetRef="TextAnnotation_0e500na" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ObradaTeksta">
@@ -1817,13 +1814,6 @@
         <di:waypoint x="9490" y="190" />
         <di:waypoint x="5100" y="190" />
         <di:waypoint x="5100" y="490" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="TextAnnotation_0e500na_di" bpmnElement="TextAnnotation_0e500na">
-        <dc:Bounds x="4110" y="680" width="99.99999822778292" height="39.48896631823461" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_1leii8b_di" bpmnElement="Association_1leii8b">
-        <di:waypoint x="4100" y="760" />
-        <di:waypoint x="4141" y="719" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1tpul5z_di" bpmnElement="SequenceFlow_1tpul5z">
         <di:waypoint x="4590" y="825" />

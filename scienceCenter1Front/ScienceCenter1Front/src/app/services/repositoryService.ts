@@ -34,6 +34,10 @@ export class RepositoryService {
   loginUser(user) {
     return this.httpClient.post("http://localhost:8080/auth/login", user) as Observable<any>;
   }
+ 
+  loginGuest() {
+    return this.httpClient.get("http://localhost:8080/auth/loginGuest") as Observable<any>;
+  }
 
   getAllMyTasks(){
     return this.httpClient.get('http://localhost:8080/welcome/getAllMyTasks/') as Observable<any>

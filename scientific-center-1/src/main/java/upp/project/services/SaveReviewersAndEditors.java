@@ -20,9 +20,10 @@ import upp.project.repository.RegistredUserRepository;
 public class SaveReviewersAndEditors implements JavaDelegate {
 
 	@Autowired
-	MagazineRepository magazineRepository;
+	private MagazineRepository magazineRepository;
+	
 	@Autowired
-	RegistredUserRepository registredUserRepository;
+	private RegistredUserRepository registredUserRepository;
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {

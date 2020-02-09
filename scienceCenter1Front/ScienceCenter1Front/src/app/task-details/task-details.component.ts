@@ -84,7 +84,7 @@ export class TaskDetailsComponent implements OnInit {
           if (field.type.name == 'string') {
             this.stringLabels.push(field.label);
             this.strings.push(field);
-            if (field.properties[Object.keys(field.properties)[2]] == 'true') {
+            if (field.properties["pdf"] == "true") {
               this.pdf.push('true')
             }
             else {
@@ -108,6 +108,8 @@ export class TaskDetailsComponent implements OnInit {
               this.selectedOneEnumItems.push({ item_id: field.defaultValue, item_text: field.defaultValue })
             }
             this.selectedItems.push(this.selectedOneEnumItems);
+            console.log(this.pdf);
+            console.log(this.readonlyList);
           }
 
           //trazi link do pdf-a
@@ -187,6 +189,7 @@ console.log("TU SAM");
   getNext(value) {
     let o = new Array();
     for (let property in value) {
+      console.log(property +"a tip je "+value[property]);
       if (typeof (value[property]) == "object") {
         console.log(value[property]);
         for (var index = 0; index < value[property].length; index++) {

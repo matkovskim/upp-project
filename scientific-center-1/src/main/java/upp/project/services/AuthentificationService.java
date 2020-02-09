@@ -1,5 +1,6 @@
 package upp.project.services;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -8,9 +9,13 @@ import java.util.Set;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.IdentityService;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.history.HistoricProcessInstance;
 import org.camunda.bpm.engine.identity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +46,13 @@ public class AuthentificationService {
 
 	@Autowired
 	private IdentityService identityService;
-
+	
+	@Autowired
+	private RuntimeService runtimeService;
+	
+	@Autowired
+	private HistoryService historyService;
+	
 	public HashMap<String, Object> mapListToDto(List<FormSubmissionDto> list) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		for (FormSubmissionDto temp : list) {
@@ -196,4 +207,25 @@ public class AuthentificationService {
 			System.out.println("Korisnik vec postoji");
 		}
 	}
+	
+	/**
+	 * Unistavanje zapocetih procesa starijih od jednog dana
+	 */
+	@Scheduled(initialDelay = 1800000, fixedRate = 1800000)
+	//@Scheduled(initialDelay = 30000, fixedRate = 30000)
+	public void checkOldRegistrations() {
+		//uzimam sve aktivne procese
+		List<HistoricProcessInstance>hpi=historyService.createHistoricProcessInstanceQuery().active().unfinished().list();
+		Date yesterday=new Date(System.currentTimeMillis()-24*60*60*1000);
+		//Date yesterday=new Date(System.currentTimeMillis()-60*1000);
+		System.out.println(yesterday);
+		System.out.println(new Date());
+		for(HistoricProcessInstance h:hpi) {
+			Date startDate=h.getStartTime();
+			if(startDate.before(yesterday)) {
+				runtimeService.suspendProcessInstanceById(h.getId());
+			}
+		}
+	}
+	
 }

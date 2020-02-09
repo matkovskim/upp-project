@@ -28,6 +28,7 @@ public class SetCommentsHandler implements TaskListener {
 				delegateTask.getExecution().setVariable("postavljeniKomentariUredniku", comment);
 
 				String recomendation = (String) delegateTask.getExecution().getVariable("preporukaZaObjavljivanje");
+				System.out.println("recomendation "+ recomendation);
 				delegateTask.getExecution().setVariable("postavljenePreporukeUredniku", recomendation);
 			} else {
 				setCommentAndRecomendation(delegateTask);

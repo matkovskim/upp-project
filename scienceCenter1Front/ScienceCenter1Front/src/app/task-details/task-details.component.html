@@ -14,7 +14,7 @@
                         <div class="col-4 mt-3" *ngIf="pdf[i]=='true' && readonlyList[i]==false">
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" ngModel name={{string.id}} (change)="selectFile($event)">
+                                    <input type="file" class="custom-file-input" (change)="selectFile($event)">
                                     <label class="custom-file-label">{{fileName}}</label>
                                 </div>
                             </div>

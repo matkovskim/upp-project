@@ -65,7 +65,7 @@
       <bpmn:outgoing>SequenceFlow_0qzt5xk</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="SequenceFlow_0qzt5xk" sourceRef="Task_0ca37ph" targetRef="Task_1usao3c" />
-    <bpmn:userTask id="Task_12zh0cz" name="Provera podataka " camunda:assignee="admin">
+    <bpmn:userTask id="Task_12zh0cz" name="Provera podataka " camunda:candidateGroups="administratori">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="NazivCasopisa" label="Naziv čadasopisa: *" type="string" defaultValue="${NazivCasopisa}">

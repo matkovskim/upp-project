@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
 import { TokenStorageService } from '../authentication/token-storage.service';
 import { Router } from '@angular/router';
+import { RepositoryService } from '../services/repositoryService';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,8 +15,8 @@ export class NavBarComponent implements OnInit {
   private loggedEditor:any;
   private loggedAdmin:any;
   private loggedUser:any;
-  constructor(private tokenStorage: TokenStorageService, private router: Router) {
-
+  constructor(private tokenStorage: TokenStorageService, private repositoryService:RepositoryService, private router: Router) {
+    
   }
 
   ngOnInit() {

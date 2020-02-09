@@ -9,6 +9,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.camunda.bpm.engine.RuntimeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ import upp.project.controller.StartController;
 
 @Service
 public class UploadService {
+	
+	@Autowired
+	private RuntimeService runtimeService;
 
 	private Map<String, String> files = new HashMap<String, String>();
 
@@ -37,6 +42,7 @@ public class UploadService {
 		try {
 			Files.copy(file.getInputStream(), Paths.get("upload-dir/"+procesId).resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
 			files.put(procesId, file.getOriginalFilename());
+			runtimeService.setVariable(procesId, "tekstRada", MvcUriComponentsBuilder.fromMethodName(StartController.class, "getFile", procesId).build().toString());
 		} catch (Exception e) {
 			throw new RuntimeException("FAIL!");
 		}
