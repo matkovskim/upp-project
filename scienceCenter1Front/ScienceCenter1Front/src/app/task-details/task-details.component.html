@@ -9,7 +9,7 @@
                             <label for={{stringLabels[i]}}>{{stringLabels[i]}}</label>
                         </div>
                         <div class="col-4 mt-3" *ngIf="pdf[i]=='false'">
-                            <input class="form-control" type="text" name={{string.id}} [readonly]="readonlyList[i]" ngModel="{{string.value.value}}">
+                            <input class="form-control" type="text" name={{string.id}} [readonly]="readonlyList[i]" ngModel="{{string.defaultValue}}">
                         </div>
                         <div class="col-4 mt-3" *ngIf="pdf[i]=='true' && readonlyList[i]==false">
                             <div class="input-group">

@@ -95,9 +95,10 @@ export class TaskDetailsComponent implements OnInit {
             this.enumList = [];
             this.selectedOneEnumItems = [];
             this.enumValues = Object.keys(field.type.values);
+            console.log(field.type.values);
             this.labels.push(field.label);
             for (const value of this.enumValues) {
-              this.enumList.push({ item_id: value, item_text: value });
+              this.enumList.push({ item_id: value, item_text: field.type.values[value] });
             }
             this.multiselect.push(field.properties[Object.keys(field.properties)[1]]);
             this.dropdownList.push(this.enumList);
@@ -161,7 +162,7 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   onSubmit(value) {
-
+console.log("TU SAM");
     if (this.containsNotReadonlyPDF() == true) {
       this.uploadService.sendPDF(this.currentFileUpload, this.processInstance).subscribe(
         event => {
@@ -187,14 +188,16 @@ export class TaskDetailsComponent implements OnInit {
     let o = new Array();
     for (let property in value) {
       if (typeof (value[property]) == "object") {
+        console.log(value[property]);
         for (var index = 0; index < value[property].length; index++) {
           if (index != 0) {
             this.val = this.val + ",";
-            var something = value[property][index][Object.keys(value[property][index])[1]];
+            var something = value[property][index][Object.keys(value[property][index])[0]];
             this.val = this.val + something;
           }
           else {
-            var something = value[property][index][Object.keys(value[property][index])[1]];
+            console.log(value[property][index][Object.keys(value[property][index])[0]]);
+            var something = value[property][index][Object.keys(value[property][index])[0]];
             this.val = this.val + something;
           }
         }

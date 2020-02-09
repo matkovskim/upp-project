@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class UploadService {
 
 	public void store(MultipartFile file, String procesId) {
 		try {
-			Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+			Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
 			files.put(procesId, file.getOriginalFilename());
 		} catch (Exception e) {
 			throw new RuntimeException("FAIL!");
