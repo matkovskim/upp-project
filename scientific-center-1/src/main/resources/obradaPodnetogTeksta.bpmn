@@ -446,7 +446,7 @@
     <bpmn:userTask id="UserTask_178yyyw" name="Autor ispravlja rad" camunda:assignee="${starter}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="komentarORadu" label="Komentari glavnog urednik:" type="string" defaultValue="${postavljeniKomentariAutoru}">
+          <camunda:formField id="komentarORadu" label="Komentari glavnog urednika:" type="string" defaultValue="${postavljeniKomentariAutoru}">
             <camunda:properties>
               <camunda:property id="readonly" value="true" />
             </camunda:properties>

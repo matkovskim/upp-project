@@ -1,0 +1,12 @@
+.wrapper {
+    min-height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+}
+.inner {
+    min-width: 850px;
+    margin: auto;
+    padding-top: 38px;
+    padding-bottom: 48px;
+}

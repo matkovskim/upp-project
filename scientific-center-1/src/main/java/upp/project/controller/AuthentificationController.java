@@ -75,7 +75,6 @@ public class AuthentificationController {
 			authentication = authenticationManger
 					.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (AuthenticationException e) {
-			e.printStackTrace();
 			return new ResponseEntity<>("Kredencijali se ne poklapaju!", HttpStatus.BAD_REQUEST);
 		}
 

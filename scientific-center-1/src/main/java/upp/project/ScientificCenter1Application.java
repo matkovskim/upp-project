@@ -3,6 +3,7 @@ package upp.project;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -46,23 +47,48 @@ public class ScientificCenter1Application {
 	
 	@PostConstruct
 	private void createUserGroup() {
-		Group usersGroup=identityService.newGroup("korisnici");
-		identityService.saveGroup(usersGroup);	
-	
-		Group recenzentiGroup=identityService.newGroup("recenzenti");
-		identityService.saveGroup(recenzentiGroup);
 		
-		Group administratoriGroup = identityService.newGroup("administratori");
-		identityService.saveGroup(administratoriGroup);
+		List<Group> groups = identityService.createGroupQuery().groupIdIn("korisnici", "recenzenti", "administratori", "urednici", "gosti").list();
+		if(groups.isEmpty() ) {
 		
-		Group uredniciGroup = identityService.newGroup("urednici");
-		identityService.saveGroup(uredniciGroup);
+			Group usersGroup=identityService.newGroup("korisnici");
+			identityService.saveGroup(usersGroup);	
 		
-		Group gostGroup = identityService.newGroup("gosti");
-		identityService.saveGroup(gostGroup);
+			Group recenzentiGroup=identityService.newGroup("recenzenti");
+			identityService.saveGroup(recenzentiGroup);
+			
+			Group administratoriGroup = identityService.newGroup("administratori");
+			identityService.saveGroup(administratoriGroup);
+			
+			Group uredniciGroup = identityService.newGroup("urednici");
+			identityService.saveGroup(uredniciGroup);
+			
+			Group gostGroup = identityService.newGroup("gosti");
+			identityService.saveGroup(gostGroup);
+		}
 		
-		registerInCamunda(new RegistredUser("gost", "gost", "gost", "gost", "gost@gmail.com"));
-		identityService.createMembership("gost", "gosti");
+		List<User> users = identityService.createUserQuery().userIdIn("gost", "urednik1", "urednik2", "recenzent1", "recenzent2", "recenzent3", "recenzent4", "korisnik", "admin" ).list();
+		if(users.isEmpty() ) {
+			registerInCamunda(new RegistredUser("gost", "gost", "gost", "gost", "gost@gmail.com"));
+			registerInCamunda(new RegistredUser("urednik1", "admin", "Urednik1", "Urdnikovic", "matkovskim@gmail.com"));
+			registerInCamunda(new RegistredUser("urednik2", "admin", "Urednik2", "Urdnikovic", "matkovskim@gmail.com"));
+			registerInCamunda(new RegistredUser("recenzent1", "admin", "Recenzent1", "Recenzic", "matkovskim@gmail.com"));
+			registerInCamunda(new RegistredUser("recenzent2", "admin", "Recenzent2", "Recenzic", "matkovskim@gmail.com"));
+			registerInCamunda(new RegistredUser("recenzent3", "admin", "Recenzent3", "Recenzic", "matkovskim@gmail.com"));
+			registerInCamunda(new RegistredUser("recenzent4", "admin", "Recenzent4", "Recenzic", "matkovskim@gmail.com"));
+			registerInCamunda(new RegistredUser("korisnik", "admin", "Korisnik", "Urdnikovic", "matkovskim@gmail.com"));
+			registerInCamunda(new RegistredUser("admin", "admin", "Marijana", "Matkovski", "matkovskim@gmail.com"));
+			
+			identityService.createMembership("urednik1", "urednici");
+			identityService.createMembership("urednik2", "urednici");
+			identityService.createMembership("recenzent1", "recenzenti");
+			identityService.createMembership("recenzent2", "recenzenti");
+			identityService.createMembership("recenzent3", "recenzenti");
+			identityService.createMembership("recenzent4", "recenzenti");
+			identityService.createMembership("korisnik", "korisnici");
+			identityService.createMembership("gost", "gosti");
+			identityService.createMembership("admin", "administratori");
+		}
 		
 	}
 

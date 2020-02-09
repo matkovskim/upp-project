@@ -21,12 +21,21 @@ import upp.project.controller.StartController;
 @Service
 public class UploadService {
 
-	private final Path rootLocation = Paths.get("upload-dir");
 	private Map<String, String> files = new HashMap<String, String>();
 
 	public void store(MultipartFile file, String procesId) {
+		
+		if(Files.exists(Paths.get("upload-dir/"+procesId))) {
+			FileSystemUtils.deleteRecursively(Paths.get("upload-dir/"+procesId).toFile());
+		}
 		try {
-			Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
+			Files.createDirectory(Paths.get("upload-dir/"+procesId));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+			Files.copy(file.getInputStream(), Paths.get("upload-dir/"+procesId).resolve(file.getOriginalFilename()), StandardCopyOption.REPLACE_EXISTING);
 			files.put(procesId, file.getOriginalFilename());
 		} catch (Exception e) {
 			throw new RuntimeException("FAIL!");
@@ -40,7 +49,7 @@ public class UploadService {
 	
 	public Resource getFile(String procesId) {
 		try {
-			Path file = rootLocation.resolve(files.get(procesId));
+			Path file = Paths.get("upload-dir/"+procesId).resolve(files.get(procesId));
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
@@ -52,15 +61,4 @@ public class UploadService {
 		}
 	}
 	
-	public void deleteAll() {
-		FileSystemUtils.deleteRecursively(rootLocation.toFile());
-	}
-
-	public void init() {
-		try {
-			Files.createDirectory(rootLocation);
-		} catch (IOException e) {
-			throw new RuntimeException("Could not initialize storage!");
-		}
-	}
 }

@@ -1,13 +1,15 @@
-<div class="container" style="margin-top: 25px; margin-left: -2px;">
-    <h3>Vaši zadaci</h3>
+<div class="wrapper" style="background-image: url('assets/images/bg-registration-form-2.jpg');">
+    <div class="inner" style="margin-top: -20px;">
+            <h3>Vaši zadaci</h3>
 
-    <table>
+            <table>
 
-        <tr *ngFor="let task of tasks">
-            <td>{{task.name}}: </td>
-            <td><button class="btn btn-outline-dark my-2 my-sm-0" (click)="complete(task.taskId)">Pogledaj
-                    detalje</button></td>
-        </tr>
+                <tr *ngFor="let task of tasks">
+                    <td>{{task.name}}: </td>
+                    <td><button class="btn btn-outline-dark my-2 my-sm-0" (click)="complete(task.taskId)">Pogledaj
+                            detalje</button></td>
+                </tr>
 
-    </table>
+            </table>
+    </div>
 </div>
