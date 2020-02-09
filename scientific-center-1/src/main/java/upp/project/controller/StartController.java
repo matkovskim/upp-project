@@ -17,6 +17,8 @@ import org.camunda.bpm.engine.identity.Group;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,36 +30,43 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import upp.project.aasecurity.JwtProvider;
 import upp.project.model.FormFieldsDto;
 import upp.project.model.FormSubmissionDto;
+import upp.project.model.StringDTO;
 import upp.project.model.TaskDto;
 import upp.project.services.AuthentificationService;
+import upp.project.services.UploadService;
 
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping(value = "/welcome", produces = MediaType.APPLICATION_JSON_VALUE)
 public class StartController {
-	
+
 	@Autowired
-	IdentityService identityService;
+	private IdentityService identityService;
 
 	@Autowired
 	private RuntimeService runtimeService;
 
 	@Autowired
-	TaskService taskService;
+	private TaskService taskService;
 
 	@Autowired
-	FormService formService;
+	private FormService formService;
 
 	@Autowired
-	JwtProvider tokenProvider;
+	private JwtProvider tokenProvider;
 
 	@Autowired
-	AuthentificationService authentificationService;
+	private AuthentificationService authentificationService;
+
+	@Autowired
+	private UploadService uploadService;
 
 	/**
 	 * Pokretanje procesa registracije, vraca prvu formu
@@ -65,7 +74,7 @@ public class StartController {
 	@GetMapping(path = "/startRegistration", produces = "application/json")
 	public @ResponseBody FormFieldsDto startRegistration(HttpServletRequest request) {
 		String token = tokenProvider.getToken(request);
-		if(token!=null) {
+		if (token != null) {
 			return null;
 		}
 		identityService.setAuthenticatedUserId("gost");
@@ -95,7 +104,7 @@ public class StartController {
 		runtimeService.setVariable(pi.getId(), "starterUser", username);
 		return new FormFieldsDto(task.getId(), pi.getId(), properties);
 	}
-	
+
 	/**
 	 * Pokretanje procesa obrade podnetog teksta, vraca prvu formu
 	 */
@@ -124,7 +133,8 @@ public class StartController {
 		HashMap<String, Object> map = authentificationService.mapListToDto(dto);
 		for (Map.Entry mapElement : map.entrySet()) {
 			String key = (String) mapElement.getKey();
-			if (key.equals("NaucneOblasti") || key.equals("Recenzenti") || key.equals("Urednici") || key.equals("izaborRecenzenata")) {
+			if (key.equals("NaucneOblasti") || key.equals("Recenzenti") || key.equals("Urednici")
+					|| key.equals("izaborRecenzenata")) {
 				mapElement.setValue(null);
 			}
 		}
@@ -145,8 +155,8 @@ public class StartController {
 	}
 
 	/**
-	 * Vraca sve moje taskove zajedno sa poljima forme za trenutno
-	 * ulogovanog korisnika
+	 * Vraca sve moje taskove zajedno sa poljima forme za trenutno ulogovanog
+	 * korisnika
 	 */
 	@PreAuthorize("hasRole('ROLE_EDITOR') or hasRole('ROLE_REG_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_REWIEWER')")
 	@GetMapping(path = "/getAllMyTasks", produces = "application/json")
@@ -154,12 +164,12 @@ public class StartController {
 
 		String token = tokenProvider.getToken(request);
 		String username = tokenProvider.getUsernameFromToken(token);
-		
+
 		List<Task> myTasks = taskService.createTaskQuery().taskAssignee(username).list();
-		List<Group>userGroups=identityService.createGroupQuery().groupMember(username).list();
-		for(Group g: userGroups) {
+		List<Group> userGroups = identityService.createGroupQuery().groupMember(username).list();
+		for (Group g : userGroups) {
 			List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup(g.getId()).list();
-			for(Task t:tasks) {
+			for (Task t : tasks) {
 				myTasks.add(t);
 			}
 		}
@@ -168,13 +178,14 @@ public class StartController {
 		for (Task task : myTasks) {
 			TaskFormData tfd = formService.getTaskFormData(task.getId());
 			List<FormField> properties = tfd.getFormFields();
-			TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee(), properties);
+			TaskDto t = new TaskDto(task.getId(), task.getProcessInstanceId(), task.getName(), task.getAssignee(),
+					properties);
 			dtos.add(t);
 		}
 
 		return new ResponseEntity(dtos, HttpStatus.OK);
 	}
-	
+
 	/**
 	 * Vraca jedan moj sledeci task zajedno sa poljima forme
 	 */
@@ -189,7 +200,8 @@ public class StartController {
 		if (task != null && (task.getAssignee() == null || task.getAssignee().equals(username))) {
 			TaskFormData tfd = formService.getTaskFormData(task.getId());
 			List<FormField> properties = tfd.getFormFields();
-			TaskDto t = new TaskDto(task.getId(), task.getName(), task.getAssignee(), properties);
+			TaskDto t = new TaskDto(task.getId(), task.getProcessInstanceId(), task.getName(), task.getAssignee(),
+					properties);
 			return new FormFieldsDto(task.getId(), task.getProcessInstanceId(), properties);
 		}
 
@@ -206,11 +218,47 @@ public class StartController {
 
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 		TaskFormData tfd = formService.getTaskFormData(taskId);
-		
+
 		List<FormField> properties = tfd.getFormFields();
-		TaskDto t = new TaskDto(taskId, task.getName(), task.getAssignee(), properties);
+		TaskDto t = new TaskDto(taskId, task.getProcessInstanceId(), task.getName(), task.getAssignee(), properties);
 
 		return new ResponseEntity(t, HttpStatus.OK);
 	}
 
+	/**
+	 * Upload pdf-a
+	 */
+	@PostMapping("/post")
+	public ResponseEntity<?> handleFileUpload(@RequestParam("file") MultipartFile file,
+			@RequestParam("procesId") String procesId) {
+		String message = "";
+		try {
+			uploadService.store(file, procesId);
+			message = "You successfully uploaded " + file.getOriginalFilename() + "!";
+			return ResponseEntity.status(HttpStatus.OK).body(new StringDTO(message));
+		} catch (Exception e) {
+			e.printStackTrace();
+			message = "FAIL to upload " + file.getOriginalFilename() + "!";
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new StringDTO(message));
+		}
+
+	}
+
+	@GetMapping(path = "/getFile/{procesId}", produces = "application/json")
+	public @ResponseBody ResponseEntity<?> getFileLink(@PathVariable String procesId) {
+		String fileName = uploadService.loadFile(procesId);
+		return ResponseEntity.ok(new StringDTO(fileName));
+	}
+	
+	@GetMapping("/files/{filename:.+}")
+	@ResponseBody
+	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+		System.out.println("USAO");
+		System.out.println(filename);
+		Resource file = uploadService.getFile(filename);
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+				.body(file);
+	}
+	
 }

@@ -37,6 +37,9 @@ public class Article {
 	@Column
 	private String paperApstract;
 	
+	@Column
+	private String DOI;
+	
 	@ManyToOne
 	private ScientificArea scientificArea;
 	
@@ -164,6 +167,14 @@ public class Article {
 
 	public void setRecomendationsList(Set<Comment> recomendationsList) {
 		this.recomendationsList = recomendationsList;
+	}
+
+	public String getDOI() {
+		return DOI;
+	}
+
+	public void setDOI(String dOI) {
+		DOI = dOI;
 	}
 	
 }

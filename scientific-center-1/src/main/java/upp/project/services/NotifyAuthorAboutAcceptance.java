@@ -15,7 +15,7 @@ import upp.project.repository.ArticleRepository;
 import upp.project.repository.RegistredUserRepository;
 
 @Service
-public class NotifyAuthorAboutRejaction implements JavaDelegate {
+public class NotifyAuthorAboutAcceptance implements JavaDelegate {
 
 	@Autowired
 	private JavaMailSender javaMailSender;
@@ -35,7 +35,7 @@ public class NotifyAuthorAboutRejaction implements JavaDelegate {
 
 		Long articleId=(Long)execution.getVariable("articleId");
 		Article article=articleRepository.findById(articleId).get();
-		article.setActivated(false);
+		article.setActivated(true);
 		articleRepository.save(article);
 		
 		SimpleMailMessage mail = new SimpleMailMessage();
@@ -46,7 +46,7 @@ public class NotifyAuthorAboutRejaction implements JavaDelegate {
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Odbijanje rada");
 		mail.setText(
-				"Poštovani korisniče, Vaš rad u časopisu nije prihvaćen.");
+				"Poštovani korisniče, Vaš rad u časopisu je prihvaćen.");
 		javaMailSender.send(mail);
 	}
 

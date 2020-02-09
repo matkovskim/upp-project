@@ -7,6 +7,7 @@ import org.camunda.bpm.engine.form.FormField;
 public class TaskDto {
 	
 	String taskId;
+	String processId;
 	String name;
 	String assignee;
 	List<FormField> formFields;
@@ -15,12 +16,13 @@ public class TaskDto {
 		super();
 	}
 	
-	public TaskDto(String taskId, String name, String assignee, List<FormField> formFields) {
+	public TaskDto(String taskId, String processId, String name, String assignee, List<FormField> formFields) {
 		super();
 		this.taskId = taskId;
 		this.name = name;
 		this.assignee = assignee;
 		this.formFields = formFields;
+		this.processId=processId;
 	}
 
 	public TaskDto(String taskId, String name, String assignee) {
@@ -60,6 +62,14 @@ public class TaskDto {
 
 	public void setFormFields(List<FormField> formFields) {
 		this.formFields = formFields;
+	}
+
+	public String getProcessId() {
+		return processId;
+	}
+
+	public void setProcessId(String processId) {
+		this.processId = processId;
 	}
 
 }

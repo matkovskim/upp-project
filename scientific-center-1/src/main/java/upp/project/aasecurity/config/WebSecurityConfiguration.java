@@ -77,13 +77,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 HttpMethod.POST,
                 "/welcome/startRegistration",
                 "/welcome/post/**",
+                "/welcome/**",
                 "/auth/login/**",
                 "/registration/confirmation/**"
+                
         );
         web.ignoring().antMatchers(
                 HttpMethod.GET,
                 "/welcome/startRegistration",
-                "/welcome/getTasks/**"
+                "/welcome/getTasks/**",
+                "/files/**"
         );
         
         web.ignoring().antMatchers(
@@ -94,7 +97,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/favicon.ico",
                 "/**/*.html",
                 "/**/*.css",
-                "/**/*.js"
+                "/**/*.js",
+                "/**/*.pdf"
             );
 
     }

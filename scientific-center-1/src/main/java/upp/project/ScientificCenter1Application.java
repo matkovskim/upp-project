@@ -1,5 +1,9 @@
 package upp.project;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import javax.annotation.PostConstruct;
 
 import org.camunda.bpm.engine.IdentityService;
@@ -10,6 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.util.FileSystemUtils;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -23,8 +28,21 @@ public class ScientificCenter1Application {
 	IdentityService identityService;
 	
 	public static void main(String[] args) {
+		pdfFolders();
 		SpringApplication.run(ScientificCenter1Application.class, args);
 	}
+	
+	private static void pdfFolders() {
+		try {
+			if(Files.exists(Paths.get("upload-dir"))) {
+				FileSystemUtils.deleteRecursively(Paths.get("upload-dir").toFile());
+			}
+			Files.createDirectory(Paths.get("upload-dir"));
+		} catch (IOException e) {
+			throw new RuntimeException("Could not initialize storage!");
+		}
+	}
+	
 	
 	@PostConstruct
 	private void createUserGroup() {

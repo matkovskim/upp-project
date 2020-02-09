@@ -1,47 +1,66 @@
-<div *ngIf="task">
+<div class="wrapper" style="background-image: url('assets/images/bg-registration-form-2.jpg');">
+        <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativeValidate>
 
-    <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" ngNativeValidate>
+            <div class="container mt-5" style="margin-left: 2px;">
 
-        <div class="container" style="margin-top: 25px; margin-left: -2px;">
-            <h3>{{task.name}}</h3>
-            <div *ngFor="let field of task.formFields; let i = index">
-                <div class="row" style="padding-top: 4px;">
-                    <div class="col-4" *ngIf="field.type.name=='string'">
-                        <label for={{field.id}}> {{field.label}}</label>
-                    </div>
-                    <div class="col-4" *ngIf="field.type.name=='boolean'">
-                        <label for={{field.id}}> {{field.label}}</label>
-                    </div>
-                    <div class="col-4" *ngIf="field.type.name=='long'">
-                        <label for={{field.id}}> {{field.label}}</label>
-                    </div>
-                    <div class="col-4">
-                        <input class="form-control" [readonly]="readonlyList[i]" type="text" name={{field.id}} ngModel="{{field.value.value}}"
-                            *ngIf="field.type.name=='string'">
-                        <input type="checkbox" name={{field.id}} ngModel *ngIf="field.type.name=='boolean'">
-                        <input class="form-control" type="number" name={{field.id}} ngModel *ngIf="field.type.name=='long'">
+                <div *ngFor="let string of strings; let i = index">
+                    <div class="row">
+                        <div class="col-4 mt-3">
+                            <label for={{stringLabels[i]}}>{{stringLabels[i]}}</label>
+                        </div>
+                        <div class="col-4 mt-3" *ngIf="pdf[i]=='false'">
+                            <input class="form-control" type="text" name={{string.id}} [readonly]="readonlyList[i]" ngModel="{{string.value.value}}">
+                        </div>
+                        <div class="col-4 mt-3" *ngIf="pdf[i]=='true' && readonlyList[i]==false">
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" ngModel name={{string.id}} (change)="selectFile($event)">
+                                    <label class="custom-file-label">{{fileName}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 mt-3" *ngIf="pdf[i]=='true' && readonlyList[i]==true">
+                            
+                            <a class="btn btn-outline-dark my-2 my-sm-0" href="{{fileLink}}">Pogledaj PDF</a>
+                        </div>
+
                     </div>
                 </div>
-            </div>
 
-            <div *ngFor="let enumeration of enumerations; let i = index">
-                <div class="row">
-                    <div class="col-4">
-                        <label for={{labels[i]}}>{{labels[i]}}</label>
-                    </div>
-                    <div class="col-4" *ngIf="multiselect[i]=='true'">
-                        <ng-multiselect-dropdown [data]="dropdownList[i]" [settings]="dropdownMultiselectSettings" [(ngModel)]="selectedItems[i]" name={{names[i]}}></ng-multiselect-dropdown>
-                    </div>
-                    <div class="col-4" *ngIf="multiselect[i]=='false'">
-                        <ng-multiselect-dropdown [data]="dropdownList[i]" [settings]="dropdownSettings" [(ngModel)]="selectedItems[i]" name={{names[i]}}></ng-multiselect-dropdown>
+                <div *ngFor="let field of formFields">
+                    <div class="row" style="padding-top: 4px;">
+                        <div class="col-4" *ngIf="field.type.name=='boolean'">
+                            <label for={{field.id}}> {{field.label}}</label>
+                        </div>
+                        <div class="col-4" *ngIf="field.type.name=='long'">
+                            <label for={{field.id}}> {{field.label}}</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="checkbox" name={{field.id}} ngModel *ngIf="field.type.name=='boolean'">
+                            <input class="form-control" type="number" name={{field.id}} ngModel
+                                *ngIf="field.type.name=='long'">
+                        </div>
                     </div>
                 </div>
+
+                <div *ngFor="let enumeration of enumerations; let i = index">
+                    <div class="row">
+                        <div class="col-4 mt-3">
+                            <label for={{labels[i]}}>{{labels[i]}}</label>
+                        </div>
+                        <div class="col-4 mt-3" *ngIf="multiselect[i]=='true'">
+                            <ng-multiselect-dropdown [data]="dropdownList[i]" [settings]="dropdownMultiselectSettings"
+                                ngModel name={{names[i]}}></ng-multiselect-dropdown>
+                        </div>
+                        <div class="col-4 mt-3" *ngIf="multiselect[i]=='false'">
+                            <ng-multiselect-dropdown [data]="dropdownList[i]" [settings]="dropdownSettings" ngModel
+                                name={{names[i]}}></ng-multiselect-dropdown>
+                        </div>
+                    </div>
+                </div>
+
+                <input class="btn btn-outline-dark my-2 my-sm-0" type="submit" value="Nastavi">
             </div>
-
-
-            <input class="btn btn-outline-dark my-2 my-sm-0" type="submit" value="Završi zadatak">
-        </div>
-    </form>
-
+        </form>
 
 </div>
