@@ -1,12 +1,18 @@
 package upp.project.aasecurity.authentication;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.camunda.bpm.engine.IdentityService;
+import org.camunda.bpm.engine.identity.Group;
+import org.camunda.bpm.engine.impl.identity.Authentication;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,11 +27,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	private JwtProvider jwtProvider;
 
 	private UserDetailsService userDetailsService;
-
+	
 	public JwtAuthenticationTokenFilter(JwtProvider jwtProvider, UserDetailsService userDetailsService) {
 		super();
-		System.out.println("KONSTRUKTOR");
-
 		this.jwtProvider = jwtProvider;
 		this.userDetailsService = userDetailsService;
 	}
@@ -33,8 +37,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		IdentityService identityService = SpringContext.getBean(IdentityService.class);
+
 		String username;
-		System.out.println(jwtProvider);
 		String authenticationToken = jwtProvider.getToken(request);
 		HttpServletResponse res = (HttpServletResponse) response;
         res.setHeader("Access-Control-Allow-Origin", "*");
@@ -50,9 +55,26 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 					UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 					usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+					
+					List<Group>groups=identityService.createGroupQuery().groupMember(username).list();
+					List<String>groupsIds=new ArrayList<String>();
+					for(Group g:groups) {
+						groupsIds.add(g.getId());
+					}
+					Authentication a=new Authentication(username, groupsIds);
+					identityService.setAuthentication(a);
+					identityService.setAuthenticatedUserId(username);
 				}
-				
+				else {
+					authentificateGuest();
+				}
 			}
+			else {
+				authentificateGuest();
+			}
+		}
+		else {
+			authentificateGuest();
 		}
 		
 		   if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
@@ -67,6 +89,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	        }
 		
 
+	}
+	
+	private void authentificateGuest() {
+		IdentityService identityService = SpringContext.getBean(IdentityService.class);
+		List<String>gosti=new ArrayList<>();
+		gosti.add("gosti");
+		Authentication a=new Authentication("gost", gosti);
+		identityService.setAuthentication(a);
+		identityService.setAuthenticatedUserId("gost");
 	}
 
 }

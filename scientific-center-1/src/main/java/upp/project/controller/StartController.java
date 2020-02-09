@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import upp.project.aasecurity.JwtProvider;
 import upp.project.model.FormFieldsDto;
 import upp.project.model.FormSubmissionDto;
 import upp.project.model.StringDTO;
@@ -60,9 +59,6 @@ public class StartController {
 	private FormService formService;
 
 	@Autowired
-	private JwtProvider tokenProvider;
-
-	@Autowired
 	private AuthentificationService authentificationService;
 
 	@Autowired
@@ -73,14 +69,11 @@ public class StartController {
 	 */
 	@GetMapping(path = "/startRegistration", produces = "application/json")
 	public @ResponseBody FormFieldsDto startRegistration(HttpServletRequest request) {
-		String token = tokenProvider.getToken(request);
-		if (token != null) {
+		if(!identityService.getCurrentAuthentication().getUserId().equals("gost")) {
 			return null;
 		}
-		identityService.setAuthenticatedUserId("gost");
 		ProcessInstance pi = runtimeService.startProcessInstanceByKey("Registracija");
-		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).list().get(0);
-		task.setAssignee("gost");
+		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).active().list().get(0);
 		taskService.saveTask(task);
 		TaskFormData tfd = formService.getTaskFormData(task.getId());
 		List<FormField> properties = tfd.getFormFields();
@@ -94,14 +87,9 @@ public class StartController {
 	@GetMapping(path = "/startCreatingMagazine", produces = "application/json")
 	public @ResponseBody FormFieldsDto get(HttpServletRequest request) {
 		ProcessInstance pi = runtimeService.startProcessInstanceByKey("KreiranjeCasopisa");
-		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).active().singleResult();
 		TaskFormData tfd = formService.getTaskFormData(task.getId());
 		List<FormField> properties = tfd.getFormFields();
-		String token = tokenProvider.getToken(request);
-		String username = tokenProvider.getUsernameFromToken(token);
-		task.setAssignee(username);
-		taskService.saveTask(task);
-		runtimeService.setVariable(pi.getId(), "starterUser", username);
 		return new FormFieldsDto(task.getId(), pi.getId(), properties);
 	}
 
@@ -112,15 +100,9 @@ public class StartController {
 	@GetMapping(path = "/startProcessingText", produces = "application/json")
 	public @ResponseBody FormFieldsDto startProcessing(HttpServletRequest request) {
 		ProcessInstance pi = runtimeService.startProcessInstanceByKey("ObradaTeksta");
-		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).singleResult();
+		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).active().singleResult();
 		TaskFormData tfd = formService.getTaskFormData(task.getId());
 		List<FormField> properties = tfd.getFormFields();
-
-		String token = tokenProvider.getToken(request);
-		String username = tokenProvider.getUsernameFromToken(token);
-		task.setAssignee(username);
-		taskService.saveTask(task);
-		runtimeService.setVariable(pi.getId(), "starter", username);
 		return new FormFieldsDto(task.getId(), pi.getId(), properties);
 	}
 
@@ -139,7 +121,7 @@ public class StartController {
 			}
 		}
 
-		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+		Task task = taskService.createTaskQuery().taskId(taskId).active().singleResult();
 		String processInstanceId = task.getProcessInstanceId();
 
 		runtimeService.setVariable(processInstanceId, "dto", dto);
@@ -162,13 +144,13 @@ public class StartController {
 	@GetMapping(path = "/getAllMyTasks", produces = "application/json")
 	public @ResponseBody ResponseEntity<List<TaskDto>> allMyTasks(HttpServletRequest request) {
 
-		String token = tokenProvider.getToken(request);
-		String username = tokenProvider.getUsernameFromToken(token);
-
-		List<Task> myTasks = taskService.createTaskQuery().taskAssignee(username).list();
+		//String token = tokenProvider.getToken(request);
+		
+		String username = identityService.getCurrentAuthentication().getUserId();
+		List<Task> myTasks = taskService.createTaskQuery().taskAssignee(username).active().list();
 		List<Group> userGroups = identityService.createGroupQuery().groupMember(username).list();
 		for (Group g : userGroups) {
-			List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup(g.getId()).list();
+			List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup(g.getId()).active().list();
 			for (Task t : tasks) {
 				myTasks.add(t);
 			}
@@ -192,9 +174,11 @@ public class StartController {
 	@GetMapping(path = "/getTasks/{processInstanceId}", produces = "application/json")
 	public @ResponseBody FormFieldsDto get(@PathVariable String processInstanceId, HttpServletRequest request) {
 
-		String token = tokenProvider.getToken(request);
-		String username = tokenProvider.getUsernameFromToken(token);
-
+		//String token = tokenProvider.getToken(request);
+		//String username = tokenProvider.getUsernameFromToken(token);
+		String username = identityService.getCurrentAuthentication().getUserId();
+		System.out.println("ulogovan je::::: " +username);
+		
 		Task task = taskService.createTaskQuery().processInstanceId(processInstanceId).singleResult();
 
 		if (task != null && (task.getAssignee() == null || task.getAssignee().equals(username))) {
