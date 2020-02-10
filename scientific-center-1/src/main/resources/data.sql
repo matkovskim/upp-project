@@ -63,3 +63,5 @@ INSERT INTO public.magazine_reviewers(magazine_id, reviewers_id)VALUES (111111, 
 INSERT INTO public.magazine_reviewers(magazine_id, reviewers_id)VALUES (111111, 3333);
 INSERT INTO public.magazine_reviewers(magazine_id, reviewers_id)VALUES (111111, 4444);
 INSERT INTO public.magazine_reviewers(magazine_id, reviewers_id)VALUES (111111, 7777);
+
+INSERT INTO public.magazine_editors(magazine_id, editors_id)VALUES (111111, 6666);

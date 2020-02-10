@@ -40,7 +40,7 @@ public class SendMailToAuthorAndMainEditor implements JavaDelegate {
 		mail.setTo(regUser.getEmail());
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Naučna centrala 1");
-		mail.setText("Poštovani korisniče, Vaš rad je uspešno dodat u naučnu centralu 1.");
+		mail.setText("Poštovani korisniče, Vaš zahetv za obradu rada je pristigao u naš uaučnu centralu, bićete obavešteni o ishodu recenziranja rada.");
 		javaMailSender.send(mail);
 		
 		String selectedMagazineName=(String)execution.getVariable("izborCasopisa");
