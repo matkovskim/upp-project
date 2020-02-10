@@ -34,6 +34,7 @@ public class CheckMembershipFees implements JavaDelegate {
 		
 		Set<MembershipFees> membershipFees=regUser.getMembershipFees();
 		if(membershipFees==null) {
+			System.out.println("nema clanarine");
 			execution.setVariable("dovoljnoClanarine", "false");
 		}
 		else {

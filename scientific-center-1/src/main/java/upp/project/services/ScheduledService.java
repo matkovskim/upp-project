@@ -28,7 +28,7 @@ public class ScheduledService {
 	/**
 	 * Unistavanje zapocetih procesa starijih od jednog dana
 	 */
-	@Scheduled(initialDelay = 1800000, fixedRate = 1800000)
+	@Scheduled(initialDelay = 86000000, fixedRate = 86000000)
 	//@Scheduled(initialDelay = 30000, fixedRate = 30000)
 	public void checkOldProcessInstances() {
 		//uzimam sve aktivne procese
