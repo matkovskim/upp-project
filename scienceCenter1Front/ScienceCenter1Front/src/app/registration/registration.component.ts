@@ -29,7 +29,7 @@ export class RegistrationComponent implements OnInit {
     let x = repositoryService.startRegistrationProcess();
     x.subscribe(
       res => {
-
+console.log(res);
         this.formFieldsDto = res;
         this.formFields = res.formFields;
         this.processInstance = res.processInstanceId;

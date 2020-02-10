@@ -71,17 +71,21 @@ public class StartController {
 	 */
 	@GetMapping(path = "/startRegistration", produces = "application/json")
 	public @ResponseBody FormFieldsDto startRegistration(HttpServletRequest request) {
+		String username = identityService.getCurrentAuthentication().getUserId();
+		List<Group> groups = identityService.createGroupQuery().groupMember(username).list();
 		List<String> groupsIds = new ArrayList<String>();
-		groupsIds.add("gosti");
-		Authentication a = new Authentication("gost", groupsIds);
-		identityService.setAuthentication(a);
-		identityService.setAuthenticatedUserId("gost");
-		ProcessInstance pi = runtimeService.startProcessInstanceByKey("Registracija");
-		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).active().list().get(0);
-		taskService.saveTask(task);
-		TaskFormData tfd = formService.getTaskFormData(task.getId());
-		List<FormField> properties = tfd.getFormFields();
-		return new FormFieldsDto(task.getId(), pi.getId(), properties);
+		for (Group g : groups) {
+			groupsIds.add(g.getId());
+		}
+		if (groupsIds.contains("gosti")) {
+			ProcessInstance pi = runtimeService.startProcessInstanceByKey("Registracija");
+			Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).active().list().get(0);
+			taskService.saveTask(task);
+			TaskFormData tfd = formService.getTaskFormData(task.getId());
+			List<FormField> properties = tfd.getFormFields();
+			return new FormFieldsDto(task.getId(), pi.getId(), properties);
+		}
+		return null;
 	}
 
 	/**
@@ -152,15 +156,13 @@ public class StartController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Uneti podaci nisu validni!");
 		}
 
-		try {
-			if ((String) runtimeService.getVariable(procesId, "redirectUrl") != null) {
-				StringObject so = new StringObject((String) runtimeService.getVariable(procesId, "redirectUrl"));
-				runtimeService.setVariable(procesId, "redirectUrl", null);
-				return ResponseEntity.status(200).body(so);
-			}
-		} catch (Exception e) {
-			System.out.println("izvrsavanje ne postoji");
+		ProcessInstance pi=runtimeService.createProcessInstanceQuery().processInstanceId(procesId).singleResult();
+		if(pi!=null) {
+			StringObject so = new StringObject((String) runtimeService.getVariable(procesId, "redirectUrl"));
+			runtimeService.setVariable(procesId, "redirectUrl", null);
+			return ResponseEntity.status(200).body(so);
 		}
+		
 		return new ResponseEntity<>(HttpStatus.OK);
 
 	}
@@ -176,7 +178,7 @@ public class StartController {
 		// String token = tokenProvider.getToken(request);
 
 		String username = identityService.getCurrentAuthentication().getUserId();
-		System.out.println("USERNAME: " + username);
+
 		List<Task> myTasks = taskService.createTaskQuery().taskAssignee(username).active().list();
 		List<Group> userGroups = identityService.createGroupQuery().groupMember(username).list();
 		for (Group g : userGroups) {

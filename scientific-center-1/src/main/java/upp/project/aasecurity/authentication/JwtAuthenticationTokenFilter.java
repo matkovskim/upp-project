@@ -37,7 +37,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		IdentityService identityService = SpringContext.getBean(IdentityService.class);
-
+		System.out.println("USAO U TOKEN filter");
 		String username;
 		String authenticationToken = jwtProvider.getToken(request);
 		HttpServletResponse res = (HttpServletResponse) response;
@@ -70,18 +70,17 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 			}
 		}
 
-		if (identityService.getCurrentAuthentication() == null) {
-			authentificateGuest();
+		if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+			response.setStatus(HttpServletResponse.SC_OK);
 		} else {
-			if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+			if (identityService.getCurrentAuthentication() == null) {
+				authentificateGuest();
 				response.setStatus(HttpServletResponse.SC_OK);
-			} else {
-				try {
-					filterChain.doFilter(request, response);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-				}
+			}
+			try {
+				filterChain.doFilter(request, response);
+			} catch (Exception e) {
+				//response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			}
 		}
 
