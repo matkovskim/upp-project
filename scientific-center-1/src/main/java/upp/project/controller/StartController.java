@@ -14,6 +14,7 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.form.TaskFormData;
 import org.camunda.bpm.engine.identity.Group;
+import org.camunda.bpm.engine.impl.identity.Authentication;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,11 +86,20 @@ public class StartController {
 	@PreAuthorize("hasRole('ROLE_EDITOR')")
 	@GetMapping(path = "/startCreatingMagazine", produces = "application/json")
 	public @ResponseBody FormFieldsDto get(HttpServletRequest request) {
-		ProcessInstance pi = runtimeService.startProcessInstanceByKey("KreiranjeCasopisa");
-		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).active().singleResult();
-		TaskFormData tfd = formService.getTaskFormData(task.getId());
-		List<FormField> properties = tfd.getFormFields();
-		return new FormFieldsDto(task.getId(), pi.getId(), properties);
+		String username = identityService.getCurrentAuthentication().getUserId();
+		List<Group> groups = identityService.createGroupQuery().groupMember(username).list();
+		List<String> groupsIds = new ArrayList<String>();
+		for (Group g : groups) {
+			groupsIds.add(g.getId());
+		}
+		if (groupsIds.contains("urednici")) {
+			ProcessInstance pi = runtimeService.startProcessInstanceByKey("KreiranjeCasopisa");
+			Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).active().singleResult();
+			TaskFormData tfd = formService.getTaskFormData(task.getId());
+			List<FormField> properties = tfd.getFormFields();
+			return new FormFieldsDto(task.getId(), pi.getId(), properties);
+		}
+		return null;
 	}
 
 	/**
@@ -98,11 +108,20 @@ public class StartController {
 	@PreAuthorize("hasRole('ROLE_REG_USER')")
 	@GetMapping(path = "/startProcessingText", produces = "application/json")
 	public @ResponseBody FormFieldsDto startProcessing(HttpServletRequest request) {
-		ProcessInstance pi = runtimeService.startProcessInstanceByKey("ObradaTeksta");
-		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).active().singleResult();
-		TaskFormData tfd = formService.getTaskFormData(task.getId());
-		List<FormField> properties = tfd.getFormFields();
-		return new FormFieldsDto(task.getId(), pi.getId(), properties);
+		String username = identityService.getCurrentAuthentication().getUserId();
+		List<Group> groups = identityService.createGroupQuery().groupMember(username).list();
+		List<String> groupsIds = new ArrayList<String>();
+		for (Group g : groups) {
+			groupsIds.add(g.getId());
+		}
+		if (groupsIds.contains("korisnici")) {
+			ProcessInstance pi = runtimeService.startProcessInstanceByKey("ObradaTeksta");
+			Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).active().singleResult();
+			TaskFormData tfd = formService.getTaskFormData(task.getId());
+			List<FormField> properties = tfd.getFormFields();
+			return new FormFieldsDto(task.getId(), pi.getId(), properties);
+		}
+		return null;
 	}
 
 	/**
@@ -135,7 +154,7 @@ public class StartController {
 				runtimeService.setVariable(procesId, "redirectUrl", null);
 				return ResponseEntity.status(200).body(so);
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println("izvrsavanje ne postoji");
 		}
 		return new ResponseEntity<>(HttpStatus.OK);
