@@ -1,15 +1,11 @@
 package upp.project.controller;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.MessageCorrelationResult;
-import org.glassfish.jersey.internal.guava.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -62,46 +58,24 @@ public class OrderController {
 	@GetMapping("/successMembership")
 	private ResponseEntity<?> successfulMembership(@RequestParam("id") Long id,
 			@RequestParam("procesId") String procesId) {
-		
+		if (procesId != null) {
+			MessageCorrelationResult results = runtimeService.createMessageCorrelation("PlacanjeUspesno")
+					.processInstanceId(procesId).correlateWithResult();
+		}
 		UserOrder order = userOrderService.getUserOrder(id);
 		RegistredUser user = order.getBuyer();
 		Magazine magazine = order.getMagazine();
-		List<MembershipFees> newMembershipList = new ArrayList<MembershipFees>();
-		boolean found = false;
 		
-		MembershipFees membership = null;
-		if (user.getMembershipFees() != null) {
-			List<MembershipFees> membershipList = Lists.newArrayList(user.getMembershipFees());
-			for (MembershipFees mf : membershipList) {
-				if (mf.getMagazine().getEmail().equals(magazine.getEmail())) {
-					Date nextMonth = new Date(System.currentTimeMillis() + 31 * 24 * 60 * 60 * 1000);
-					mf.setExpirationDate(nextMonth);
-					membershipFeesRepository.save(mf);
-					newMembershipList.add(mf);
-					found = true;
-				} else {
-					newMembershipList.add(mf);
-				}
-			}
-		}
-
-		if (found == true) {
-			Set<MembershipFees> set = new HashSet<MembershipFees>(newMembershipList);
-			user.setMembershipFees(set);
-			registredUserRepository.save(user);
-		}
-
-		if (found == false) {
-			membership = new MembershipFees();
-			membership.setMagazine(magazine);
-			if (user.getMembershipFees() == null) {
-				System.out.println("dasdsaddsa");
-				user.setMembershipFees(new HashSet<MembershipFees>());
-			}
-			user.getMembershipFees().add(membership);
-			membershipFeesRepository.save(membership);
-			registredUserRepository.save(user);
-		}
+		Date nextMonth = new Date(System.currentTimeMillis() + 31 * 24 * 60 * 60 * 1000);
+		MembershipFees mf=new MembershipFees();
+		mf.setExpirationDate(nextMonth);
+		mf.setMagazine(magazine);			
+		membershipFeesRepository.save(mf);
+		Set<MembershipFees>memberships=user.getMembershipFees();
+		memberships.add(mf);
+		user.setMembershipFees(memberships);
+		registredUserRepository.save(user);
+		
 		order.setOrderStatus(OrderStatus.SUCCEEDED);
 		userOrderService.save(order);
 		RedirectDTO redirectDTO = new RedirectDTO();

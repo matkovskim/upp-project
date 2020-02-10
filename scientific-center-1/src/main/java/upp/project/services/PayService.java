@@ -1,6 +1,5 @@
 package upp.project.services;
 
-import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +57,7 @@ public class PayService implements JavaDelegate {
 		orderInformationDTO.setPaymentAmount(50.0);
 	    orderInformationDTO.setErrorUrl("https://localhost:8080/orders/error"+ "?id=" + userOrder.getId() + "&procesId="+execution.getProcessInstanceId());
 	    orderInformationDTO.setFailedUrl("https://localhost:8080/orders/failed"+ "?id=" + userOrder.getId() + "&procesId="+execution.getProcessInstanceId());
-		orderInformationDTO.setSuccessUrl("https://localhost:8080/orders/success"+ "?id=" + userOrder.getId() + "&procesId="+execution.getProcessInstanceId());
+		orderInformationDTO.setSuccessUrl("https://localhost:8080/orders/successMembership"+ "?id=" + userOrder.getId() + "&procesId="+execution.getProcessInstanceId());
 		
 		orderInformationDTO.setEmail(magazine.getEmail());
 		orderInformationDTO.setOrderId(userOrder.getId());

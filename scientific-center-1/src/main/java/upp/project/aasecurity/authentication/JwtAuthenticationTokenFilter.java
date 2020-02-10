@@ -37,7 +37,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		IdentityService identityService = SpringContext.getBean(IdentityService.class);
-		System.out.println("USAO U TOKEN filter");
 		String username;
 		String authenticationToken = jwtProvider.getToken(request);
 		HttpServletResponse res = (HttpServletResponse) response;
