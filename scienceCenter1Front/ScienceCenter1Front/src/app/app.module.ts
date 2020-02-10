@@ -29,6 +29,7 @@ import { ProcessingTextComponent } from './processing-text/processing-text.compo
 import { FailedComponent } from './failed/failed.component';
 import { ErrorComponent } from './error/error.component';
 import { SuccessPaymentComponent } from './success-payment/success-payment.component';
+import { PublicationsComponent } from './publications/publications.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { SuccessPaymentComponent } from './success-payment/success-payment.compo
     FailedComponent,
     ErrorComponent,
     SuccessPaymentComponent,
+    PublicationsComponent,
   ],
   imports: [
     HttpClientModule,

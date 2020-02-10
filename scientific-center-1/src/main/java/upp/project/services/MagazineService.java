@@ -45,7 +45,6 @@ public class MagazineService {
 			} else if (fsDTO.getFieldId().equals("NacinNaplate")) {
 				magazine.setWhoPays(fsDTO.getFieldValue());
 			} else if (fsDTO.getFieldId().equals("email")) {
-				System.out.println("IMAM EMAIL");
 				magazine.setEmail(fsDTO.getFieldValue());
 			} else {
 				if (fsDTO.getFieldValue() != null && fsDTO.getFieldValue() != "") {

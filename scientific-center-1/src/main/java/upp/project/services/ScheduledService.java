@@ -35,12 +35,11 @@ public class ScheduledService {
 		List<HistoricProcessInstance>hpi=historyService.createHistoricProcessInstanceQuery().active().unfinished().list();
 		Date yesterday=new Date(System.currentTimeMillis()-24*60*60*1000);
 		//Date yesterday=new Date(System.currentTimeMillis()-60*1000);
-		System.out.println(yesterday);
-		System.out.println(new Date());
 		for(HistoricProcessInstance h:hpi) {
 			Date startDate=h.getStartTime();
 			if(startDate.before(yesterday)) {
-				runtimeService.suspendProcessInstanceById(h.getId());
+				runtimeService.deleteProcessInstance(h.getId(), "EXPIRED");
+				//runtimeService.suspendProcessInstanceById(h.getId());
 			}
 		}
 	}
@@ -49,6 +48,7 @@ public class ScheduledService {
 	 * Kreiranje novih izdanja i zatvaranje starih, poziva se jednom dnevno
 	 */
 	@Scheduled(initialDelay = 86000000, fixedRate = 86000000)
+	//@Scheduled(initialDelay = 30000, fixedRate = 30000)
 	public void checkPublications() {
 		//uzimam sve aktivne procese
 		List<Publication>publications=publicationRepository.findByPublished(false);

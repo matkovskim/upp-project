@@ -70,7 +70,7 @@ public class StartController {
 	 */
 	@GetMapping(path = "/startRegistration", produces = "application/json")
 	public @ResponseBody FormFieldsDto startRegistration(HttpServletRequest request) {
-		String username = identityService.getCurrentAuthentication().getUserId();
+		String username = "gost";
 		List<Group> groups = identityService.createGroupQuery().groupMember(username).list();
 		List<String> groupsIds = new ArrayList<String>();
 		for (Group g : groups) {
@@ -156,12 +156,13 @@ public class StartController {
 		}
 
 		ProcessInstance pi=runtimeService.createProcessInstanceQuery().processInstanceId(procesId).singleResult();
+
 		if(pi!=null) {
 			StringObject so = new StringObject((String) runtimeService.getVariable(procesId, "redirectUrl"));
 			runtimeService.setVariable(procesId, "redirectUrl", null);
 			return ResponseEntity.status(200).body(so);
 		}
-		
+
 		return new ResponseEntity<>(HttpStatus.OK);
 
 	}

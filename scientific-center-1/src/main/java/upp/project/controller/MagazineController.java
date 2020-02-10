@@ -25,7 +25,7 @@ public class MagazineController {
 	@GetMapping(path = "", produces = "application/json")
 	public @ResponseBody ResponseEntity<?> getScientificAreas() {
 
-		List<Magazine>magazines=magazineService.getAllMagazines();
+		List<Magazine>magazines=magazineService.getAllActivatedMagazines();
 		return ResponseEntity.ok(magazines);
 
 	}

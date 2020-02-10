@@ -18,6 +18,7 @@ import { ProcessingTextComponent } from './processing-text/processing-text.compo
 import { ErrorComponent } from './error/error.component';
 import { FailedComponent } from './failed/failed.component';
 import { SuccessPaymentComponent } from './success-payment/success-payment.component';
+import { PublicationsComponent } from './publications/publications.component';
 
 const routes: Routes = [
   {
@@ -83,6 +84,10 @@ const routes: Routes = [
   {
     path: 'successPayed',
     component: SuccessPaymentComponent
+  },
+  {
+    path: 'publications/:magazineId',
+    component: PublicationsComponent
   }
 ];
 

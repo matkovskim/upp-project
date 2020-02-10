@@ -166,11 +166,10 @@ getNext(value){
 
   x.subscribe(
     res => {
-      if(res!=null){
+      if(res!=null && res.name!=null){
         window.location.href=res.name;
       }
       else{
-        console.log("tu sam");
         this.labels = [];
         this.stringLabels=[];
         this.strings=[];
