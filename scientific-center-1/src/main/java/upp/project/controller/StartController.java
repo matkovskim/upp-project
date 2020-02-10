@@ -35,7 +35,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import upp.project.aasecurity.authentication.SpringContext;
 import upp.project.model.FormFieldsDto;
 import upp.project.model.FormSubmissionDto;
 import upp.project.model.StringDTO;
@@ -72,6 +71,11 @@ public class StartController {
 	 */
 	@GetMapping(path = "/startRegistration", produces = "application/json")
 	public @ResponseBody FormFieldsDto startRegistration(HttpServletRequest request) {
+		List<String> groupsIds = new ArrayList<String>();
+		groupsIds.add("gosti");
+		Authentication a = new Authentication("gost", groupsIds);
+		identityService.setAuthentication(a);
+		identityService.setAuthenticatedUserId("gost");
 		ProcessInstance pi = runtimeService.startProcessInstanceByKey("Registracija");
 		Task task = taskService.createTaskQuery().processInstanceId(pi.getId()).active().list().get(0);
 		taskService.saveTask(task);

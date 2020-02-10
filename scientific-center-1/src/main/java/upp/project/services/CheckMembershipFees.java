@@ -26,7 +26,7 @@ public class CheckMembershipFees implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 
-		String magazineName = (String) execution.getVariable("NazivCasopisa");
+		String magazineName = (String) execution.getVariable("izborCasopisa");
 		Magazine magazine = magazineRepository.findByName(magazineName);
 		
 		String author=(String) execution.getVariable("starter");
@@ -38,7 +38,7 @@ public class CheckMembershipFees implements JavaDelegate {
 		}
 		else {
 			for(MembershipFees mf:membershipFees) {
-				if(mf.getMagazine().getId()==magazine.getId()){
+				if(mf.getMagazine().getEmail().equals(magazine.getEmail())){
 					if(mf.getExpirationDate().after(new Date())) {
 						execution.setVariable("dovoljnoClanarine", "true");
 						return;

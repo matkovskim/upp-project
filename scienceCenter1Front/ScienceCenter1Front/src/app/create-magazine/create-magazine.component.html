@@ -1,20 +1,21 @@
-<div>
-    <div>
+<div class="wrapper" style="background-image: url('assets/images/bg-registration-form-2.jpg');">
         <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativeValidate>
 
             <div class="container" style="margin-top: 25px; margin-left: -2px;">
+                <h3>Popunite podatke</h3>
+
                 <div *ngFor="let field of formFields">
                     <div class="row" style="padding-top: 4px;">
-                        <div class="col-4" *ngIf="field.type.name=='string'" >
+                        <div class="col-3" *ngIf="field.type.name=='string'" >
                             <label for={{field.id}}> {{field.label}}</label>
                         </div>
-                        <div class="col-4" *ngIf="field.type.name=='boolean'" >
+                        <div class="col-3" *ngIf="field.type.name=='boolean'" >
                             <label for={{field.id}}> {{field.label}}</label>
                         </div>
-                        <div class="col-4" *ngIf="field.type.name=='long'" >
+                        <div class="col-3" *ngIf="field.type.name=='long'" >
                             <label for={{field.id}}> {{field.label}}</label>
                         </div>
-                        <div class="col-4">
+                        <div class="col-5">
                             <input class="form-control" type="text" name={{field.id}} ngModel *ngIf="field.type.name=='string'">
                             <input type="checkbox" name={{field.id}} ngModel *ngIf="field.type.name=='boolean'">
                             <input class="form-control" type="number" name={{field.id}} ngModel *ngIf="field.type.name=='long'">
@@ -24,13 +25,13 @@
 
                 <div *ngFor="let enumeration of enumerations; let i = index">
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-3 mt-2">
                             <label for={{labels[i]}}>{{labels[i]}}</label>
                         </div>
-                        <div class="col-4" *ngIf="multiselect[i]=='true'">
+                        <div class="col-5 mt-2" *ngIf="multiselect[i]=='true'">
                             <ng-multiselect-dropdown [data]="dropdownList[i]" [settings]="dropdownMultiselectSettings" ngModel name={{names[i]}}></ng-multiselect-dropdown>
                         </div>
-                        <div class="col-4" *ngIf="multiselect[i]=='false'">
+                        <div class="col-5 mt-2" *ngIf="multiselect[i]=='false'">
                             <ng-multiselect-dropdown [data]="dropdownList[i]" [settings]="dropdownSettings" ngModel name={{names[i]}}></ng-multiselect-dropdown>
                         </div>
                     </div>
@@ -39,6 +40,5 @@
                 <input class="btn btn-outline-dark my-2 my-sm-0" type="submit" value="Continue">
             </div>
         </form>
-    </div>
     
 </div>

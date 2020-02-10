@@ -1,17 +1,17 @@
 <div class="wrapper" style="background-image: url('assets/images/bg-registration-form-2.jpg');">
         <form #f="ngForm" (ngSubmit)="onSubmit(f.value, f)" ngNativeValidate>
 
-            <div class="container mt-5" style="margin-left: 2px;">
-
+            <div class="container mt-2" style="margin-left: 2px;">
+                <h3>{{task.name}}</h3>
                 <div *ngFor="let string of strings; let i = index">
                     <div class="row">
-                        <div class="col-4 mt-3">
+                        <div class="col-3 mt-3">
                             <label for={{stringLabels[i]}}>{{stringLabels[i]}}</label>
                         </div>
-                        <div class="col-4 mt-3" *ngIf="pdf[i]=='false'">
+                        <div class="col-5 mt-3" *ngIf="pdf[i]=='false'">
                             <input class="form-control" type="text" name={{string.id}} [readonly]="readonlyList[i]" ngModel="{{string.defaultValue}}">
                         </div>
-                        <div class="col-4 mt-3" *ngIf="pdf[i]=='true' && readonlyList[i]==false">
+                        <div class="col-5 mt-3" *ngIf="pdf[i]=='true' && readonlyList[i]==false">
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" (change)="selectFile($event)">
@@ -19,7 +19,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4 mt-3" *ngIf="pdf[i]=='true' && readonlyList[i]==true">
+                        <div class="col-5 mt-3" *ngIf="pdf[i]=='true' && readonlyList[i]==true">
                             
                             <a class="btn btn-outline-dark my-2 my-sm-0" href="{{fileLink}}">Pogledaj PDF</a>
                         </div>
@@ -29,13 +29,13 @@
 
                 <div *ngFor="let field of formFields">
                     <div class="row" style="padding-top: 4px;">
-                        <div class="col-4" *ngIf="field.type.name=='boolean'">
+                        <div class="col-3" *ngIf="field.type.name=='boolean'">
                             <label for={{field.id}}> {{field.label}}</label>
                         </div>
-                        <div class="col-4" *ngIf="field.type.name=='long'">
+                        <div class="col-3" *ngIf="field.type.name=='long'">
                             <label for={{field.id}}> {{field.label}}</label>
                         </div>
-                        <div class="col-4">
+                        <div class="col-5">
                             <input type="checkbox" name={{field.id}} ngModel *ngIf="field.type.name=='boolean'">
                             <input class="form-control" type="number" name={{field.id}} ngModel
                                 *ngIf="field.type.name=='long'">
@@ -45,14 +45,14 @@
 
                 <div *ngFor="let enumeration of enumerations; let i = index">
                     <div class="row">
-                        <div class="col-4 mt-3">
+                        <div class="col-3 mt-2">
                             <label for={{labels[i]}}>{{labels[i]}}</label>
                         </div>
-                        <div class="col-4 mt-3" *ngIf="multiselect[i]=='true'">
+                        <div class="col-5 mt-2" *ngIf="multiselect[i]=='true'">
                             <ng-multiselect-dropdown [data]="dropdownList[i]" [settings]="dropdownMultiselectSettings"
                                 ngModel name={{names[i]}}></ng-multiselect-dropdown>
                         </div>
-                        <div class="col-4 mt-3" *ngIf="multiselect[i]=='false'">
+                        <div class="col-5 mt-2" *ngIf="multiselect[i]=='false'">
                             <ng-multiselect-dropdown [data]="dropdownList[i]" [settings]="dropdownSettings" ngModel
                                 name={{names[i]}}></ng-multiselect-dropdown>
                         </div>
