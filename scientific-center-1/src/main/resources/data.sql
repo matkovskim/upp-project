@@ -52,4 +52,14 @@ INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_
 INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_area_id) VALUES (6666, 3);
 
 
-INSERT INTO public.magazine(id, isbn, activated, name, who_pays, main_editor_id) VALUES (111111, 'mmm-sadsad', true, 'magazineX', 'Citaoci', 5555);
+INSERT INTO public.magazine(id, isbn, activated, name, who_pays, main_editor_id, email) VALUES (111111, 'mmm-sadsad', true, 'magazineX', 'Citaoci', 5555, 'matkovskim@gmail.com');
+INSERT INTO public.magazine(id, isbn, activated, name, who_pays, main_editor_id, email) VALUES (222222, 'mmm-dsff', true, 'magoija', 'Autori', 5555, 'test@gmail.com');
+
+INSERT INTO public.magazine_scientific_area(magazine_id, scientific_area_id) VALUES (111111, 1);
+INSERT INTO public.magazine_scientific_area(magazine_id, scientific_area_id) VALUES (111111, 2);
+INSERT INTO public.magazine_scientific_area(magazine_id, scientific_area_id) VALUES (222222, 1);
+
+INSERT INTO public.magazine_reviewers(magazine_id, reviewers_id)VALUES (111111, 2222);
+INSERT INTO public.magazine_reviewers(magazine_id, reviewers_id)VALUES (111111, 3333);
+INSERT INTO public.magazine_reviewers(magazine_id, reviewers_id)VALUES (111111, 4444);
+INSERT INTO public.magazine_reviewers(magazine_id, reviewers_id)VALUES (111111, 7777);

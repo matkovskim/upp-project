@@ -44,6 +44,8 @@ public class SaveArticleInformations implements JavaDelegate {
 		String scientificAreaName="";
 		for (FormSubmissionDto fsDTO : dto) {
 			if (fsDTO.getFieldId().equals("NaucneOblasti")) {
+				System.out.println("USAO");
+				System.out.println("fsDTO.getFieldValue() "+fsDTO.getFieldValue());
 				execution.setVariable("NaucneOblasti", fsDTO.getFieldValue());
 				scientificAreaName=fsDTO.getFieldValue();
 				System.out.println(fsDTO.getFieldValue());

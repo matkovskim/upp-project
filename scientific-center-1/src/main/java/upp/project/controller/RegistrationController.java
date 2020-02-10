@@ -41,10 +41,10 @@ public class RegistrationController {
 					.processInstanceId(processInstanceId).correlateWithResult();
 			if (regUser.isReviewer()) {
 				return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
-						.header("Location", "http://localhost:4200/waitAdminConfirmation").build();
+						.header("Location", "https://localhost:4203/waitAdminConfirmation").build();
 			} else {
 				return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY)
-						.header("Location", "http://localhost:4200/success").build();
+						.header("Location", "https://localhost:4203/success").build();
 			}
 		} else {
 			return ResponseEntity.badRequest().body("Pogrešan verifikacioni kod!");

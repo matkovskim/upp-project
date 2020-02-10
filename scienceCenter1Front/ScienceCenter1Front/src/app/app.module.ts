@@ -26,6 +26,9 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { CreateEditorComponent } from './create-editor/create-editor.component';
 import { ProcessingTextComponent } from './processing-text/processing-text.component';
+import { FailedComponent } from './failed/failed.component';
+import { ErrorComponent } from './error/error.component';
+import { SuccessPaymentComponent } from './success-payment/success-payment.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +47,9 @@ import { ProcessingTextComponent } from './processing-text/processing-text.compo
     CreateAdminComponent,
     CreateEditorComponent,
     ProcessingTextComponent,
+    FailedComponent,
+    ErrorComponent,
+    SuccessPaymentComponent,
   ],
   imports: [
     HttpClientModule,

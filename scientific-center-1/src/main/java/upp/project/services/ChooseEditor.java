@@ -57,6 +57,9 @@ public class ChooseEditor implements JavaDelegate {
 		
 		ScientificArea scientificArea=scientificAreaRepository.findByName(scientificAreaName);
 		Authority editorAuthority = this.authorityService.findByName(Role.ROLE_EDITOR);
+		System.out.println("scientificAreaName "+scientificAreaName);
+		System.out.println("scierr "+scientificArea);
+		System.out.println("editorAut "+ editorAuthority);
 		List<RegistredUser>editors=registredUserRepository.userWithSpecificAuthorityForArea(scientificArea, editorAuthority);
 	
 		//ako je glavni urednik u listi izbaci ga

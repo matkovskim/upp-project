@@ -15,6 +15,9 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { CreateAdminComponent } from './create-admin/create-admin.component';
 import { CreateEditorComponent } from './create-editor/create-editor.component';
 import { ProcessingTextComponent } from './processing-text/processing-text.component';
+import { ErrorComponent } from './error/error.component';
+import { FailedComponent } from './failed/failed.component';
+import { SuccessPaymentComponent } from './success-payment/success-payment.component';
 
 const routes: Routes = [
   {
@@ -68,6 +71,18 @@ const routes: Routes = [
   {
     path: 'processingText',
     component: ProcessingTextComponent
+  },
+  {
+    path: 'error',
+    component: ErrorComponent
+  },
+  {
+    path: 'failed',
+    component: FailedComponent
+  },
+  {
+    path: 'successPayed',
+    component: SuccessPaymentComponent
   }
 ];
 

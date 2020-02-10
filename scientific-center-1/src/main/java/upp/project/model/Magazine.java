@@ -18,6 +18,9 @@ public class Magazine {
 	private long id;
 	
 	@Column
+	private String email;
+	
+	@Column
 	private String name;
 
 	@Column
@@ -115,6 +118,14 @@ public class Magazine {
 
 	public void setEditors(Set<RegistredUser> editors) {
 		this.editors = editors;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 }

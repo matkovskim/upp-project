@@ -38,6 +38,7 @@ import upp.project.aasecurity.authentication.SpringContext;
 import upp.project.model.FormFieldsDto;
 import upp.project.model.FormSubmissionDto;
 import upp.project.model.StringDTO;
+import upp.project.model.StringObject;
 import upp.project.model.TaskDto;
 import upp.project.services.AuthentificationService;
 import upp.project.services.UploadService;
@@ -118,11 +119,9 @@ public class StartController {
 				mapElement.setValue(null);
 			}
 		}
-
-		Task task = taskService.createTaskQuery().taskId(taskId).active().singleResult();
-		String processInstanceId = task.getProcessInstanceId();
-
-		runtimeService.setVariable(processInstanceId, "dto", dto);
+		Task myTask = taskService.createTaskQuery().taskId(taskId).singleResult();
+		String procesId = myTask.getProcessInstanceId();
+		runtimeService.setVariable(procesId, "dto", dto);
 
 		try {
 			formService.submitTaskForm(taskId, map);
@@ -130,6 +129,15 @@ public class StartController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Uneti podaci nisu validni!");
 		}
 
+		try {
+			if ((String) runtimeService.getVariable(procesId, "redirectUrl") != null) {
+				StringObject so = new StringObject((String) runtimeService.getVariable(procesId, "redirectUrl"));
+				runtimeService.setVariable(procesId, "redirectUrl", null);
+				return ResponseEntity.status(200).body(so);
+			}
+		}catch (Exception e) {
+			System.out.println("izvrsavanje ne postoji");
+		}
 		return new ResponseEntity<>(HttpStatus.OK);
 
 	}
@@ -170,12 +178,12 @@ public class StartController {
 	/**
 	 * Vraca jedan moj sledeci task zajedno sa poljima forme
 	 */
-	@PreAuthorize("hasRole('ROLE_EDITOR') or hasRole('ROLE_REG_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_REWIEWER')")
 	@GetMapping(path = "/getTasks/{processInstanceId}", produces = "application/json")
 	public @ResponseBody FormFieldsDto get(@PathVariable String processInstanceId, HttpServletRequest request) {
 
 		String username = identityService.getCurrentAuthentication().getUserId();
-		Task myTasks = taskService.createTaskQuery().taskAssignee(username).active().processInstanceId(processInstanceId).singleResult();
+		Task myTasks = taskService.createTaskQuery().taskAssignee(username).active()
+				.processInstanceId(processInstanceId).singleResult();
 
 		if (myTasks != null) {
 			TaskFormData tfd = formService.getTaskFormData(myTasks.getId());

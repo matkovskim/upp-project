@@ -137,10 +137,8 @@ export class ProcessingTextComponent implements OnInit {
   }
 
 getNext(value){
-console.log("MRS");
   let o = new Array();
   for (var property in value) {
-    console.log(property);
     if (typeof (value[property]) == "object") {
       for (var index = 0; index < value[property].length; index++) {
         if (index != 0) {
@@ -168,57 +166,65 @@ console.log("MRS");
 
   x.subscribe(
     res => {
-      this.labels = [];
-      this.stringLabels=[];
-      this.strings=[];
-      this.names = [];
-      this.enumValues = [];
-      this.enumerations = [];
-      this.multiselect=[];
-      this.pdf=[];
+      if(res!=null){
+        window.location.href=res.name;
+      }
+      else{
+        console.log("tu sam");
+        this.labels = [];
+        this.stringLabels=[];
+        this.strings=[];
+        this.names = [];
+        this.enumValues = [];
+        this.enumerations = [];
+        this.multiselect=[];
+        this.pdf=[];
+  
+        let y = this.repositoryService.getMyNextTask(this.processInstance);
 
-      let y = this.repositoryService.getMyNextTask(this.processInstance);
-
-      y.subscribe(
-        res => {
-          if(res==null){
-            this.router.navigate(['']);
-          }
-          else{
-            this.dropdownList=[];
-            this.formFieldsDto = res;
-            this.formFields = res.formFields;
-            this.processInstance = res.processInstanceId;
-            this.formFields.forEach((field) => {
-              if(field.type.name == 'string'){
-                  this.stringLabels.push(field.label);
-                  this.strings.push(field);
-                  if(field.properties[Object.keys(field.properties)[2]]=='true'){
-                    this.pdf.push('true')
-                  }
-                  else{
-                    this.pdf.push('false')
-                  }
-              }
-              if (field.type.name == 'enum') {
-                this.enumList=[];
-                this.enumValues = Object.keys(field.type.values);
-                this.labels.push(field.label);
-                for (const value of this.enumValues) {
-                  this.enumList.push({ item_id: value, item_text: value });
+        y.subscribe(
+          res => {
+            console.log(res);
+            if(res==null){
+              this.router.navigate(['']);
+            }
+            else{
+              this.dropdownList=[];
+              this.formFieldsDto = res;
+              this.formFields = res.formFields;
+              this.processInstance = res.processInstanceId;
+              this.formFields.forEach((field) => {
+                if(field.type.name == 'string'){
+                    this.stringLabels.push(field.label);
+                    this.strings.push(field);
+                    if(field.properties[Object.keys(field.properties)[2]]=='true'){
+                      this.pdf.push('true')
+                    }
+                    else{
+                      this.pdf.push('false')
+                    }
                 }
-                this.dropdownList.push(this.enumList);
-                this.enumerations.push(this.enumValues);
-                this.names.push(field.id);
-                this.multiselect.push(field.properties[Object.keys(field.properties)[0]]);
-              }
-            });
-          }  
-        },
-        err => {
-          alert(err.error);
-        }
-      );
+                if (field.type.name == 'enum') {
+                  this.enumList=[];
+                  this.enumValues = Object.keys(field.type.values);
+                  this.labels.push(field.label);
+                  for (const value of this.enumValues) {
+                    this.enumList.push({ item_id: value, item_text: value });
+                  }
+                  this.dropdownList.push(this.enumList);
+                  this.enumerations.push(this.enumValues);
+                  this.names.push(field.id);
+                  this.multiselect.push(field.properties[Object.keys(field.properties)[0]]);
+                }
+              });
+            }  
+          },
+          err => {
+            alert(err.error);
+          }
+        );
+      }
+     
     },
     err => {
       alert(err.error);
