@@ -32,6 +32,9 @@ public class Magazine {
 	@Column
 	boolean activated;
 	
+	@Column
+	boolean registeredOnPaymentHub;
+	
 	@ManyToMany
 	private Set<ScientificArea> scientificArea;
 	
@@ -46,6 +49,7 @@ public class Magazine {
 
 	public Magazine() {
 		activated=false;
+		registeredOnPaymentHub=false;
 	}
 	
 	public long getId() {
@@ -126,6 +130,14 @@ public class Magazine {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public boolean isRegisteredOnPaymentHub() {
+		return registeredOnPaymentHub;
+	}
+
+	public void setRegisteredOnPaymentHub(boolean registeredOnPaymentHub) {
+		this.registeredOnPaymentHub = registeredOnPaymentHub;
 	}
 	
 }

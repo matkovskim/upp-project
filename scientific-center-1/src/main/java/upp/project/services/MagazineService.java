@@ -93,8 +93,17 @@ public class MagazineService {
 	public List<Magazine>getAllMagazines(){
 		return magazineRepository.findAll();
 	}
+	
+	public Magazine findById(Long id) {
+		return magazineRepository.findById(id).get();
+	}
 
 	public List<Magazine>getAllActivatedMagazines(){
 		return magazineRepository.findByActivated(true);
 	}
+	
+	public void save(Magazine m) {
+		magazineRepository.save(m);
+	}
+	
 }

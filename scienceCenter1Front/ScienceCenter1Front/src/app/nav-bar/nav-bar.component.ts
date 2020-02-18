@@ -54,7 +54,7 @@ export class NavBarComponent implements OnInit {
 
   logOut() {
     this.tokenStorage.signOut();
-    window.location.href="https://localhost:4203";
+    window.location.href="https://localhost:4204";
     this.notLogged = true;
     this.loggedEditor=false;
     this.loggedAdmin=false;

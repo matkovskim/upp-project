@@ -175,8 +175,6 @@ public class StartController {
 	@GetMapping(path = "/getAllMyTasks", produces = "application/json")
 	public @ResponseBody ResponseEntity<List<TaskDto>> allMyTasks(HttpServletRequest request) {
 
-		// String token = tokenProvider.getToken(request);
-
 		String username = identityService.getCurrentAuthentication().getUserId();
 
 		List<Task> myTasks = taskService.createTaskQuery().taskAssignee(username).active().list();
@@ -264,8 +262,6 @@ public class StartController {
 	@GetMapping("/files/{filename:.+}")
 	@ResponseBody
 	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-		System.out.println("USAO");
-		System.out.println(filename);
 		Resource file = uploadService.getFile(filename);
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")

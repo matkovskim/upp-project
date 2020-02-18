@@ -219,7 +219,13 @@ console.log("TU SAM");
 
     x.subscribe(
       res => {
-        this.router.navigate(['tasks']);
+        console.log(res)
+        if(res!=null && res.name!=null){
+          window.location.href=res.name;
+        }
+        else{
+          this.router.navigate(['tasks']);
+        }
       },
       err => {
         alert(err.error);

@@ -52,8 +52,8 @@ INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_
 INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_area_id) VALUES (6666, 3);
 
 
-INSERT INTO public.magazine(id, isbn, activated, name, who_pays, main_editor_id, email) VALUES (111111, '111-222', true, 'magazin1', 'Citaoci', 5555, 'matkovskim@gmail.com');
-INSERT INTO public.magazine(id, isbn, activated, name, who_pays, main_editor_id, email) VALUES (222222, '333-444', true, 'radi_placanje_magazin', 'Autori', 5555, 'test@gmail.com');
+INSERT INTO public.magazine(id, isbn, activated, name, who_pays, main_editor_id, email, registered_on_payment_hub) VALUES (111111, '111-222', true, 'magazin1', 'Citaoci', 5555, 'matkovskim@gmail.com', true);
+INSERT INTO public.magazine(id, isbn, activated, name, who_pays, main_editor_id, email, registered_on_payment_hub) VALUES (222222, '333-444', true, 'radi_placanje_magazin', 'Autori', 5555, 'test@gmail.com', true);
 
 INSERT INTO public.magazine_scientific_area(magazine_id, scientific_area_id) VALUES (111111, 1);
 INSERT INTO public.magazine_scientific_area(magazine_id, scientific_area_id) VALUES (111111, 2);
