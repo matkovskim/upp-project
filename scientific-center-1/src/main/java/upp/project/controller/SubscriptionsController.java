@@ -2,8 +2,6 @@ package upp.project.controller;
 
 import java.security.Principal;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import upp.project.aasecurity.security.TokenUtils;
 import upp.project.model.Magazine;
 import upp.project.model.OrderResponseDTO;
 import upp.project.model.OrderStatus;
@@ -117,7 +114,7 @@ public class SubscriptionsController {
 	@GetMapping("/success")
 	private ResponseEntity<?> successfulOrder(@RequestParam("id") Long id) {
 		UserSubscription userSubscription = userSubscriptionService.getUserSubscription(id);
-		userSubscription.setSubscriptionStatus(OrderStatus.SUCCEEDED);
+		userSubscription.setSubscriptionStatus(OrderStatus.COMPLETED);
 		userSubscriptionService.save(userSubscription);
 		RedirectDTO redirectDTO = new RedirectDTO();
 		redirectDTO.setUrl("https://localhost:4204/successPayed");
@@ -127,7 +124,7 @@ public class SubscriptionsController {
 	@GetMapping("/failed")
 	private ResponseEntity<?> failedOrder(@RequestParam("id") Long id) {
 		UserSubscription userSubscription = userSubscriptionService.getUserSubscription(id);
-		userSubscription.setSubscriptionStatus(OrderStatus.FAILED);
+		userSubscription.setSubscriptionStatus(OrderStatus.CANCELED);
 		userSubscriptionService.save(userSubscription);
 		RedirectDTO redirectDTO = new RedirectDTO();
 		redirectDTO.setUrl("https://localhost:4204/cancel");
@@ -137,7 +134,7 @@ public class SubscriptionsController {
 	@GetMapping("/error")
 	private ResponseEntity<?> errorOrder(@RequestParam("id") Long id) {
 		UserSubscription userSubscription = userSubscriptionService.getUserSubscription(id);
-		userSubscription.setSubscriptionStatus(OrderStatus.ERROR);
+		userSubscription.setSubscriptionStatus(OrderStatus.INVALID);
 		userSubscriptionService.save(userSubscription);
 		RedirectDTO redirectDTO = new RedirectDTO();
 		redirectDTO.setUrl("https://localhost:4204/error");

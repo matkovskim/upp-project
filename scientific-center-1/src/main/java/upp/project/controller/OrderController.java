@@ -43,7 +43,6 @@ import upp.project.repository.MembershipFeesRepository;
 import upp.project.repository.PublicationRepository;
 import upp.project.repository.RegistredUserRepository;
 import upp.project.services.MagazineService;
-import upp.project.services.UserCustomService;
 import upp.project.services.UserOrderService;
 
 @RestController
@@ -172,7 +171,7 @@ public class OrderController {
 			response = restTemplate.exchange("https://localhost:8762/api/client/orders/create", HttpMethod.POST, request, OrderResponseDTO.class);
 		} catch (RestClientException e) {
 			e.printStackTrace();
-			userOrder.setOrderStatus(OrderStatus.ERROR);
+			userOrder.setOrderStatus(OrderStatus.INVALID);
 			return ResponseEntity.status(400).body("Greska prilikom kontaktiranja kpa");
 		}
 		
@@ -204,7 +203,7 @@ public class OrderController {
 			return ResponseEntity.ok(redirectDTO);
 		}
 		
-		userOrder.setOrderStatus(OrderStatus.SUCCEEDED);
+		userOrder.setOrderStatus(OrderStatus.COMPLETED);
 		this.userOrderService.save(userOrder);
 		
 		return ResponseEntity.ok(redirectDTO);
@@ -235,7 +234,7 @@ public class OrderController {
 			return ResponseEntity.ok(redirectDTO);
 		}
 		
-		userOrder.setOrderStatus(OrderStatus.FAILED);
+		userOrder.setOrderStatus(OrderStatus.CANCELED);
 		this.userOrderService.save(userOrder);
 		
 		return ResponseEntity.ok(redirectDTO);
@@ -264,7 +263,7 @@ public class OrderController {
 			return ResponseEntity.ok(redirectDTO);
 		}
 		
-		userOrder.setOrderStatus(OrderStatus.ERROR);
+		userOrder.setOrderStatus(OrderStatus.INVALID);
 		this.userOrderService.save(userOrder);
 		
 		return ResponseEntity.ok(redirectDTO);
@@ -292,7 +291,7 @@ public class OrderController {
 		user.setMembershipFees(memberships);
 		registredUserRepository.save(user);
 		
-		order.setOrderStatus(OrderStatus.SUCCEEDED);
+		order.setOrderStatus(OrderStatus.COMPLETED);
 		userOrderService.save(order);
 		RedirectDTO redirectDTO = new RedirectDTO();
 		redirectDTO.setUrl("https://localhost:4203/successPayed");

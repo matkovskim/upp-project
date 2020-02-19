@@ -69,7 +69,7 @@ public class PayService implements JavaDelegate {
 			response = restTemplate.exchange("https://localhost:8762/api/client/orders/create", HttpMethod.POST,
 					request, OrderResponseDTO.class);
 		} catch (RestClientException e) {
-			userOrder.setOrderStatus(OrderStatus.ERROR);
+			userOrder.setOrderStatus(OrderStatus.INVALID);
 			return;
 		}
 		execution.setVariable("redirectUrl", response.getBody().getRedirectUrl());
