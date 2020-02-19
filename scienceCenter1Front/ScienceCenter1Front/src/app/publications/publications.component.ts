@@ -37,12 +37,12 @@ export class PublicationsComponent implements OnInit {
 
   addToCart(publication: any) {
     console.log(publication);
-    let shoppingItem=new ShoppingItem(publication.id, publication.number, publication.magazine.publicationPrice, "publication");
+    let shoppingItem=new ShoppingItem(publication.id, publication.number, publication.magazine.publicationPrice, "publication", publication.magazine.id);
     this.shoppingCartService.addToShoppingCart(shoppingItem);
   }
 
 }
 
 export class ShoppingItem {
-  constructor(public id: number, public name: string, public price: number, public type: string) { }
+  constructor(public id: number, public name: string, public price: number, public type: string, public magazineId: string) { }
 }

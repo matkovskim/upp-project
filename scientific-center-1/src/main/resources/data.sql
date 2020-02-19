@@ -67,5 +67,9 @@ INSERT INTO public.magazine_reviewers(magazine_id, reviewers_id)VALUES (111111, 
 INSERT INTO public.magazine_editors(magazine_id, editors_id)VALUES (111111, 6666);
 
 INSERT INTO public.publication(id, published, publishing_date, magazine_id, publication_number) VALUES (111112, false, '2020-02-26', 111111, 1);
+INSERT INTO public.publication(id, published, publishing_date, magazine_id, publication_number) VALUES (111113, false, '2020-03-26', 111111, 2);
+INSERT INTO public.publication(id, published, publishing_date, magazine_id, publication_number) VALUES (111114, false, '2020-03-26', 222222, 2);
 
 INSERT INTO public.article(id, doi, activated, key_words, paper_apstract, text, title, author_id, publication_id, scientific_area_id)VALUES (1111, 'mojDOIPOYY', true, 'fizika, svetlost', 'ovo je abstrakt', '', 'rad1', 5555, 111112, 1);
+INSERT INTO public.article(id, doi, activated, key_words, paper_apstract, text, title, author_id, publication_id, scientific_area_id)VALUES (1112, '22222', true, 'fizika, svetlost', 'opis neki', '', 'rad2', 5555, 111112, 1);
+INSERT INTO public.article(id, doi, activated, key_words, paper_apstract, text, title, author_id, publication_id, scientific_area_id)VALUES (1113, '333', true, 'fizika, svetlost', 'kratak sadrzaj', '', 'rad3', 5555, 111114, 1);

@@ -34,17 +34,27 @@ export class ShoppingCartService {
       this.shoppingItems = [];
       this.saveType(item.type);
     } else {
-      if (item.type !== this.getType()) {
-        this.shoppingItems = [];
-        console.log('ovde')
-      } else {
-        this.shoppingItems = JSON.parse(shoppingCart);
-        console.log(this.shoppingItems);
-      }
+        if (item.type !== this.getType()) {
+          this.shoppingItems = [];
+        this.saveType(item.type);
+        } else {
+            if(item.type==='magazine'){
+              this.shoppingItems = [];
+            }
+            else{
+              if(this.magazineIdOfFirt()!==item.magazineId){
+                this.shoppingItems = [];
+              }
+              else{
+                this.shoppingItems = JSON.parse(shoppingCart);
+                console.log(this.shoppingItems);
+              }
+            }
+        }
     }
-    console.log(item);
+
     const oldItem = this.shoppingItems.filter(i => i.id === item.id );
-    console.log(oldItem);
+
     if (oldItem.length > 0 ) {
       return false;
     }
@@ -52,6 +62,15 @@ export class ShoppingCartService {
     this.shoppingItems.push(item);
     this.saveCart();
     return true;
+  }
+
+  magazineIdOfFirt(){
+    let shoppingCart=this.getShoppingCart();
+    if(shoppingCart!==null){
+      this.shoppingItems = JSON.parse(shoppingCart);
+      return this.shoppingItems[0].magazineId;
+    }
+    return null;
   }
 
   saveType(type: string) {
@@ -95,5 +114,5 @@ export class ShoppingCartService {
 }
 
 export class ShoppingItem {
-  constructor(public id: number, public name: string, public price: number, public type: string) { }
+  constructor(public id: number, public name: string, public price: number, public type: string, public magazineId: string) { }
 }

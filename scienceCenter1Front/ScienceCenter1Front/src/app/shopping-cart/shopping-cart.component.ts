@@ -51,7 +51,7 @@ export class ShoppingCartComponent implements OnInit {
 }
 
 export class ShoppingItem {
-  constructor(public id: number, public name: string, public price: number, public type: string) { }
+  constructor(public id: number, public name: string, public price: number, public type: string, public magazineId: string) { }
 }
 
 export class UserOrder {
