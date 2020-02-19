@@ -21,6 +21,7 @@ import { SuccessPaymentComponent } from './success-payment/success-payment.compo
 import { PublicationsComponent } from './publications/publications.component';
 import { ArticleComponent } from './article/article.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { PurchasedItemsComponent } from './purchased-items/purchased-items.component';
 
 const routes: Routes = [
   {
@@ -98,6 +99,10 @@ const routes: Routes = [
   {
     path: 'cart',
     component: ShoppingCartComponent
+  },
+  {
+    path: 'purchasedItems',
+    component: PurchasedItemsComponent
   }
 ];
 

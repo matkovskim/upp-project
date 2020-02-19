@@ -1,0 +1,22 @@
+div.main {
+    margin-top: 2rem;
+}
+
+.table {
+    width: 80%;
+    margin-top: 2rem !important;
+}
+
+.title {
+    font-weight: 300;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.members {
+    margin-top: 4.2rem;
+}
+
+h2.title, .text-muted {
+    text-align: center;
+}

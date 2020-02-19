@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +33,7 @@ import { SuccessPaymentComponent } from './success-payment/success-payment.compo
 import { PublicationsComponent } from './publications/publications.component';
 import { ArticleComponent } from './article/article.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { PurchasedItemsComponent } from './purchased-items/purchased-items.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
     PublicationsComponent,
     ArticleComponent,
     ShoppingCartComponent,
+    PurchasedItemsComponent,
   ],
   imports: [
     HttpClientModule,
@@ -68,6 +71,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
     MatInputModule,
     ReactiveFormsModule,
     MatSelectModule,
+    MatTabsModule,
     NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [{

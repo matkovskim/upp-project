@@ -3,8 +3,11 @@ package upp.project.controller;
 import java.security.Principal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.MessageCorrelationResult;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import upp.project.aasecurity.JwtProvider;
 import upp.project.model.Article;
 import upp.project.model.ArticleOrder;
 import upp.project.model.Magazine;
@@ -38,12 +42,15 @@ import upp.project.model.RedirectDTO;
 import upp.project.model.RegistredUser;
 import upp.project.model.UserOrder;
 import upp.project.model.UserOrderDTO;
+import upp.project.model.UserPurchasedItemsDTO;
+import upp.project.model.UserSubscription;
 import upp.project.repository.ArticleRepository;
 import upp.project.repository.MembershipFeesRepository;
 import upp.project.repository.PublicationRepository;
 import upp.project.repository.RegistredUserRepository;
 import upp.project.services.MagazineService;
 import upp.project.services.UserOrderService;
+import upp.project.services.UserSubscriptionService;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
@@ -74,8 +81,14 @@ public class OrderController {
 	@Autowired
 	private ArticleRepository articleRepository;
 	
+	@Autowired
+	private UserSubscriptionService subscriptionService;
+	
 	//@Autowired
 	//private MembershipService membershipService;
+	
+	@Autowired
+	private JwtProvider jwtProvider;
 	
 	@Value("https://localhost:8762/api/client/orders/create")
 	private String kpUrl;
@@ -294,9 +307,33 @@ public class OrderController {
 		order.setOrderStatus(OrderStatus.COMPLETED);
 		userOrderService.save(order);
 		RedirectDTO redirectDTO = new RedirectDTO();
-		redirectDTO.setUrl("https://localhost:4203/successPayed");
+		redirectDTO.setUrl("https://localhost:4204/successPayed");
 		return ResponseEntity.ok(redirectDTO);
 
+	}
+	
+	@GetMapping("/user")
+	public ResponseEntity<?> getUserOrders(HttpServletRequest request) {
+		String token = this.jwtProvider.getToken(request);
+		String username = this.jwtProvider.getUsernameFromToken(token);
+		if(username == null) {
+			System.out.println("username");
+			return ResponseEntity.status(401).build();
+		}
+		RegistredUser user = registredUserRepository.findByUsername(username);
+		
+		if(user == null) {
+			System.out.println("USER");
+			return ResponseEntity.status(401).build();
+		}
+		
+		List<Magazine> magazines = this.userOrderService.getAllPurchasedMagazines(user);
+		List<Publication> issues = this.userOrderService.getAllPurchasedIssues(user);
+		List<Article> papers = this.userOrderService.getAllPurchasedPapers(user);
+		List<UserSubscription> subscriptions = this.subscriptionService.getAllUserSubscriptions(user);
+		
+		UserPurchasedItemsDTO dto = new UserPurchasedItemsDTO(magazines, issues, papers, subscriptions);
+		return ResponseEntity.ok(dto);
 	}
 
 }

@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import upp.project.model.OrderStatus;
 import upp.project.model.OrderStatusInformationDTO;
+import upp.project.model.RegistredUser;
 import upp.project.model.UserSubscription;
 import upp.project.repository.UserSubscriptionRepository;
 
@@ -20,12 +21,12 @@ public class UserSubscriptionService {
 
 	@Autowired
 	private UserSubscriptionRepository userSubscriptionRepository;
-	
+
 	@Autowired
 	private RestTemplate restTemplate;
-	
+
 	private String kpUrl = "https://localhost:8762/api/client/subscription/status";
-	
+
 	public UserSubscription save(UserSubscription subscription) {
 		UserSubscription saved = null;
 
@@ -78,5 +79,9 @@ public class UserSubscriptionService {
 			}
 		}
 	}
-	
+
+	public List<UserSubscription> getAllUserSubscriptions(RegistredUser user) {
+		return this.userSubscriptionRepository.findByBuyer(user);
+	}
+
 }

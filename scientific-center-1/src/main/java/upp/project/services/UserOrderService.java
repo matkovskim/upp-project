@@ -11,11 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import upp.project.model.Article;
 import upp.project.model.ArticleOrder;
+import upp.project.model.Magazine;
 import upp.project.model.MagazineOrder;
 import upp.project.model.OrderStatus;
 import upp.project.model.OrderStatusInformationDTO;
+import upp.project.model.Publication;
 import upp.project.model.PublicationOrder;
+import upp.project.model.RegistredUser;
 import upp.project.model.UserOrder;
 import upp.project.repository.ArticleOrderRepository;
 import upp.project.repository.MagazineOrderRepository;
@@ -33,6 +37,9 @@ public class UserOrderService {
 
 	@Autowired
 	private ArticleOrderRepository articleOrderRepository;
+	
+	@Autowired
+	private MagazineOrderRepository magazineOrderRepository;
 
 	@Autowired
 	private UserOrderRepository userOrderRepository;
@@ -119,5 +126,18 @@ public class UserOrderService {
 				this.save(order);
 			}
 		}
+	}
+	
+	
+	public List<Magazine> getAllPurchasedMagazines(RegistredUser user) {
+		return magazineOrderRepository.findAllMagazinesFromOrders(user);
+	}
+	
+	public List<Publication> getAllPurchasedIssues(RegistredUser user) {
+		return publicationOrderRepository.findAllMagazinesFromOrders(user);
+	}
+	
+	public List<Article> getAllPurchasedPapers(RegistredUser user) {
+		return articleOrderRepository.findAllMagazinesFromOrders(user);
 	}
 }

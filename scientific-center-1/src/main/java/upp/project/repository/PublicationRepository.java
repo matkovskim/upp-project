@@ -12,7 +12,10 @@ import upp.project.model.Publication;
 public interface PublicationRepository extends JpaRepository<Publication, Long> {
 
 	Publication findByMagazineAndPublished(Magazine magazine, boolean published);
-	List<Publication>findByPublished(boolean published);
+
+	List<Publication> findByPublished(boolean published);
+
 	List<Publication> findByMagazine(Magazine magazine);
+
 	
 }
