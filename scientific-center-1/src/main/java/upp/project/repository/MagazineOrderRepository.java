@@ -3,10 +3,9 @@ package upp.project.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import upp.project.model.MembershipFeeds;
+import upp.project.model.MagazineOrder;
 
 @Repository
-public interface MembershipFeesRepository extends JpaRepository<MembershipFeeds, Long> {
-	
-}
+public interface MagazineOrderRepository  extends JpaRepository<MagazineOrder, Long> {
 
+}

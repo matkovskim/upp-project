@@ -64,7 +64,7 @@ public class RegistredUser implements UserDetails{
 	private Set<ScientificArea> scientificArea;
 	
 	@OneToMany
-	private Set<MembershipFees>membershipFees;
+	private Set<MembershipFeeds>membershipFees;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	protected Set<Authority> authorities;
@@ -219,11 +219,11 @@ public class RegistredUser implements UserDetails{
 		this.registrationCode = registrationCode;
 	}
 
-	public Set<MembershipFees> getMembershipFees() {
+	public Set<MembershipFeeds> getMembershipFees() {
 		return membershipFees;
 	}
 
-	public void setMembershipFees(Set<MembershipFees> membershipFees) {
+	public void setMembershipFees(Set<MembershipFeeds> membershipFees) {
 		this.membershipFees = membershipFees;
 	}
 }

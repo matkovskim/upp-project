@@ -21,6 +21,9 @@ public class UserOrder {
 	@Column(name = "uuid")
 	private String uuid;
 	
+	@Column
+	private String email;
+	
 	@Column(name = "orderStatus")
 	@Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;
@@ -106,6 +109,14 @@ public class UserOrder {
 
 	public void setMagazine(Magazine magazine) {
 		this.magazine = magazine;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

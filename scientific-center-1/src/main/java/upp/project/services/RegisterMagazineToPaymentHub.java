@@ -31,12 +31,21 @@ public class RegisterMagazineToPaymentHub implements JavaDelegate{
 	public void execute(DelegateExecution execution) throws Exception {
 		
 		String magazineName = (String) execution.getVariable("NazivCasopisa");
+		Double subscriptionPrice = (Double) execution.getVariable("cenaMesecnePretplate");
+		Long articlePrice = (Long) execution.getVariable("cenaIzdanja");
+		Long publicationPrice = (Long) execution.getVariable("cenaRada");
 
 		Magazine magazine = magazineRepository.findByName(magazineName);
-						
+	
 		if(magazine != null) {
+			
+			magazine.setPublicationPrice(publicationPrice);
+			magazine.setArticlePrice(articlePrice);
+			magazine.setSubscriptionPrice(subscriptionPrice);
+			magazineRepository.save(magazine);
+			
 			String successUrl = "https://localhost:9990/magazine/registration/" + execution.getProcessInstanceId() + "/" + magazine.getId();
-			RegistrationDTO registrationDTO = new RegistrationDTO(magazine.getEmail(), magazine.getName(), successUrl);	
+			RegistrationDTO registrationDTO = new RegistrationDTO(magazine.getEmail(), magazine.getName(), successUrl, "https://localhost:4204/tasks");	
 	
 			HttpEntity<RegistrationDTO> request = new HttpEntity<>(registrationDTO);
 				

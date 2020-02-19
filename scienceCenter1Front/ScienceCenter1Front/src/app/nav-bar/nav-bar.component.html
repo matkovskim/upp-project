@@ -1,6 +1,7 @@
 <nav class="navbar navbar-dark bg-dark justify-content-between"> 
     <a routerLink="" class="navbar-brand">Science center 1</a>
     <form class="form-inline">
+        <button *ngIf="loggedUser" routerLink="/cart" class="btn btn-outline-light my-2 my-sm-0" type="btn" style="margin-left :5px">Korpa</button>
         <button *ngIf="logged" routerLink="/tasks" class="btn btn-outline-light my-2 my-sm-0" type="btn" style="margin-left :5px">Moji zadaci</button>
         <button *ngIf="loggedAdmin " routerLink="/adminPanel" class="btn btn-outline-light my-2 my-sm-0" type="btn" style="margin-left :5px">Admin panel</button>
         <button *ngIf="loggedEditor" routerLink="/createMagazine" class="btn btn-outline-light my-2 my-sm-0" type="btn" style="margin-left :5px">Kreiranje časopisa</button>

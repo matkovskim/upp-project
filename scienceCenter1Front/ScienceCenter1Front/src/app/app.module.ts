@@ -30,6 +30,8 @@ import { FailedComponent } from './failed/failed.component';
 import { ErrorComponent } from './error/error.component';
 import { SuccessPaymentComponent } from './success-payment/success-payment.component';
 import { PublicationsComponent } from './publications/publications.component';
+import { ArticleComponent } from './article/article.component';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import { PublicationsComponent } from './publications/publications.component';
     ErrorComponent,
     SuccessPaymentComponent,
     PublicationsComponent,
+    ArticleComponent,
+    ShoppingCartComponent,
   ],
   imports: [
     HttpClientModule,

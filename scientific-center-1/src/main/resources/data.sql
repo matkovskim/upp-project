@@ -52,8 +52,8 @@ INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_
 INSERT INTO public.registred_user_scientific_area(registred_user_id, scientific_area_id) VALUES (6666, 3);
 
 
-INSERT INTO public.magazine(id, isbn, activated, name, who_pays, main_editor_id, email, registered_on_payment_hub) VALUES (111111, '111-222', true, 'magazin1', 'Citaoci', 5555, 'matkovskim@gmail.com', true);
-INSERT INTO public.magazine(id, isbn, activated, name, who_pays, main_editor_id, email, registered_on_payment_hub) VALUES (222222, '333-444', true, 'radi_placanje_magazin', 'Autori', 5555, 'test@gmail.com', true);
+INSERT INTO public.magazine(id, isbn, activated, name, who_pays, main_editor_id, email, registered_on_payment_hub, article_price, publication_price, subscription_price) VALUES (111111, '111-222', true, 'magazin1', 'Citaoci', 5555, 'mail@gmail.com', true, 5, 4, 1);
+INSERT INTO public.magazine(id, isbn, activated, name, who_pays, main_editor_id, email, registered_on_payment_hub, article_price, publication_price, subscription_price) VALUES (222222, '333-444', true, 'radi_placanje_magazin', 'Autori', 5555, 'test@gmail.com', true, 2, 3, 4);
 
 INSERT INTO public.magazine_scientific_area(magazine_id, scientific_area_id) VALUES (111111, 1);
 INSERT INTO public.magazine_scientific_area(magazine_id, scientific_area_id) VALUES (111111, 2);
@@ -66,4 +66,6 @@ INSERT INTO public.magazine_reviewers(magazine_id, reviewers_id)VALUES (111111, 
 
 INSERT INTO public.magazine_editors(magazine_id, editors_id)VALUES (111111, 6666);
 
-INSERT INTO public.publication(id, published, publishing_date, magazine_id) VALUES (111112, false, '2020-02-26', 111111);
+INSERT INTO public.publication(id, published, publishing_date, magazine_id, publication_number) VALUES (111112, false, '2020-02-26', 111111, 1);
+
+INSERT INTO public.article(id, doi, activated, key_words, paper_apstract, text, title, author_id, publication_id, scientific_area_id)VALUES (1111, 'mojDOIPOYY', true, 'fizika, svetlost', 'ovo je abstrakt', '', 'rad1', 5555, 111112, 1);

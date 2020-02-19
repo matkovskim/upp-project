@@ -4,8 +4,15 @@
           <img style="width:100px;height:120px;" src="https://www.adazing.com/wp-content/uploads/2019/02/open-book-clipart-06-1-300x300.png" />
           <figcaption>
               <h3>Objavljeno: {{publication.publishingDate.substr(0,10)}}</h3>
-              <button class="btn btn-outline-dark my-2 my-sm-0" routerLink="">Pogledaj časopise</button>
+              <div>
+                Number: {{publication.number}}
+              </div>
+              <div class="price">
+                {{publication.magazine.publicationPrice}} $
+              </div>
+              <button class="btn btn-outline-dark my-2 my-sm-0" routerLink="/articles/{{publication.id}}">Pogledaj časopise</button>
           </figcaption>
+          <button title="add to cart" class="ion-android-cart left" (click)="addToCart(publication)"></button>
       </figure>
   
   </div>

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import upp.project.model.Magazine;
-import upp.project.model.MembershipFees;
+import upp.project.model.MembershipFeeds;
 import upp.project.model.RegistredUser;
 import upp.project.repository.MagazineRepository;
 import upp.project.repository.RegistredUserRepository;
@@ -32,13 +32,13 @@ public class CheckMembershipFees implements JavaDelegate {
 		String author=(String) execution.getVariable("starter");
 		RegistredUser regUser=registredUserRepository.findByUsername(author);
 		
-		Set<MembershipFees> membershipFees=regUser.getMembershipFees();
+		Set<MembershipFeeds> membershipFees=regUser.getMembershipFees();
 		if(membershipFees==null) {
 			System.out.println("nema clanarine");
 			execution.setVariable("dovoljnoClanarine", "false");
 		}
 		else {
-			for(MembershipFees mf:membershipFees) {
+			for(MembershipFeeds mf:membershipFees) {
 				if(mf.getMagazine().getEmail().equals(magazine.getEmail())){
 					if(mf.getExpirationDate().after(new Date())) {
 						execution.setVariable("dovoljnoClanarine", "true");

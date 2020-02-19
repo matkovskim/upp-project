@@ -4,28 +4,28 @@ import { MagazineService } from '../services/magazineService';
 import { ShoppingCartService } from '../services/shopping-cart.service';
 
 @Component({
-  selector: 'app-publications',
-  templateUrl: './publications.component.html',
-  styleUrls: ['./publications.component.css']
+  selector: 'app-article',
+  templateUrl: './article.component.html',
+  styleUrls: ['./article.component.css']
 })
-export class PublicationsComponent implements OnInit {
+export class ArticleComponent implements OnInit {
 
-  private magazineId:any;
-  private publications = [];
+  private publicationId:any;
+  private articles = [];
 
   constructor(private activatedRoute: ActivatedRoute, private magazineService:MagazineService, private shoppingCartService:ShoppingCartService) { }
 
   ngOnInit() {
-    
+
     this.activatedRoute.paramMap.subscribe(
       params => {
-        this.magazineId = params.get('magazineId');
+        this.publicationId = params.get('publicationId');
       });
-      let x = this.magazineService.getAllMagazinesPublications(this.magazineId);
-
+      let x = this.magazineService.getAllPublicationArticles(this.publicationId);
+  
       x.subscribe(
         res => {
-          this.publications=res;
+          this.articles=res;
           console.log(res);
         },
         err => {
@@ -35,9 +35,9 @@ export class PublicationsComponent implements OnInit {
 
   }
 
-  addToCart(publication: any) {
-    console.log(publication);
-    let shoppingItem=new ShoppingItem(publication.id, publication.number, publication.magazine.publicationPrice, "publication");
+  addToCart(article: any) {
+    console.log(article);
+    let shoppingItem=new ShoppingItem(article.id, article.title, article.publication.magazine.articlePrice, "article");
     this.shoppingCartService.addToShoppingCart(shoppingItem);
   }
 

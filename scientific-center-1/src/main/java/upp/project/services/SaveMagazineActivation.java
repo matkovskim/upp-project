@@ -36,6 +36,7 @@ public class SaveMagazineActivation implements JavaDelegate {
 		Publication publication=new Publication();
 		publication.setMagazine(magazine);
 		publication.setPublished(false);
+		publication.setNumber(1);
 		Date publishedDate = DateUtils.addMonths(new Date(), 1);
 		publication.setPublishingDate(publishedDate);
 		publicationRepository.save(publication);

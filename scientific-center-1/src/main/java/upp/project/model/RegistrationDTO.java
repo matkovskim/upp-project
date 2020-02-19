@@ -4,15 +4,17 @@ public class RegistrationDTO {
 	private String email;
     private String name;
     private String confirmationLink;
-    
+    private String returnLink;
+
     public RegistrationDTO() {
     	
 	}
     
-	public RegistrationDTO(String email, String name, String confirmationLink) {
+	public RegistrationDTO(String email, String name, String confirmationLink, String returnLink) {
 		this.email = email;
 		this.name = name;
 		this.confirmationLink = confirmationLink;
+		this.returnLink = returnLink;
 	}
 
 	public String getEmail() {
@@ -37,6 +39,14 @@ public class RegistrationDTO {
 
 	public void setConfirmationLink(String confirmationLink) {
 		this.confirmationLink = confirmationLink;
+	}
+
+	public String getReturnLink() {
+		return returnLink;
+	}
+
+	public void setReturnLink(String returnLink) {
+		this.returnLink = returnLink;
 	}
        
 }

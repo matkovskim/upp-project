@@ -56,10 +56,12 @@ public class ScheduledService {
 			if(p.getPublishingDate().before(new Date())) {
 				p.setPublished(true);
 				publicationRepository.save(p);
+				List<Publication>allMagazinepublications=publicationRepository.findByMagazine(p.getMagazine());
 				Publication newPublication= new Publication();
 				newPublication.setMagazine(p.getMagazine());
 				newPublication.setPublished(false);
 				newPublication.setPublishingDate(new Date(System.currentTimeMillis()+7*24*60*60*1000));
+				newPublication.setNumber(allMagazinepublications.size()+1);
 				publicationRepository.save(newPublication);
 			}
 		}

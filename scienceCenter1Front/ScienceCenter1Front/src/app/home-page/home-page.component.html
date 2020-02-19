@@ -22,12 +22,12 @@
             <h3>{{magazine.name}}</h3>
             <p *ngFor="let area of magazine.scientificArea">{{area.name}}</p>
             <div class="price">
-                55 USD
+              {{magazine.subscriptionPrice}} $
             </div>
             <button class="btn btn-outline-dark my-2 my-sm-0" routerLink="/publications/{{magazine.id}}">Pogledaj izdanja</button>
         </figcaption>
-        <button title="pay" class="ion-android-cart left" (click)="buy(magazine)"></button>
-        <button title="subscription"  class="right" (click)="subscription(magazine)"><i class="fa fa-paypal"></i></button>
+        <button title="pay" class="ion-android-cart left"  (click)="addToCart(magazine)"></button>
+        <button title="subscription"  class="right" (click)="subscription(magazine)"><i class="fab fa-paypal"></i></button>
     </figure>
 
 </div>

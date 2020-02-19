@@ -14,5 +14,6 @@ export class MagazineService {
 
   getAllMagazinesPublications(magazineId){ return this.httpClient.get('https://localhost:8080/publication/get/'.concat(magazineId)) as Observable<any> }
 
+  getAllPublicationArticles(publicationId){ return this.httpClient.get('https://localhost:8080/article/get/'.concat(publicationId)) as Observable<any> }
 
 }

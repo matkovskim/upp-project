@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import upp.project.aasecurity.security.TokenUtils;
 import upp.project.model.FormFieldsDto;
 import upp.project.model.FormSubmissionDto;
 import upp.project.model.StringDTO;
@@ -64,6 +65,7 @@ public class StartController {
 
 	@Autowired
 	private UploadService uploadService;
+	
 
 	/**
 	 * Pokretanje procesa registracije, vraca prvu formu

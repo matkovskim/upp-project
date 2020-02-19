@@ -106,4 +106,8 @@ public class MagazineService {
 		magazineRepository.save(m);
 	}
 	
+	public Magazine findByEmail(String email) {
+		return magazineRepository.findByEmail(email);
+	}
+	
 }

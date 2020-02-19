@@ -24,6 +24,9 @@ public class Publication {
 	private boolean published;
 	
 	@Column
+	private int publicationNumber;
+	
+	@Column
 	private Date publishingDate;
 	
 	public Publication() {
@@ -60,6 +63,14 @@ public class Publication {
 
 	public void setPublishingDate(Date publishingDate) {
 		this.publishingDate = publishingDate;
+	}
+
+	public int getNumber() {
+		return publicationNumber;
+	}
+
+	public void setNumber(int number) {
+		this.publicationNumber = number;
 	}
 	
 }

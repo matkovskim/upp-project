@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class MembershipFees {
+public class MembershipFeeds {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,7 @@ public class MembershipFees {
 	@Column
 	private Date expirationDate;
 	
-	public MembershipFees() {
+	public MembershipFeeds() {
 		
 	}
 

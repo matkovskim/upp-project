@@ -35,6 +35,15 @@ public class Magazine {
 	@Column
 	boolean registeredOnPaymentHub;
 	
+	@Column
+	Double subscriptionPrice;
+	
+	@Column
+	Long ArticlePrice;
+	
+	@Column
+	Long PublicationPrice;
+	
 	@ManyToMany
 	private Set<ScientificArea> scientificArea;
 	
@@ -138,6 +147,30 @@ public class Magazine {
 
 	public void setRegisteredOnPaymentHub(boolean registeredOnPaymentHub) {
 		this.registeredOnPaymentHub = registeredOnPaymentHub;
+	}
+
+	public Double getSubscriptionPrice() {
+		return subscriptionPrice;
+	}
+
+	public void setSubscriptionPrice(Double subscriptionPrice) {
+		this.subscriptionPrice = subscriptionPrice;
+	}
+
+	public Long getArticlePrice() {
+		return ArticlePrice;
+	}
+
+	public void setArticlePrice(Long articlePrice) {
+		ArticlePrice = articlePrice;
+	}
+
+	public Long getPublicationPrice() {
+		return PublicationPrice;
+	}
+
+	public void setPublicationPrice(Long publicationPrice) {
+		PublicationPrice = publicationPrice;
 	}
 	
 }
