@@ -97,7 +97,7 @@ public class UserOrderService {
 		return this.userOrderRepository.getOne(id);
 	}
 
-	@Scheduled(initialDelay = 10000, fixedRate = 60000)
+	@Scheduled(initialDelay = 6000000, fixedRate = 6000000)
 	public void checkOrdersStatus() {
 
 		List<UserOrder> orders = new ArrayList<UserOrder>();

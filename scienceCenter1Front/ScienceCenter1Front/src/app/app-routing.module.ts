@@ -81,7 +81,7 @@ const routes: Routes = [
     component: ErrorComponent
   },
   {
-    path: 'failed',
+    path: 'cancel',
     component: FailedComponent
   },
   {

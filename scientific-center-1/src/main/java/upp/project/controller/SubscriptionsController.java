@@ -49,7 +49,7 @@ public class SubscriptionsController {
 	@Value("https://localhost:4203/success")
 	private String successUrl;
 
-	@Value("https://localhost:4203/failed")
+	@Value("https://localhost:4203/cancel")
 	private String failedUrl;
 
 	@Value("https://localhost:4203/error")

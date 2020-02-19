@@ -54,7 +54,7 @@ public class UserSubscriptionService {
 		return userSubscriptionRepository.findBySubscriptionStatusIn(statusList);
 	}
 
-	@Scheduled(initialDelay = 10000, fixedRate = 180000)
+	@Scheduled(initialDelay = 6000000, fixedRate = 6000000)
 	public void checkSubscriptionStatus() {
 
 		// find subscriptions
